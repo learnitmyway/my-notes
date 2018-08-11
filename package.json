@@ -12,7 +12,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test:CI": "CI=true npm test",
     "eject": "react-scripts eject",
-    "standard:fix": "standard --fix"
+    "standard:fix": "standard --fix",
+    "pre-commit": "standard && npm run test:CI"
   }
 }
