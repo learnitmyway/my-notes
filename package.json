@@ -9,13 +9,17 @@
     "react-scripts": "1.1.4",
     "standard": "^11.0.1"
   },
+  "devDependencies": {
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": ["standard", "test:ci"],
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test:ci": "CI=true npm test",
     "eject": "react-scripts eject",
-    "standard:fix": "standard --fix",
-    "pre-commit": "standard && npm run test:ci"
+    "standard": "standard",
+    "standard:fix": "standard --fix"
   }
 }
