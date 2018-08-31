@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "firebase": "^5.4.2",
     "normalize.css": "^8.0.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -12,7 +13,10 @@
   "devDependencies": {
     "pre-commit": "^1.2.2"
   },
-  "pre-commit": ["standard", "test:ci"],
+  "pre-commit": [
+    "standard",
+    "test:ci"
+  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
