@@ -4,10 +4,10 @@
 
 ### Set up
 * Set env variables
-* Run `yarn`
+* Run `npm install`
 
 ### Deploy
 * `firebase deploy`
 
 ### Run
-* `yarn`
+* `npm start`
