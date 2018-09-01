@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase": "^5.4.2",
+    "firebase-tools": "^4.2.1",
     "normalize.css": "^8.0.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
