@@ -22,11 +22,11 @@
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "test:ci": "CI=true npm test",
+    "test:ci": "CI=true yarn test",
     "eject": "react-scripts eject",
     "standard": "standard",
     "standard:fix": "standard --fix",
     "deploy:firebase": "npx firebase deploy --project $REACT_APP_PROJECT_ID --non-interactive --token $FIREBASE_TOKEN",
-    "deploy:netlify": "npm run test:ci && npm run build && npm run deploy:firebase"
+    "deploy:netlify": "yarn test:ci && yarn build && yarn deploy:firebase"
   }
 }
