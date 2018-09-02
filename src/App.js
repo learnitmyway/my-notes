@@ -20,6 +20,10 @@ class App extends Component {
           uid: userCredentials.user.uid
         })
       })
+      .catch(err => {
+        console.error(err)
+        window.alert('Something went wrong. Please refresh the page and try again.')
+      })
   }
 
   render () {

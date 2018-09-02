@@ -26,4 +26,17 @@ describe('App', () => {
 
     expect(wrapper.state().uid).toBe(expectedUid)
   })
+
+  it('Logs error and displays an alert when anonymous sign in fails', async () => {
+    window.alert = jest.fn()
+    console.error = jest.fn()
+    const err = new Error('Something bad happened')
+    signInAnonymously.mockReturnValue(Promise.reject(err))
+
+    const wrapper = await shallow(<App />)
+    await wrapper.update()
+
+    expect(console.error).toHaveBeenCalledWith(err)
+    expect(window.alert).toHaveBeenCalledWith('Something went wrong. Please refresh the page and try again.')
+  })
 })
