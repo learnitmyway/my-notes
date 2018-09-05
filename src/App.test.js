@@ -1,15 +1,12 @@
 /* eslint-env jest */
 
 import React from 'react'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { shallow } from 'enzyme'
 
 import App from './App'
 import { signInAnonymously } from './authService'
 
 jest.mock('./authService')
-
-configure({ adapter: new Adapter() })
 
 describe('App', () => {
   it('Sets anonymous uid on mount', async () => {
