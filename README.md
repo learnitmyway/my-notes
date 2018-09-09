@@ -6,8 +6,5 @@
 * Set env variables
 * Run `npm install`
 
-### Deploy
-* `firebase deploy`
-
 ### Run
 * `npm start`
