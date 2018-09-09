@@ -5,8 +5,10 @@ import { shallow } from 'enzyme'
 
 import App from './App'
 import { signInAnonymously } from './authService'
+import { createNote } from './noteService'
 
 jest.mock('./authService')
+jest.mock('./noteService')
 
 describe('App', () => {
   it('Sets anonymous uid on mount', async () => {
@@ -35,5 +37,16 @@ describe('App', () => {
 
     expect(console.error).toHaveBeenCalledWith(err)
     expect(window.alert).toHaveBeenCalledWith('Something went wrong. Please refresh the page and try again.')
+  })
+
+  it('creates a new note when clicking the button', () => {
+    signInAnonymously.mockReturnValue(Promise.resolve())
+    const wrapper = shallow(<App />)
+    wrapper.setState({uid: 'some uid'})
+
+    const button = wrapper.find('button')
+    button.simulate('click')
+
+    expect(createNote).toHaveBeenCalled()
   })
 })
