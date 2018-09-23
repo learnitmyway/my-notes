@@ -13,7 +13,7 @@ jest.mock('./noteService')
 jest.mock('uuid/v1')
 
 describe('App', () => {
-  it('Sets anonymous uid on mount', async () => {
+  it('sets anonymous uid on mount', async () => {
     const expectedUid = 42
     const userCredential = {
       user: {
@@ -28,7 +28,7 @@ describe('App', () => {
     expect(wrapper.state().uid).toBe(expectedUid)
   })
 
-  it('Logs error and displays an alert when anonymous sign in fails', async () => {
+  it('logs error and displays an alert when anonymous sign in fails', async () => {
     window.alert = jest.fn()
     console.error = jest.fn()
     const err = new Error('Something bad happened')
@@ -55,5 +55,14 @@ describe('App', () => {
     button.simulate('click')
 
     expect(createNote).toHaveBeenCalledWith(uid, noteId)
+  })
+
+  it('does not render children when there is no uid', () => {
+    signInAnonymously.mockReturnValue(Promise.resolve())
+
+    const wrapper = shallow(<App />)
+    wrapper.setState({uid: null})
+
+    expect(wrapper.find('button').length).toBe(0)
   })
 })

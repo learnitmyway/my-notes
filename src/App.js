@@ -36,7 +36,7 @@ class App extends Component {
     const noteId = uuidv1()
     return (
       <div className='App'>
-        <button onClick={() => this.createNote(noteId)}>Create note</button>
+        {this.state.uid && <button onClick={() => this.createNote(noteId)}>Create note</button>}
       </div>
     )
   }
