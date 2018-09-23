@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import uuidv1 from 'uuid/v1'
 
 import App from './App'
 import { signInAnonymously } from './authService'
@@ -9,6 +10,7 @@ import { createNote } from './noteService'
 
 jest.mock('./authService')
 jest.mock('./noteService')
+jest.mock('uuid/v1')
 
 describe('App', () => {
   it('Sets anonymous uid on mount', async () => {
@@ -41,12 +43,17 @@ describe('App', () => {
 
   it('creates a new note when clicking the button', () => {
     signInAnonymously.mockReturnValue(Promise.resolve())
+    const noteId = 'noteId'
+    uuidv1.mockReturnValue(noteId)
+
     const wrapper = shallow(<App />)
-    wrapper.setState({uid: 'some uid'})
+
+    const uid = 'uid'
+    wrapper.setState({uid})
 
     const button = wrapper.find('button')
     button.simulate('click')
 
-    expect(createNote).toHaveBeenCalled()
+    expect(createNote).toHaveBeenCalledWith(uid, noteId)
   })
 })
