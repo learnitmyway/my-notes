@@ -4,6 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import App from './App'
+import Main from './Main'
 import { signInAnonymously } from './authService'
 
 jest.mock('./authService')
@@ -44,6 +45,15 @@ describe('App', () => {
     const wrapper = shallow(<App />)
     wrapper.setState({uid: null})
 
-    expect(wrapper.find('button').length).toBe(0)
+    expect(wrapper.find('Main').length).toBe(0)
+  })
+
+  it('renders children when there is a uid', () => {
+    signInAnonymously.mockReturnValue(Promise.resolve())
+
+    const wrapper = shallow(<App />)
+    wrapper.setState({uid: 'uid'})
+
+    expect(wrapper.find(Main).length).toBe(1)
   })
 })
