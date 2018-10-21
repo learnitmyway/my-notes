@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import uuidv1 from 'uuid/v1'
 
+import Main from './Main'
 import { signInAnonymously } from './authService'
-import { createNote } from './noteService'
 
 import './App.css'
 
@@ -13,10 +12,6 @@ class App extends Component {
     this.state = {
       uid: null
     }
-  }
-
-  createNote (noteId) {
-    createNote(this.state.uid, noteId)
   }
 
   componentDidMount () {
@@ -33,10 +28,9 @@ class App extends Component {
   }
 
   render () {
-    const noteId = uuidv1()
     return (
       <div className='App'>
-        {this.state.uid && <button onClick={() => this.createNote(noteId)}>Create note</button>}
+        {this.state.uid && <Main uid={this.state.uid} />}
       </div>
     )
   }
