@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 
 import Main from './Main'
 import { signInAnonymously } from './authService'
@@ -30,7 +31,11 @@ class App extends Component {
   render () {
     return (
       <div className='App'>
-        {this.state.uid && <Main uid={this.state.uid} />}
+        {this.state.uid &&
+          <div>
+            <Route exact path='/' render={() => <Main uid={this.state.uid} />} />
+          </div>
+        }
       </div>
     )
   }
