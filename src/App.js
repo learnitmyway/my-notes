@@ -6,6 +6,10 @@ import { signInAnonymously } from './authService'
 
 import './App.css'
 
+function Note (props) {
+  return <div>{props.uid}</div>
+}
+
 class App extends Component {
   constructor () {
     super()
@@ -34,6 +38,7 @@ class App extends Component {
         {this.state.uid &&
           <div>
             <Route exact path='/' render={() => <Main uid={this.state.uid} />} />
+            <Route exact path='/:noteId' render={(props) => <Note uid={this.state.uid} />} />
           </div>
         }
       </div>

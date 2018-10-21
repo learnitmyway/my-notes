@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import uuidv1 from 'uuid/v1'
 
 import { createNote } from './noteService'
@@ -10,6 +11,6 @@ export default function Main (props) {
 
   const noteId = uuidv1()
   return (
-    <button onClick={() => createNoteFrom(noteId)}>Create note</button>
+    <Link onClick={() => createNoteFrom(noteId)} to={'/' + noteId}>Create note</Link>
   )
 }

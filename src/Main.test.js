@@ -1,6 +1,7 @@
 /* eslint-env jest */
 
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { shallow } from 'enzyme'
 import uuidv1 from 'uuid/v1'
 
@@ -18,8 +19,8 @@ describe('Main', () => {
     const uid = 'uid'
     const wrapper = shallow(<Main uid={uid} />)
 
-    const button = wrapper.find('button')
-    button.simulate('click')
+    const link = wrapper.find(Link)
+    link.simulate('click')
 
     expect(createNote).toHaveBeenCalledWith(uid, noteId)
   })
