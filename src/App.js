@@ -10,10 +10,7 @@ import './App.css'
 class App extends Component {
   constructor () {
     super()
-
-    this.state = {
-      uid: null
-    }
+    this.state = {}
   }
 
   componentDidMount () {
