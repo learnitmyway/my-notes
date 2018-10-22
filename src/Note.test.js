@@ -9,7 +9,7 @@ import { readNote } from './noteService'
 jest.mock('./noteService')
 
 describe('Note', () => {
-  it('reads note on mount', () => {
+  it('renders note', () => {
     const note = {
       title: 'title',
       body: 'body'
@@ -28,7 +28,7 @@ describe('Note', () => {
     const match = {params: {noteId: noteId}}
     const wrapper = shallow(<Note uid={uid} match={match} />)
 
-    expect(wrapper.state().title).toBe(note.title)
-    expect(wrapper.state().body).toBe(note.body)
+    expect(wrapper.find('.Note-title').text()).toBe(note.title)
+    expect(wrapper.find('.Note-body').text()).toBe(note.body)
   })
 })
