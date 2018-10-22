@@ -25,7 +25,7 @@ describe('Note', () => {
 
     const uid = 'someUid'
     const noteId = 'someNoteId'
-    const match = {params: noteId}
+    const match = {params: {noteId: noteId}}
     const wrapper = shallow(<Note uid={uid} match={match} />)
 
     expect(wrapper.state().title).toBe(note.title)
