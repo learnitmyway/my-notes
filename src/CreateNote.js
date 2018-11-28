@@ -5,7 +5,7 @@ import uuidv1 from 'uuid/v1'
 
 import { createNote } from './noteService'
 
-export default function Main (props) {
+export default function CreateNote (props) {
   function createNoteFrom (noteId) {
     createNote(props.uid, noteId)
   }
@@ -16,6 +16,6 @@ export default function Main (props) {
   )
 }
 
-Main.propTypes = {
+CreateNote.propTypes = {
   uid: PropTypes.string
 }

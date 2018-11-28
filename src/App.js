@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
-import Main from './Main'
+import CreateNote from './CreateNote'
 import Note from './Note'
 import { signInAnonymously } from './authService'
 
@@ -31,7 +31,7 @@ class App extends Component {
       <div className='App'>
         {this.state.uid &&
           <div>
-            <Route exact path='/' render={() => <Main uid={this.state.uid} />} />
+            <Route exact path='/' render={() => <CreateNote uid={this.state.uid} />} />
             <Route exact path='/:noteId' render={(props) => <Note {...props} uid={this.state.uid} />} />
           </div>
         }
