@@ -19,10 +19,10 @@ export default function Editor (props) {
 }
 
 Editor.propTypes = {
-  uid: PropTypes.string,
+  uid: PropTypes.string.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      noteId: PropTypes.string
+      noteId: PropTypes.string.isRequired
     })
-  })
+  }).isRequired
 }

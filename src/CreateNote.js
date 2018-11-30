@@ -17,5 +17,5 @@ export default function CreateNote (props) {
 }
 
 CreateNote.propTypes = {
-  uid: PropTypes.string
+  uid: PropTypes.string.isRequired
 }
