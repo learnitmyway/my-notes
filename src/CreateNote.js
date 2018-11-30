@@ -5,6 +5,9 @@ import uuidv1 from 'uuid/v1'
 
 import { createNote } from './noteService'
 
+import plus from './plus.svg'
+import './CreateNote.css'
+
 export default function CreateNote (props) {
   function createNoteFrom (noteId) {
     createNote(props.uid, noteId)
@@ -12,7 +15,9 @@ export default function CreateNote (props) {
 
   const noteId = uuidv1()
   return (
-    <Link onClick={() => createNoteFrom(noteId)} to={'/' + noteId}>Create note</Link>
+    <Link className='CreateNote-button' onClick={() => createNoteFrom(noteId)} to={'/' + noteId}>
+      <img className='CreateNote-img' src={plus} alt='plus sign' />
+    </Link>
   )
 }
 

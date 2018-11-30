@@ -30,10 +30,10 @@ class App extends Component {
     return (
       <div className='App'>
         {this.state.uid &&
-          <div>
+          <React.Fragment>
             <Route exact path='/' render={() => <CreateNote uid={this.state.uid} />} />
             <Route exact path='/:noteId' render={(props) => <Editor {...props} uid={this.state.uid} />} />
-          </div>
+          </React.Fragment>
         }
       </div>
     )
