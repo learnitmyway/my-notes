@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { readNote } from './noteService'
+import { readNote } from '../../service/noteService/noteService'
 
 export default class Note extends Component {
   constructor (props) {

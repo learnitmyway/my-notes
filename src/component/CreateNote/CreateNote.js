@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import uuidv1 from 'uuid/v1'
 
-import { createNote } from './noteService'
+import { createNote } from '../../service/noteService/noteService'
 
 import plus from './plus.svg'
 import './CreateNote.css'

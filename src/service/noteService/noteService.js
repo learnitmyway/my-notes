@@ -1,4 +1,4 @@
-import firebase from './firebase'
+import firebase from '../../firebase'
 import 'firebase/database'
 
 export function createNote (uid, noteId) {

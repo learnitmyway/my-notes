@@ -6,10 +6,10 @@ import { shallow } from 'enzyme'
 import uuidv1 from 'uuid/v1'
 
 import CreateNote from './CreateNote'
-import { createNote } from './noteService'
+import { createNote } from '../../service/noteService/noteService'
 
 jest.mock('uuid/v1')
-jest.mock('./noteService')
+jest.mock('../../service/noteService/noteService')
 
 describe('CreateNote', () => {
   it('creates a new note when clicking the button', () => {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
-import CreateNote from './CreateNote'
-import Editor from './Editor'
-import { signInAnonymously } from './authService'
+import CreateNote from '../CreateNote/CreateNote'
+import Editor from '../Editor/Editor'
+import { signInAnonymously } from '../../service/authService/authService'
 
 import './App.css'
 

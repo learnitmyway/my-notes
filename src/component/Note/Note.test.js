@@ -4,9 +4,9 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import Note from './Note'
-import { readNote } from './noteService'
+import { readNote } from '../../service/noteService/noteService'
 
-jest.mock('./noteService')
+jest.mock('../../service/noteService/noteService')
 
 describe('Note', () => {
   it('renders note', () => {

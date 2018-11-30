@@ -4,10 +4,9 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import App from './App'
-import { signInAnonymously } from './authService'
+import { signInAnonymously } from '../../service/authService/authService'
 
-jest.mock('./authService')
-jest.mock('./noteService')
+jest.mock('../../service/authService/authService')
 
 describe('App', () => {
   it('sets anonymous uid on mount', async () => {

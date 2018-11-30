@@ -4,8 +4,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import Editor from './Editor'
-import Note from './Note'
-import CreateNote from './CreateNote'
+import Note from '../Note/Note'
+import CreateNote from '../CreateNote/CreateNote'
 
 describe('Main', () => {
   it('renders note component', () => {

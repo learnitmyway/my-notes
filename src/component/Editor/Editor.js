@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Note from './Note'
-import CreateNote from './CreateNote'
+import Note from '../Note/Note'
+import CreateNote from '../CreateNote/CreateNote'
 
 export default function Editor (props) {
   const largerScreenEditor = (
