@@ -5,7 +5,7 @@ export function createNote (uid, noteId) {
   const newNoteRef = getNoteRef(uid, noteId)
   newNoteRef.set({
     title: 'untitled',
-    body: ''
+    body: noteId
   })
 }
 
