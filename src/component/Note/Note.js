@@ -10,7 +10,8 @@ export default class Note extends Component {
     super(props)
     this.state = {}
   }
-  componentDidMount () {
+
+  readNote () {
     readNote(this.props.uid, this.props.match.params.noteId, (snapshot) => {
       const note = snapshot.val()
       this.setState({
@@ -18,6 +19,16 @@ export default class Note extends Component {
         body: note.body
       })
     })
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
+      this.readNote()
+    }
+  }
+
+  componentDidMount () {
+    this.readNote()
   }
 
   render () {

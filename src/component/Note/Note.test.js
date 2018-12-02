@@ -31,4 +31,19 @@ describe('Note', () => {
     expect(wrapper.find('.Note-title').text()).toBe(note.title)
     expect(wrapper.find('.Note-body').text()).toBe(note.body)
   })
+
+  it('reads new note when note id changes', () => {
+    const uid = 'someUid'
+    const noteId1 = 'noteId1'
+    const match1 = {params: {noteId: noteId1}}
+    const prevProps = {uid, match: match1}
+    const wrapper = shallow(<Note {...prevProps} />)
+
+    const noteId2 = 'noteId2'
+    const match2 = {params: {noteId: noteId2}}
+    const props = {uid, match: match2}
+    wrapper.setProps(props)
+
+    expect(readNote).toHaveBeenCalledWith(uid, noteId2, expect.any(Function))
+  })
 })
