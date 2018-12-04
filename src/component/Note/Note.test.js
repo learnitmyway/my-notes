@@ -46,4 +46,10 @@ describe('Note', () => {
 
     expect(readNote).toHaveBeenCalledWith(uid, noteId2, expect.any(Function))
   })
+
+  it('applies class names from props', () => {
+    const match = {params: {noteId: 'id'}}
+    const wrapper = shallow(<Note classNames='forty-two' uid='uid' match={match} />)
+    expect(wrapper.find('.forty-two').length).toBe(1)
+  })
 })

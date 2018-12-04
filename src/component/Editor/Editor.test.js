@@ -7,7 +7,7 @@ import Editor from './Editor'
 import Note from '../Note/Note'
 import CreateNote from '../CreateNote/CreateNote'
 
-describe('Main', () => {
+describe('Editor', () => {
   it('renders note component', () => {
     const match = {params: {noteId: 'some note id'}}
     const wrapper = shallow(<Editor uid='some uid' match={match} />)
@@ -20,6 +20,8 @@ describe('Main', () => {
     const wrapper = shallow(<Editor uid='some uid' match={match} />)
 
     expect(wrapper.find(CreateNote).length).toBe(1)
+    expect(wrapper.find(CreateNote).props().classNames).toBe('CreateNote--not-small')
     expect(wrapper.find(Note).length).toBe(1)
+    expect(wrapper.find(Note).props().classNames).toBe('Note--not-small')
   })
 })

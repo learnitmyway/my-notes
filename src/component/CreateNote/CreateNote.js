@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom'
 import uuidv1 from 'uuid/v1'
 
 import { createNote } from '../../service/noteService/noteService'
-
 import plus from './plus.svg'
-
 import './CreateNote.css'
 
 export default function CreateNote (props) {
@@ -15,8 +13,14 @@ export default function CreateNote (props) {
   }
 
   const noteId = uuidv1()
+
+  let classNames = ''
+  if (props.classNames) {
+    classNames += props.classNames
+  }
+
   return (
-    <div className='CreateNote'>
+    <div className={classNames}>
       <Link className='CreateNote-button' onClick={() => createNoteFrom(noteId)} to={'/' + noteId}>
         <img className='CreateNote-img' src={plus} alt='plus sign' />
       </Link>
@@ -25,5 +29,6 @@ export default function CreateNote (props) {
 }
 
 CreateNote.propTypes = {
-  uid: PropTypes.string.isRequired
+  uid: PropTypes.string.isRequired,
+  classNames: PropTypes.string
 }

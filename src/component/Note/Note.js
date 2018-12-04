@@ -32,8 +32,13 @@ export default class Note extends Component {
   }
 
   render () {
+    let classNames = 'Note '
+    if (this.props.classNames) {
+      classNames += this.props.classNames
+    }
+
     return (
-      <div className='Note'>
+      <div className={classNames}>
         <div className='Note-title'>{this.state.title}</div>
         <div className='Note-body'>{this.state.body}</div>
       </div>
@@ -47,5 +52,6 @@ Note.propTypes = {
     params: PropTypes.shape({
       noteId: PropTypes.string.isRequired
     })
-  }).isRequired
+  }).isRequired,
+  classNames: PropTypes.string
 }

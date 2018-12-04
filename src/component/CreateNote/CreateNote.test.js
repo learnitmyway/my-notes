@@ -24,4 +24,9 @@ describe('CreateNote', () => {
 
     expect(createNote).toHaveBeenCalledWith(uid, noteId)
   })
+
+  it('applies class names from props', () => {
+    const wrapper = shallow(<CreateNote classNames='forty-two' uid='uid' />)
+    expect(wrapper.find('.forty-two').length).toBe(1)
+  })
 })

@@ -2,10 +2,8 @@
   padding: 1rem;
 }
 
-@media (min-width: 600px) { 
-  .Note {
-    flex: 2
-  }
+.Note--not-small {
+  flex: 2
 }
 
 .Note-title {

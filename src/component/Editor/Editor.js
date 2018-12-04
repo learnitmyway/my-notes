@@ -11,8 +11,8 @@ import './Editor.css'
 export default function Editor (props) {
   const largerScreenEditor = (
     <div className='Editor--not-small'>
-      <CreateNote uid={props.uid} />
-      <Note {...props} />
+      <CreateNote classNames='CreateNote--not-small' uid={props.uid} />
+      <Note classNames='Note--not-small' {...props} />
     </div>
   )
   return (
