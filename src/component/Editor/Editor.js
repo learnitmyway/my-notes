@@ -4,15 +4,19 @@ import PropTypes from 'prop-types'
 import Note from '../Note/Note'
 import CreateNote from '../CreateNote/CreateNote'
 
+import deviceWidths from '../../deviceWidths'
+
+import './Editor.css'
+
 export default function Editor (props) {
   const largerScreenEditor = (
-    <React.Fragment>
-      <Note {...props} />
+    <div className='Editor--not-small'>
       <CreateNote uid={props.uid} />
-    </React.Fragment>
+      <Note {...props} />
+    </div>
   )
   return (
-    window.innerWidth < 600
+    window.innerWidth < deviceWidths.small
       ? <Note {...props} />
       : largerScreenEditor
   )
