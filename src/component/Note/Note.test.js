@@ -32,7 +32,7 @@ describe('Note', () => {
     expect(wrapper.find('.Note-body').text()).toBe(note.body)
   })
 
-  it('renders and logs error when note cannot be read', () => {
+  it('renders and logs error when reading note fails', () => {
     console.error = jest.fn()
     const err = new Error('Something bad happened')
 
@@ -44,12 +44,36 @@ describe('Note', () => {
       failureCallBack(err)
     })
 
-    const uid = 'someUid'
-    const noteId = 'someNoteId'
-    const match = {params: {noteId: noteId}}
-    const wrapper = shallow(<Note uid={uid} match={match} />)
+    const match = {params: {noteId: ''}}
+    const wrapper = shallow(<Note uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith(err)
+    expect(wrapper.find('.Note-title').text()).toBe(errorNote.title)
+    expect(wrapper.find('.Note-body').text()).toBe(errorNote.body)
+  })
+
+  it('renders and logs error when there is no note', () => {
+    console.error = jest.fn()
+
+    const errorNote = {
+      title: 'Note cannot be found',
+      body: ''
+    }
+
+    const snapshot = {
+      val: function () {
+        return null
+      }
+    }
+    readNote.mockImplementation((uid, noteId, cb) => {
+      cb(snapshot)
+    })
+
+    const noteId = 'noteId'
+    const match = {params: {noteId}}
+    const wrapper = shallow(<Note uid='' match={match} />)
+
+    expect(console.error).toHaveBeenCalledWith('Not able to read note: ' + noteId)
     expect(wrapper.find('.Note-title').text()).toBe(errorNote.title)
     expect(wrapper.find('.Note-body').text()).toBe(errorNote.body)
   })
