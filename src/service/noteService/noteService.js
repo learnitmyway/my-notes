@@ -7,6 +7,7 @@ export function createNote (uid, noteId) {
     title: 'untitled',
     body: noteId
   })
+    .catch(err => console.error(`Cannot create note: /notes/${uid}/${noteId}`, err))
 }
 
 export function readNote (uid, noteId, successCallback, failureCallback) {
