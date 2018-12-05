@@ -11,8 +11,7 @@ export default class Note extends Component {
     this.state = {}
   }
 
-  renderErrorMessage (err) {
-    console.error(err)
+  renderErrorMessage () {
     this.setState({
       title: 'Note cannot be found',
       body: ''
@@ -24,7 +23,8 @@ export default class Note extends Component {
       const note = snapshot.val()
 
       if (note === null) {
-        this.renderErrorMessage('Not able to read note: ' + this.props.match.params.noteId)
+        console.error('Not able to read note: ' + this.props.match.params.noteId)
+        this.renderErrorMessage()
       } else {
         this.setState({
           title: note.title,
@@ -34,7 +34,8 @@ export default class Note extends Component {
     }
 
     const failureCallback = (err) => {
-      this.renderErrorMessage(err)
+      console.error(err)
+      this.renderErrorMessage()
     }
 
     readNote(this.props.uid, this.props.match.params.noteId, successCallback, failureCallback)
