@@ -47,9 +47,11 @@ describe('noteService', () => {
 
     const uid = 'uid'
     const noteId = 'noteId'
-    const cb = jest.fn()
-    readNote(uid, noteId, cb)
+    const successCallback = jest.fn()
+    const failureCallback = jest.fn()
 
-    expect(once).toHaveBeenCalledWith('value', cb)
+    readNote(uid, noteId, successCallback, failureCallback)
+
+    expect(once).toHaveBeenCalledWith('value', successCallback, failureCallback)
   })
 })
