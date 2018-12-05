@@ -32,6 +32,28 @@ describe('Note', () => {
     expect(wrapper.find('.Note-body').text()).toBe(note.body)
   })
 
+  it('renders and logs error when note cannot be read', () => {
+    console.error = jest.fn()
+    const err = new Error('Something bad happened')
+
+    const errorNote = {
+      title: 'Note cannot be found',
+      body: ''
+    }
+    readNote.mockImplementation((uid, noteId, successCallback, failureCallBack) => {
+      failureCallBack(err)
+    })
+
+    const uid = 'someUid'
+    const noteId = 'someNoteId'
+    const match = {params: {noteId: noteId}}
+    const wrapper = shallow(<Note uid={uid} match={match} />)
+
+    expect(console.error).toHaveBeenCalledWith(err)
+    expect(wrapper.find('.Note-title').text()).toBe(errorNote.title)
+    expect(wrapper.find('.Note-body').text()).toBe(errorNote.body)
+  })
+
   it('reads new note when note id changes', () => {
     const uid = 'someUid'
     const noteId1 = 'noteId1'
@@ -44,7 +66,7 @@ describe('Note', () => {
     const props = {uid, match: match2}
     wrapper.setProps(props)
 
-    expect(readNote).toHaveBeenCalledWith(uid, noteId2, expect.any(Function))
+    expect(readNote).toHaveBeenCalledWith(uid, noteId2, expect.any(Function), expect.any(Function))
   })
 
   it('applies class names from props', () => {

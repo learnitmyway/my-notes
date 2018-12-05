@@ -12,13 +12,23 @@ export default class Note extends Component {
   }
 
   readNote () {
-    readNote(this.props.uid, this.props.match.params.noteId, (snapshot) => {
+    const successCallback = (snapshot) => {
       const note = snapshot.val()
       this.setState({
         title: note.title,
         body: note.body
       })
-    })
+    }
+
+    const failureCallback = (err) => {
+      console.error(err)
+      this.setState({
+        title: 'Note cannot be found',
+        body: ''
+      })
+    }
+
+    readNote(this.props.uid, this.props.match.params.noteId, successCallback, failureCallback)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
