@@ -12,15 +12,13 @@ export default class Note extends Component {
   }
 
   readNote () {
-    readNote(this.props.uid, this.props.match.params.noteId)
-      .then((snapshot) => {
-        const note = snapshot.val()
-        this.setState({
-          title: note.title,
-          body: note.body
-        })
+    readNote(this.props.uid, this.props.match.params.noteId, (snapshot) => {
+      const note = snapshot.val()
+      this.setState({
+        title: note.title,
+        body: note.body
       })
-      .catch(() => console.log('TODO: implement'))
+    })
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
