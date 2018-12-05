@@ -9,9 +9,9 @@ export function createNote (uid, noteId) {
   })
 }
 
-export function readNote (uid, noteId, successCallback, failureCallback) {
+export function readNote (uid, noteId) {
   const noteRef = getNoteRef(uid, noteId)
-  noteRef.once('value', successCallback, failureCallback)
+  return noteRef.once('value')
 }
 
 function getNoteRef (uid, noteId) {

@@ -9,7 +9,12 @@ import { readNote } from '../../service/noteService/noteService'
 jest.mock('../../service/noteService/noteService')
 
 describe('Note', () => {
-  it('renders note', () => {
+  beforeEach(() => {
+    readNote.mockImplementation((uid, noteId) => {
+      return Promise.resolve()
+    })
+  })
+  it('renders note', async () => {
     const note = {
       title: 'title',
       body: 'body'
@@ -19,32 +24,32 @@ describe('Note', () => {
         return note
       }
     }
-    readNote.mockImplementation((uid, noteId, cb) => {
-      cb(snapshot)
+    readNote.mockImplementation((uid, noteId) => {
+      return Promise.resolve(snapshot)
     })
 
     const uid = 'someUid'
     const noteId = 'someNoteId'
     const match = {params: {noteId: noteId}}
-    const wrapper = shallow(<Note uid={uid} match={match} />)
+    const wrapper = await shallow(<Note uid={uid} match={match} />)
 
     expect(wrapper.find('.Note-title').text()).toBe(note.title)
     expect(wrapper.find('.Note-body').text()).toBe(note.body)
   })
 
-  it('reads new note when note id changes', () => {
+  it('reads new note when note id changes', async () => {
     const uid = 'someUid'
     const noteId1 = 'noteId1'
     const match1 = {params: {noteId: noteId1}}
     const prevProps = {uid, match: match1}
-    const wrapper = shallow(<Note {...prevProps} />)
+    const wrapper = await shallow(<Note {...prevProps} />)
 
     const noteId2 = 'noteId2'
     const match2 = {params: {noteId: noteId2}}
     const props = {uid, match: match2}
     wrapper.setProps(props)
 
-    expect(readNote).toHaveBeenCalledWith(uid, noteId2, expect.any(Function))
+    expect(readNote).toHaveBeenCalledWith(uid, noteId2)
   })
 
   it('applies class names from props', () => {

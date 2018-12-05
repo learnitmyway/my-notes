@@ -31,7 +31,7 @@ describe('noteService', () => {
   })
 
   it('reads a note from the firebase database', () => {
-    const once = jest.fn()
+    const once = jest.fn(eventType => eventType)
 
     const ref = jest.fn(() => {
       return {
@@ -47,11 +47,10 @@ describe('noteService', () => {
 
     const uid = 'uid'
     const noteId = 'noteId'
-    const successCallback = jest.fn()
-    const failureCallback = jest.fn()
 
-    readNote(uid, noteId, successCallback, failureCallback)
+    const pendingNote = readNote(uid, noteId)
 
-    expect(once).toHaveBeenCalledWith('value', successCallback, failureCallback)
+    expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
+    expect(pendingNote).toBe('value')
   })
 })
