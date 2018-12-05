@@ -20,13 +20,7 @@ export default class Note extends Component {
           body: note.body
         })
       })
-      .catch((err) => {
-        console.error(err)
-        this.setState({
-          title: 'Note cannot be found',
-          body: ''
-        })
-      })
+      .catch(() => console.log('TODO: implement'))
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {

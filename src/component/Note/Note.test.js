@@ -10,7 +10,7 @@ jest.mock('../../service/noteService/noteService')
 
 describe('Note', () => {
   beforeEach(() => {
-    readNote.mockImplementation(() => {
+    readNote.mockImplementation((uid, noteId) => {
       return Promise.resolve()
     })
   })
@@ -24,7 +24,7 @@ describe('Note', () => {
         return note
       }
     }
-    readNote.mockImplementation(() => {
+    readNote.mockImplementation((uid, noteId) => {
       return Promise.resolve(snapshot)
     })
 
@@ -35,28 +35,6 @@ describe('Note', () => {
 
     expect(wrapper.find('.Note-title').text()).toBe(note.title)
     expect(wrapper.find('.Note-body').text()).toBe(note.body)
-  })
-
-  fit('renders and logs error when note cannot be read', async () => {
-    console.error = jest.fn()
-    const err = new Error('Something bad happened')
-
-    const errorNote = {
-      title: 'Note cannot be found',
-      body: ''
-    }
-    readNote.mockImplementation(() => {
-      return Promise.reject(err)
-    })
-
-    const uid = 'someUid'
-    const noteId = 'someNoteId'
-    const match = {params: {noteId: noteId}}
-    const wrapper = await await shallow(<Note uid={uid} match={match} />)
-
-    expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find('.Note-title').text()).toBe(errorNote.title)
-    expect(wrapper.find('.Note-body').text()).toBe(errorNote.body)
   })
 
   it('reads new note when note id changes', async () => {
