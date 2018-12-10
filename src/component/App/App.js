@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
 import CreateNote from '../CreateNote/CreateNote'
-import Editor from '../Editor/Editor'
+import Container from '../Container/Container'
 import { signInAnonymously } from '../../service/authService/authService'
 
 import './App.css'
@@ -32,7 +32,7 @@ class App extends Component {
         {this.state.uid &&
           <React.Fragment>
             <Route exact path='/' render={() => <CreateNote uid={this.state.uid} />} />
-            <Route exact path='/:noteId' render={(props) => <Editor {...props} uid={this.state.uid} />} />
+            <Route exact path='/:noteId' render={(props) => <Container {...props} uid={this.state.uid} />} />
           </React.Fragment>
         }
       </div>

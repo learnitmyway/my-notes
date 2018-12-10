@@ -6,11 +6,11 @@ import CreateNote from '../CreateNote/CreateNote'
 
 import deviceWidths from '../../deviceWidths'
 
-import './Editor.css'
+import './Container.css'
 
-export default function Editor (props) {
-  const largerScreenEditor = (
-    <div className='Editor--not-small'>
+export default function Container (props) {
+  const largerScreenContainer = (
+    <div className='Container--not-small'>
       <CreateNote classNames='CreateNote--not-small' uid={props.uid} />
       <Note classNames='Note--not-small' {...props} />
     </div>
@@ -18,11 +18,11 @@ export default function Editor (props) {
   return (
     window.innerWidth < deviceWidths.small
       ? <Note {...props} />
-      : largerScreenEditor
+      : largerScreenContainer
   )
 }
 
-Editor.propTypes = {
+Container.propTypes = {
   uid: PropTypes.string.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
