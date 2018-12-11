@@ -2,7 +2,7 @@
 
 import firebase from 'firebase/app'
 
-import { createNote, readNote } from './noteService'
+import { createNote, readNote, updateNote } from './noteService'
 
 describe('noteService', () => {
   it('creates a note in the firebase database', () => {
@@ -77,5 +77,32 @@ describe('noteService', () => {
     readNote(uid, noteId, successCallback, failureCallback)
 
     expect(once).toHaveBeenCalledWith('value', successCallback, failureCallback)
+  })
+
+  fit('updates a note in the firebase database', () => {
+    const update = jest.fn(() => Promise.resolve())
+
+    const ref = jest.fn(() => {
+      return {
+        update
+      }
+    })
+
+    jest.spyOn(firebase, 'database').mockImplementation(() => {
+      return {
+        ref
+      }
+    })
+
+    const uid = 'uid'
+    const noteId = 'noteId'
+    const title = 'An awesome title'
+    const body = 'An awesome body'
+    updateNote(uid, noteId, title, body)
+
+    const updatedNote = {title, body}
+
+    expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
+    expect(update).toHaveBeenCalledWith(updatedNote)
   })
 })
