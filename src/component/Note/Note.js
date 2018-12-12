@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ContentEditable from 'react-contenteditable'
 
-import { readNote } from '../../service/noteService/noteService'
+import { readNote, updateNote } from '../../service/noteService/noteService'
 
 import './Note.css'
 
@@ -46,6 +46,7 @@ export default class Note extends Component {
 
   handleTitleChange (e) {
     this.setState({title: e.target.value})
+    updateNote(this.props.uid, this.props.match.params.noteId, e.target.value, this.state.body)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {

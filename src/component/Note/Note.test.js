@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import ContentEditable from 'react-contenteditable'
 
 import Note from './Note'
-import { readNote } from '../../service/noteService/noteService'
+import { readNote, updateNote } from '../../service/noteService/noteService'
 
 jest.mock('../../service/noteService/noteService')
 
@@ -102,9 +102,10 @@ describe('Note', () => {
   })
 
   it('updates title on change', () => {
+    const body = 'body'
     const note = {
       title: 'title',
-      body: 'body'
+      body
     }
     const snapshot = {
       val: function () {
@@ -115,12 +116,15 @@ describe('Note', () => {
       cb(snapshot)
     })
 
-    const match = {params: {noteId: 'id'}}
-    const wrapper = shallow(<Note uid='uid' match={match} />)
+    const uid = 'uid'
+    const noteId = 'noteId'
+    const match = {params: {noteId}}
+    const wrapper = shallow(<Note uid={uid} match={match} />)
 
     const newTitle = 'new title'
     wrapper.find(ContentEditable).prop('onChange')({target: {value: newTitle}})
 
     expect(wrapper.find(ContentEditable).props().html).toBe(newTitle)
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
   })
 })
