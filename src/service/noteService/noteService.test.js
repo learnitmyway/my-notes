@@ -79,7 +79,7 @@ describe('noteService', () => {
     expect(once).toHaveBeenCalledWith('value', successCallback, failureCallback)
   })
 
-  fit('updates a note in the firebase database', () => {
+  it('updates a note in the firebase database', () => {
     const update = jest.fn(() => Promise.resolve())
 
     const ref = jest.fn(() => {
