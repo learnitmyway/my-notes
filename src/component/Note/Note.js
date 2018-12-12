@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import ContentEditable from 'react-contenteditable'
 
 import { readNote } from '../../service/noteService/noteService'
 
@@ -9,6 +10,8 @@ export default class Note extends Component {
   constructor (props) {
     super(props)
     this.state = {}
+
+    this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
   renderErrorMessage () {
@@ -41,6 +44,10 @@ export default class Note extends Component {
     readNote(this.props.uid, this.props.match.params.noteId, successCallback, failureCallback)
   }
 
+  handleTitleChange (e) {
+    this.setState({title: e.target.value})
+  }
+
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.readNote()
@@ -59,7 +66,10 @@ export default class Note extends Component {
 
     return (
       <div className={classNames}>
-        <div className='Note-title'>{this.state.title}</div>
+        {this.state.title && <ContentEditable className='Note-title'
+          html={this.state.title}
+          onChange={this.handleTitleChange}
+        />}
         <div className='Note-body'>{this.state.body}</div>
       </div>
     )

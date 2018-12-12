@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import ContentEditable from 'react-contenteditable'
 
 import Note from './Note'
 import { readNote } from '../../service/noteService/noteService'
@@ -28,7 +29,7 @@ describe('Note', () => {
     const match = {params: {noteId: noteId}}
     const wrapper = shallow(<Note uid={uid} match={match} />)
 
-    expect(wrapper.find('.Note-title').text()).toBe(note.title)
+    expect(wrapper.find(ContentEditable).props().html).toBe(note.title)
     expect(wrapper.find('.Note-body').text()).toBe(note.body)
   })
 
@@ -48,7 +49,7 @@ describe('Note', () => {
     const wrapper = shallow(<Note uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find('.Note-title').text()).toBe(errorNote.title)
+    expect(wrapper.find(ContentEditable).props().html).toBe(errorNote.title)
     expect(wrapper.find('.Note-body').text()).toBe(errorNote.body)
   })
 
@@ -74,7 +75,7 @@ describe('Note', () => {
     const wrapper = shallow(<Note uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith('Not able to read note: ' + noteId)
-    expect(wrapper.find('.Note-title').text()).toBe(errorNote.title)
+    expect(wrapper.find(ContentEditable).props().html).toBe(errorNote.title)
     expect(wrapper.find('.Note-body').text()).toBe(errorNote.body)
   })
 
@@ -96,6 +97,30 @@ describe('Note', () => {
   it('applies class names from props', () => {
     const match = {params: {noteId: 'id'}}
     const wrapper = shallow(<Note classNames='forty-two' uid='uid' match={match} />)
+
     expect(wrapper.find('.forty-two').length).toBe(1)
+  })
+
+  it('updates title on change', () => {
+    const note = {
+      title: 'title',
+      body: 'body'
+    }
+    const snapshot = {
+      val: function () {
+        return note
+      }
+    }
+    readNote.mockImplementation((uid, noteId, cb) => {
+      cb(snapshot)
+    })
+
+    const match = {params: {noteId: 'id'}}
+    const wrapper = shallow(<Note uid='uid' match={match} />)
+
+    const newTitle = 'new title'
+    wrapper.find(ContentEditable).prop('onChange')({target: {value: newTitle}})
+
+    expect(wrapper.find(ContentEditable).props().html).toBe(newTitle)
   })
 })
