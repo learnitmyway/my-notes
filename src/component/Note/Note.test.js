@@ -29,8 +29,8 @@ describe('Note', () => {
     const match = {params: {noteId: noteId}}
     const wrapper = shallow(<Note uid={uid} match={match} />)
 
-    expect(wrapper.find(ContentEditable).props().html).toBe(note.title)
-    expect(wrapper.find('.Note-body').text()).toBe(note.body)
+    expect(wrapper.find(ContentEditable).at(0).props().html).toBe(note.title)
+    expect(wrapper.find(ContentEditable).at(1).props().html).toBe(note.body)
   })
 
   it('renders and logs error when reading note fails', () => {
@@ -49,8 +49,8 @@ describe('Note', () => {
     const wrapper = shallow(<Note uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find(ContentEditable).props().html).toBe(errorNote.title)
-    expect(wrapper.find('.Note-body').text()).toBe(errorNote.body)
+    expect(wrapper.find(ContentEditable).at(0).props().html).toBe(errorNote.title)
+    expect(wrapper.find(ContentEditable).at(1).props().html).toBe(errorNote.body)
   })
 
   it('renders and logs error when there is no note', () => {
@@ -75,8 +75,8 @@ describe('Note', () => {
     const wrapper = shallow(<Note uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith('Not able to read note: ' + noteId)
-    expect(wrapper.find(ContentEditable).props().html).toBe(errorNote.title)
-    expect(wrapper.find('.Note-body').text()).toBe(errorNote.body)
+    expect(wrapper.find(ContentEditable).at(0).props().html).toBe(errorNote.title)
+    expect(wrapper.find(ContentEditable).at(1).props().html).toBe(errorNote.body)
   })
 
   it('reads new note when note id changes', () => {
@@ -122,9 +122,36 @@ describe('Note', () => {
     const wrapper = shallow(<Note uid={uid} match={match} />)
 
     const newTitle = 'new title'
-    wrapper.find(ContentEditable).prop('onChange')({target: {value: newTitle}})
+    wrapper.find(ContentEditable).at(0).prop('onChange')({target: {value: newTitle}})
 
-    expect(wrapper.find(ContentEditable).props().html).toBe(newTitle)
+    expect(wrapper.find(ContentEditable).at(0).props().html).toBe(newTitle)
     expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
+  })
+
+  it('updates body on change', () => {
+    const title = 'title'
+    const note = {
+      title,
+      body: 'body'
+    }
+    const snapshot = {
+      val: function () {
+        return note
+      }
+    }
+    readNote.mockImplementation((uid, noteId, cb) => {
+      cb(snapshot)
+    })
+
+    const uid = 'uid'
+    const noteId = 'noteId'
+    const match = {params: {noteId}}
+    const wrapper = shallow(<Note uid={uid} match={match} />)
+
+    const newBody = 'new body'
+    wrapper.find(ContentEditable).at(1).prop('onChange')({target: {value: newBody}})
+
+    expect(wrapper.find(ContentEditable).at(1).props().html).toBe(newBody)
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, title, newBody)
   })
 })

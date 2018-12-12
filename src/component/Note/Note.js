@@ -12,6 +12,7 @@ export default class Note extends Component {
     this.state = {}
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.handleBodyChange = this.handleBodyChange.bind(this)
   }
 
   renderErrorMessage () {
@@ -49,6 +50,11 @@ export default class Note extends Component {
     updateNote(this.props.uid, this.props.match.params.noteId, e.target.value, this.state.body)
   }
 
+  handleBodyChange (e) {
+    this.setState({body: e.target.value})
+    updateNote(this.props.uid, this.props.match.params.noteId, this.state.title, e.target.value)
+  }
+
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.readNote()
@@ -65,13 +71,19 @@ export default class Note extends Component {
       classNames += this.props.classNames
     }
 
+    const shouldRenderTitle = this.state.title || this.state.title === ''
+    const shouldRenderBody = this.state.body || this.state.body === ''
+
     return (
       <div className={classNames}>
-        {this.state.title && <ContentEditable className='Note-title'
+        {shouldRenderTitle && <ContentEditable className='Note-title'
           html={this.state.title}
           onChange={this.handleTitleChange}
         />}
-        <div className='Note-body'>{this.state.body}</div>
+        {shouldRenderBody && <ContentEditable className='Note-body'
+          html={this.state.body}
+          onChange={this.handleBodyChange}
+        />}
       </div>
     )
   }
