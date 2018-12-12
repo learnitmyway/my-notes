@@ -24,7 +24,7 @@ describe('noteService', () => {
     const noteId = 'noteId'
     createNote(uid, noteId)
 
-    const newNote = {title: 'untitled', body: noteId}
+    const newNote = {title: 'click to edit', body: 'click to edit'}
 
     expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
     expect(set).toHaveBeenCalledWith(newNote)

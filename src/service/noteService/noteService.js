@@ -4,8 +4,8 @@ import 'firebase/database'
 export function createNote (uid, noteId) {
   const newNoteRef = getNoteRef(uid, noteId)
   newNoteRef.set({
-    title: 'untitled',
-    body: noteId
+    title: 'click to edit',
+    body: 'click to edit'
   })
     .catch(err => console.error(`Cannot create note: /notes/${uid}/${noteId}`, err))
 }
