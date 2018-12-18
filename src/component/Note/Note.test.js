@@ -31,16 +31,13 @@ describe('Note', () => {
 
     expect(wrapper.find(ContentEditable).at(0).props().html).toBe(note.title)
     expect(wrapper.find(ContentEditable).at(1).props().html).toBe(note.body)
+    expect(wrapper.find('.error').length).toBe(0)
   })
 
   it('renders and logs error when reading note fails', () => {
     console.error = jest.fn()
     const err = new Error('Something bad happened')
 
-    const errorNote = {
-      title: 'Note cannot be found',
-      body: ''
-    }
     readNote.mockImplementation((uid, noteId, successCallback, failureCallBack) => {
       failureCallBack(err)
     })
@@ -49,17 +46,11 @@ describe('Note', () => {
     const wrapper = shallow(<Note uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find(ContentEditable).at(0).props().html).toBe(errorNote.title)
-    expect(wrapper.find(ContentEditable).at(1).props().html).toBe(errorNote.body)
+    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
   })
 
   it('renders and logs error when there is no note', () => {
     console.error = jest.fn()
-
-    const errorNote = {
-      title: 'Note cannot be found',
-      body: ''
-    }
 
     const snapshot = {
       val: function () {
@@ -75,8 +66,7 @@ describe('Note', () => {
     const wrapper = shallow(<Note uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith('Not able to read note: ' + noteId)
-    expect(wrapper.find(ContentEditable).at(0).props().html).toBe(errorNote.title)
-    expect(wrapper.find(ContentEditable).at(1).props().html).toBe(errorNote.body)
+    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
   })
 
   it('reads new note when note id changes', () => {

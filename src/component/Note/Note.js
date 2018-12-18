@@ -9,7 +9,9 @@ import './Note.css'
 export default class Note extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      isError: false
+    }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleBodyChange = this.handleBodyChange.bind(this)
@@ -17,8 +19,7 @@ export default class Note extends Component {
 
   renderErrorMessage () {
     this.setState({
-      title: 'Note cannot be found',
-      body: ''
+      isError: true
     })
   }
 
@@ -84,6 +85,7 @@ export default class Note extends Component {
           html={this.state.body}
           onChange={this.handleBodyChange}
         />}
+        {this.state.isError && <div className='error'>Note cannot be found</div>}
       </div>
     )
   }
