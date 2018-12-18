@@ -1,3 +1,7 @@
+.CreateNote {
+  margin-bottom: 1rem
+}
+
 .CreateNote--not-small {
   flex: 1
 }

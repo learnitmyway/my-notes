@@ -14,7 +14,7 @@ export default function CreateNote (props) {
 
   const noteId = uuidv1()
 
-  let classNames = ''
+  let classNames = 'CreateNote '
   if (props.classNames) {
     classNames += props.classNames
   }
