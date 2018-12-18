@@ -15,9 +15,9 @@ export function readNote (uid, noteId, successCallback, failureCallback) {
   noteRef.once('value', successCallback, failureCallback)
 }
 
-export function readAllNotes (uid) {
+export function readAllNotes (uid, successCallback) {
   const noteRef = firebase.database().ref(`/notes/${uid}`)
-  noteRef.once('value')
+  noteRef.once('value', successCallback)
 }
 
 export function updateNote (uid, noteId, title, body) {
