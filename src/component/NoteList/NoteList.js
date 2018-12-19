@@ -34,13 +34,14 @@ export default class NoteList extends React.Component {
   }
 
   render () {
+    const noteIdInUrl = this.props.match && this.props.match.params.noteId
     return (
       <React.Fragment>
         {this.state.notes &&
           Object.entries(this.state.notes).map(noteEntry => {
             const noteId = noteEntry[0]
             const noteTitle = noteEntry[1].title
-            const isSelected = this.props.match && noteId === this.props.match.params.noteId
+            const isSelected = !!(noteIdInUrl && noteId === noteIdInUrl)
             return <NoteListItem key={noteId} title={noteTitle} noteId={noteId} isSelected={isSelected} />
           })
         }
