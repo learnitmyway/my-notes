@@ -1,3 +1,7 @@
+.Main {
+  background-color: #f4f4f4;
+}
+
 .Main--not-small {
   flex: 1
 }

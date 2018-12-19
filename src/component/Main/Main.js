@@ -7,7 +7,7 @@ import NoteList from '../NoteList/NoteList'
 import './Main.css'
 
 export default function Main (props) {
-  let classNames = ''
+  let classNames = 'Main '
   if (props.classNames) {
     classNames += props.classNames
   }
