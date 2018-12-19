@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 
 import Container from './Container'
 import Note from '../Note/Note'
-import CreateNote from '../CreateNote/CreateNote'
+import Main from '../Main/Main'
 
 describe('Container', () => {
   it('renders note component', () => {
@@ -19,8 +19,8 @@ describe('Container', () => {
     const match = {params: {noteId: 'some note id'}}
     const wrapper = shallow(<Container uid='some uid' match={match} />)
 
-    expect(wrapper.find(CreateNote).length).toBe(1)
-    expect(wrapper.find(CreateNote).props().classNames).toBe('CreateNote--not-small')
+    expect(wrapper.find(Main).length).toBe(1)
+    expect(wrapper.find(Main).props().classNames).toBe('Main--not-small')
     expect(wrapper.find(Note).length).toBe(1)
     expect(wrapper.find(Note).props().classNames).toBe('Note--not-small')
   })

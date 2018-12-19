@@ -19,4 +19,10 @@ describe('Main', () => {
 
     expect(wrapper.find(NoteList).length).toBe(1)
   })
+
+  it('applies class names from props', () => {
+    const wrapper = shallow(<Main classNames='forty-two' uid='uid' />)
+
+    expect(wrapper.find('.forty-two').length).toBe(1)
+  })
 })

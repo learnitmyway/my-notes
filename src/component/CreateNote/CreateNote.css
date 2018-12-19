@@ -2,10 +2,6 @@
   margin-bottom: 1rem
 }
 
-.CreateNote--not-small {
-  flex: 1
-}
-
 .CreateNote-button {
   display: block;
   background-color: #5cb85c;

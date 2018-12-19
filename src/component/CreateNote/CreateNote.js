@@ -14,13 +14,8 @@ export default function CreateNote (props) {
 
   const noteId = uuidv1()
 
-  let classNames = 'CreateNote '
-  if (props.classNames) {
-    classNames += props.classNames
-  }
-
   return (
-    <div className={classNames}>
+    <div className='CreateNote'>
       <Link className='CreateNote-button' onClick={() => createNoteFrom(noteId)} to={'/' + noteId}>
         <img className='CreateNote-img' src={plus} alt='plus sign' />
       </Link>
@@ -29,6 +24,5 @@ export default function CreateNote (props) {
 }
 
 CreateNote.propTypes = {
-  uid: PropTypes.string.isRequired,
-  classNames: PropTypes.string
+  uid: PropTypes.string.isRequired
 }

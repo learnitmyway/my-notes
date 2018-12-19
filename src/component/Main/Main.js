@@ -5,14 +5,20 @@ import CreateNote from '../CreateNote/CreateNote'
 import NoteList from '../NoteList/NoteList'
 
 export default function Main (props) {
+  let classNames = ''
+  if (props.classNames) {
+    classNames += props.classNames
+  }
+
   return (
-    <React.Fragment>
+    <div className={classNames}>
       <CreateNote uid={props.uid} />
       <NoteList uid={props.uid} />
-    </React.Fragment>
+    </div>
   )
 }
 
 Main.propTypes = {
-  uid: PropTypes.string.isRequired
+  uid: PropTypes.string.isRequired,
+  classNames: PropTypes.string
 }

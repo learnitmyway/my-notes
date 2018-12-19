@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Note from '../Note/Note'
-import CreateNote from '../CreateNote/CreateNote'
+import Main from '../Main/Main'
 
 import deviceWidths from '../../deviceWidths'
 
@@ -11,7 +11,7 @@ import './Container.css'
 export default function Container (props) {
   const largerScreenContainer = (
     <div className='Container--not-small'>
-      <CreateNote classNames='CreateNote--not-small' uid={props.uid} />
+      <Main classNames='Main--not-small' uid={props.uid} />
       <Note classNames='Note--not-small' {...props} />
     </div>
   )
