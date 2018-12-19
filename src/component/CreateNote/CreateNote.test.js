@@ -12,7 +12,7 @@ jest.mock('uuid/v1')
 jest.mock('../../service/noteService/noteService')
 
 describe('CreateNote', () => {
-  it('creates a new note when clicking the button', () => {
+  it('creates and navigates to new note when clicking the button', () => {
     const noteId = 'noteId'
     uuidv1.mockReturnValue(noteId)
 
@@ -23,5 +23,6 @@ describe('CreateNote', () => {
     link.simulate('click')
 
     expect(createNote).toHaveBeenCalledWith(uid, noteId)
+    expect(wrapper.find('.CreateNote-button').props().to).toBe('/' + noteId)
   })
 })
