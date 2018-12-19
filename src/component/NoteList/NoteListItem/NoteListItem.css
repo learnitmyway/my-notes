@@ -12,8 +12,3 @@
 .NoteListItem:hover {
   background-color: white;
 }
-
-.NoteList-arrow {
-  width: 1.5rem;
-  height: 1.5rem
-}
