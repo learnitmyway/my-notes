@@ -37,8 +37,11 @@ export default class NoteList extends React.Component {
     return (
       <React.Fragment>
         {this.state.notes &&
-          Object.entries(this.state.notes).map(noteEntry =>
-            <NoteListItem key={noteEntry[0]} title={noteEntry[1].title} />)
+          Object.entries(this.state.notes).map(noteEntry => {
+            const noteId = noteEntry[0]
+            const noteTitle = noteEntry[1].title
+            return <NoteListItem key={noteId} title={noteTitle} noteId={noteId} />
+          })
         }
         {this.state.isError && <div className='NoteList-error'>Notes cannot be found</div>}
       </React.Fragment>

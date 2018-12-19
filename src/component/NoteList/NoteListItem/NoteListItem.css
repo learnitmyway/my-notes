@@ -5,6 +5,8 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
+  color: initial;
 }
 
 .NoteListItem:hover {
