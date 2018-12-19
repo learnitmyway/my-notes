@@ -15,9 +15,11 @@ describe('Main', () => {
   })
 
   it('renders note list', () => {
-    const wrapper = shallow(<Main uid='uid' />)
+    const match = {something: 'something'}
+    const wrapper = shallow(<Main uid='uid' match={match} />)
 
     expect(wrapper.find(NoteList).length).toBe(1)
+    expect(wrapper.find(NoteList).props().match).toBe(match)
   })
 
   it('applies class names from props', () => {

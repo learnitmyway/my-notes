@@ -15,7 +15,7 @@ export default function Main (props) {
   return (
     <div className={classNames}>
       <CreateNote uid={props.uid} />
-      <NoteList uid={props.uid} />
+      <NoteList uid={props.uid} match={props.match} />
     </div>
   )
 }
