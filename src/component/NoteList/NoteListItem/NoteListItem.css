@@ -9,6 +9,10 @@
   color: initial;
 }
 
+.NoteListItem--selected {
+  background-color: white;
+}
+
 .NoteListItem:hover {
   background-color: white;
 }
