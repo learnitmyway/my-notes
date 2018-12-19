@@ -11,7 +11,7 @@ import './Container.css'
 export default function Container (props) {
   const largerScreenContainer = (
     <div className='Container--not-small'>
-      <Main classNames='Main--not-small' uid={props.uid} />
+      <Main classNames='Main--not-small' uid={props.uid} match={props.match} />
       <Note classNames='Note--not-small' {...props} />
     </div>
   )
