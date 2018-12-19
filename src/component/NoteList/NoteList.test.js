@@ -33,7 +33,21 @@ describe('NoteList', () => {
     const uid = 'uid'
     const wrapper = shallow(<NoteList uid={uid} />)
 
-    expect(readAllNotes).toHaveBeenCalledWith(uid, expect.any(Function))
+    expect(readAllNotes).toHaveBeenCalledWith(uid, expect.any(Function), expect.any(Function))
     expect(wrapper.find(NoteListItem).length).toBe(3)
+  })
+
+  it('renders and logs error when reading all notes fails', () => {
+    console.error = jest.fn()
+    const err = new Error('Something bad happened')
+
+    readAllNotes.mockImplementation((uid, successCallback, failureCallBack) => {
+      failureCallBack(err)
+    })
+
+    const wrapper = shallow(<NoteList uid='' />)
+
+    expect(console.error).toHaveBeenCalledWith(err)
+    expect(wrapper.find('.NoteList-error').text()).toBe('Notes cannot be found')
   })
 })

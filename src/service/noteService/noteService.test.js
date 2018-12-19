@@ -96,10 +96,11 @@ describe('noteService', () => {
 
     const uid = 'uid'
     const successCallback = jest.fn()
+    const failureCallback = jest.fn()
 
-    readAllNotes(uid, successCallback)
+    readAllNotes(uid, successCallback, failureCallback)
 
-    expect(once).toHaveBeenCalledWith('value', successCallback)
+    expect(once).toHaveBeenCalledWith('value', successCallback, failureCallback)
     expect(ref).toHaveBeenCalledWith(`/notes/${uid}`)
   })
 
