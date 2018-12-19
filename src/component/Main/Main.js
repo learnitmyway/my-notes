@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import CreateNote from '../CreateNote/CreateNote'
 import NoteList from '../NoteList/NoteList'
 
+import './Main.css'
+
 export default function Main (props) {
   let classNames = ''
   if (props.classNames) {
