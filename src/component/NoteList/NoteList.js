@@ -40,7 +40,8 @@ export default class NoteList extends React.Component {
           Object.entries(this.state.notes).map(noteEntry => {
             const noteId = noteEntry[0]
             const noteTitle = noteEntry[1].title
-            return <NoteListItem key={noteId} title={noteTitle} noteId={noteId} />
+            const isSelected = this.props.match && noteId === this.props.match.params.noteId
+            return <NoteListItem key={noteId} title={noteTitle} noteId={noteId} isSelected={isSelected} />
           })
         }
         {this.state.isError && <div className='NoteList-error'>Notes cannot be found</div>}
@@ -50,5 +51,10 @@ export default class NoteList extends React.Component {
 }
 
 NoteList.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      noteId: PropTypes.string.isRequired
+    })
+  }),
   uid: PropTypes.string.isRequired
 }

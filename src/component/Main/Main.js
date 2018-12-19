@@ -21,6 +21,11 @@ export default function Main (props) {
 }
 
 Main.propTypes = {
-  uid: PropTypes.string.isRequired,
-  classNames: PropTypes.string
+  classNames: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      noteId: PropTypes.string.isRequired
+    })
+  }),
+  uid: PropTypes.string.isRequired
 }

@@ -50,4 +50,28 @@ describe('NoteList', () => {
     expect(console.error).toHaveBeenCalledWith(err)
     expect(wrapper.find('.NoteList-error').text()).toBe('Notes cannot be found')
   })
+
+  it('marks selected item', () => {
+    const selectedNoteId = 'noteId2'
+    const notes = {
+      'note1': {},
+      [selectedNoteId]: {},
+      'note3': {}
+    }
+    const snapshot = {
+      val: function () {
+        return notes
+      }
+    }
+    readAllNotes.mockImplementation((uid, cb) => {
+      cb(snapshot)
+    })
+
+    const match = {params: {noteId: selectedNoteId}}
+    const wrapper = shallow(<NoteList uid='uid' match={match} />)
+
+    expect(wrapper.find(NoteListItem).at(0).props().isSelected).toBe(false)
+    expect(wrapper.find(NoteListItem).at(1).props().isSelected).toBe(true)
+    expect(wrapper.find(NoteListItem).at(2).props().isSelected).toBe(false)
+  })
 })
