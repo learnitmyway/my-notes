@@ -4,9 +4,12 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import App from './App'
+import Main from '../Main/Main'
+import Container from '../Container/Container'
 import { signInAnonymously } from '../../service/authService/authService'
 
 jest.mock('../../service/authService/authService')
+jest.mock('react-router-dom')
 
 describe('App', () => {
   it('sets anonymous uid on mount', async () => {
@@ -46,12 +49,25 @@ describe('App', () => {
     expect(wrapper.find('.App').props().children).toBeNull()
   })
 
-  it('renders children when there is a uid', () => {
-    signInAnonymously.mockReturnValue(Promise.resolve())
+  it('renders main component', () => {
+    signInAnonymously.mockResolvedValue()
 
     const wrapper = shallow(<App />)
-    wrapper.setState({uid: 'uid'})
+    const uid = 'uid'
+    wrapper.setState({uid})
 
-    expect(wrapper.find('.App').props().children).not.toBeNull()
+    expect(wrapper.find('Route[path="/"]').at(0).props().render()).toEqual(<Main uid={uid} />)
+  })
+
+  it('renders container component', () => {
+    signInAnonymously.mockResolvedValue()
+
+    const wrapper = shallow(<App />)
+    const uid = 'uid'
+    wrapper.setState({uid})
+
+    const props = {something: 'something'}
+
+    expect(wrapper.find('Route[path="/:noteId"]').at(0).props().render(props)).toEqual(<Container {...props} uid={uid} />)
   })
 })
