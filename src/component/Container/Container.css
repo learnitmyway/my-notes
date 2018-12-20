@@ -1,3 +1,7 @@
+.Container {
+  height: 100%
+}
+
 .Container--not-small {
   display: flex;
 }

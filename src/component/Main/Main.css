@@ -1,5 +1,8 @@
 .Main {
+  display: flex;
+  flex-direction: column;
   background-color: #f4f4f4;
+  height: 100%
 }
 
 .Main--not-small {

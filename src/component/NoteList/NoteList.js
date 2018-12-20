@@ -36,7 +36,7 @@ export default class NoteList extends React.Component {
   render () {
     const noteIdInUrl = this.props.match && this.props.match.params.noteId
     return (
-      <React.Fragment>
+      <div className='NoteList'>
         {this.state.notes &&
           Object.entries(this.state.notes).map(noteEntry => {
             const noteId = noteEntry[0]
@@ -46,7 +46,7 @@ export default class NoteList extends React.Component {
           })
         }
         {this.state.isError && <div className='NoteList-error'>Notes cannot be found</div>}
-      </React.Fragment>
+      </div>
     )
   }
 }
