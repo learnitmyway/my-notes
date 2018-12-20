@@ -12,6 +12,10 @@ jest.mock('../../service/authService/authService')
 jest.mock('react-router-dom')
 
 describe('App', () => {
+  beforeEach(() => {
+    window.innerWidth = 200
+  })
+
   it('sets anonymous uid on mount', async () => {
     const expectedUid = 42
     const userCredential = {
@@ -49,7 +53,7 @@ describe('App', () => {
     expect(wrapper.find('.App').props().children).toBeNull()
   })
 
-  it('renders main component', () => {
+  it('renders main component at root path', () => {
     signInAnonymously.mockResolvedValue()
 
     const wrapper = shallow(<App />)
@@ -59,7 +63,20 @@ describe('App', () => {
     expect(wrapper.find('Route[path="/"]').at(0).props().render()).toEqual(<Main uid={uid} />)
   })
 
-  it('renders container component', () => {
+  it('renders container component for larger devices at root path', () => {
+    window.innerWidth = 600
+    signInAnonymously.mockResolvedValue()
+
+    const wrapper = shallow(<App />)
+    const uid = 'uid'
+    wrapper.setState({uid})
+
+    const props = {something: 'something'}
+
+    expect(wrapper.find('Route[path="/"]').at(0).props().render(props)).toEqual(<Container {...props} uid={uid} />)
+  })
+
+  it('renders container component at noteId path', () => {
     signInAnonymously.mockResolvedValue()
 
     const wrapper = shallow(<App />)

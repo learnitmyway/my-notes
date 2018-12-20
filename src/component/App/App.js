@@ -5,12 +5,16 @@ import Main from '../Main/Main'
 import Container from '../Container/Container'
 import { signInAnonymously } from '../../service/authService/authService'
 
+import deviceWidths from '../../deviceWidths'
+
 import './App.css'
 
 class App extends Component {
   constructor () {
     super()
     this.state = {}
+
+    this.renderRootPath = this.renderRootPath.bind(this)
   }
 
   componentDidMount () {
@@ -26,12 +30,18 @@ class App extends Component {
       })
   }
 
+  renderRootPath (props) {
+    return window.innerWidth < deviceWidths.small
+      ? <Main uid={this.state.uid} />
+      : <Container {...props} uid={this.state.uid} />
+  }
+
   render () {
     return (
       <div className='App'>
         {this.state.uid &&
           <React.Fragment>
-            <Route exact path='/' render={() => <Main uid={this.state.uid} />} />
+            <Route exact path='/' render={this.renderRootPath} />
             <Route exact path='/:noteId' render={(props) => <Container {...props} uid={this.state.uid} />} />
           </React.Fragment>
         }
