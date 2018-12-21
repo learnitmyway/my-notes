@@ -12,12 +12,12 @@ export default function Container (props) {
   const largerScreenContainer = (
     <div className='Container Container--not-small'>
       <Main classNames='Main--not-small' uid={props.uid} match={props.match} />
-      <Note classNames='Note--not-small' {...props} />
+      <Note classNames='Note--not-small' onTitleChange={() => {}} {...props} />
     </div>
   )
   return (
     window.innerWidth < deviceWidths.small
-      ? <Note {...props} />
+      ? <Note onTitleChange={() => {}} {...props} />
       : largerScreenContainer
   )
 }
