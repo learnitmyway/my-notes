@@ -24,7 +24,7 @@ Main.propTypes = {
   classNames: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      noteId: PropTypes.string.isRequired
+      noteId: PropTypes.string
     })
   }),
   uid: PropTypes.string.isRequired

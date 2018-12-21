@@ -34,6 +34,16 @@ describe('Note', () => {
     expect(wrapper.find('.error').length).toBe(0)
   })
 
+  it('renders empty note when there is no note id in url path', () => {
+    const uid = 'someUid'
+    const match = {params: {}}
+    const wrapper = shallow(<Note uid={uid} match={match} />)
+
+    expect(readNote).not.toHaveBeenCalled()
+    expect(wrapper.find(ContentEditable).length).toBe(0)
+    expect(wrapper.find('.error').length).toBe(0)
+  })
+
   it('renders and logs error when reading note fails', () => {
     console.error = jest.fn()
     const err = new Error('Something bad happened')
@@ -42,7 +52,7 @@ describe('Note', () => {
       failureCallBack(err)
     })
 
-    const match = {params: {noteId: ''}}
+    const match = {params: {noteId: 'non-existant'}}
     const wrapper = shallow(<Note uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith(err)

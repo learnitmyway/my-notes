@@ -26,7 +26,7 @@ Container.propTypes = {
   uid: PropTypes.string.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      noteId: PropTypes.string.isRequired
+      noteId: PropTypes.string
     })
   }).isRequired
 }

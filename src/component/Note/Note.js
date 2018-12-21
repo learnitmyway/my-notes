@@ -63,7 +63,9 @@ export default class Note extends Component {
   }
 
   componentDidMount () {
-    this.readNote()
+    if (this.props.match.params && this.props.match.params.noteId) {
+      this.readNote()
+    }
   }
 
   render () {
@@ -95,7 +97,7 @@ Note.propTypes = {
   uid: PropTypes.string.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      noteId: PropTypes.string.isRequired
+      noteId: PropTypes.string
     })
   }).isRequired,
   classNames: PropTypes.string
