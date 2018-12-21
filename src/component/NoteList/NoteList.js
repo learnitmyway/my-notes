@@ -40,7 +40,7 @@ export default class NoteList extends React.Component {
         {this.state.notes &&
           Object.entries(this.state.notes).map(noteEntry => {
             const noteId = noteEntry[0]
-            const noteTitle = noteEntry[1].title
+            const noteTitle = noteId === this.props.currentNote.id ? this.props.currentNote.title : noteEntry[1].title
             const isSelected = !!(noteIdInUrl && noteId === noteIdInUrl)
             return <NoteListItem key={noteId} title={noteTitle} noteId={noteId} isSelected={isSelected} />
           })
@@ -52,6 +52,10 @@ export default class NoteList extends React.Component {
 }
 
 NoteList.propTypes = {
+  currentNote: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       noteId: PropTypes.string
