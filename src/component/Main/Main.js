@@ -15,7 +15,7 @@ export default function Main (props) {
   return (
     <div className={classNames}>
       <CreateNote uid={props.uid} />
-      <NoteList uid={props.uid} match={props.match} currentNote={{}} />
+      <NoteList uid={props.uid} match={props.match} currentNote={props.currentNote} />
     </div>
   )
 }
@@ -27,5 +27,9 @@ Main.propTypes = {
       noteId: PropTypes.string
     })
   }),
+  currentNote: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string
+  }).isRequired,
   uid: PropTypes.string.isRequired
 }
