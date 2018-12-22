@@ -42,19 +42,17 @@ export default class Container extends React.Component {
   }
 
   handleBodyChange (body) {
-    this.setState({
-      note: {...this.state.note, body}
-    })
+    const note = {...this.state.note, body}
+    this.setState({note})
 
-    updateNote(this.props.uid, this.props.match.params.noteId, this.state.note.title, body)
+    updateNote(this.props.uid, this.props.match.params.noteId, note)
   }
 
   handleTitleChange (title) {
-    this.setState({
-      note: {...this.state.note, title}
-    })
+    const note = {...this.state.note, title}
+    this.setState({note})
 
-    updateNote(this.props.uid, this.props.match.params.noteId, title, this.state.note.body)
+    updateNote(this.props.uid, this.props.match.params.noteId, note)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {

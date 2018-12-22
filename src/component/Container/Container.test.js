@@ -162,7 +162,7 @@ describe('Container', () => {
 
     const expectedNote = {...note, title: newTitle}
 
-    expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, expectedNote)
     expect(wrapper.find(Note).props().note).toEqual(expectedNote)
   })
 
@@ -190,7 +190,7 @@ describe('Container', () => {
     wrapper.find(Note).props().onBodyChange(newBody)
 
     const expectedNote = {...note, body: newBody}
-    expect(updateNote).toHaveBeenCalledWith(uid, noteId, title, newBody)
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, expectedNote)
     expect(wrapper.find(Note).props().note).toEqual(expectedNote)
   })
 
