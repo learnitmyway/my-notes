@@ -6,7 +6,7 @@ import { shallow } from 'enzyme'
 import Container from './Container'
 import Note from '../Note/Note'
 import Main from '../Main/Main'
-import { readNote } from '../../service/noteService/noteService'
+import { readNote, updateNote } from '../../service/noteService/noteService'
 
 jest.mock('../../service/noteService/noteService')
 
@@ -84,15 +84,44 @@ describe('Container', () => {
     expect(wrapper.find(Note).props().isError).toBe(true)
   })
 
-  it('passes current note as prop on note title change', () => {
+  it('updates title on change', () => {
+    const body = 'body'
+    const note = {
+      title: 'title',
+      body
+    }
+    const snapshot = {
+      val: function () {
+        return note
+      }
+    }
+    readNote.mockImplementation((uid, noteId, cb) => {
+      cb(snapshot)
+    })
+
+    const uid = 'uid'
+    const noteId = 'noteId'
+    const match = {params: {noteId}}
+    const wrapper = shallow(<Container uid={uid} match={match} />)
+
+    const newTitle = 'new title'
+    wrapper.find(Note).props().onTitleChange(newTitle)
+
+    const expectedNote = {...note, title: newTitle}
+
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
+    expect(wrapper.find(Note).props().note).toEqual(expectedNote)
+  })
+
+  it('passes note as prop on note title change', () => {
     const noteId = 'noteId'
     const match = {params: {noteId}}
     const wrapper = shallow(<Container uid='some uid' match={match} />)
 
     const newTitle = 'new title'
     const currentNote = {id: noteId, title: newTitle}
-    wrapper.find(Note).props().onTitleChange(currentNote)
+    wrapper.find(Note).props().onTitleChange(newTitle)
 
-    expect(wrapper.find(Main).props().currentNote).toBe(currentNote)
+    expect(wrapper.find(Main).props().currentNote).toEqual(currentNote)
   })
 })

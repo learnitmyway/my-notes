@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Note from '../Note/Note'
 import Main from '../Main/Main'
-import { readNote } from '../../service/noteService/noteService'
+import { readNote, updateNote } from '../../service/noteService/noteService'
 
 import deviceWidths from '../../deviceWidths'
 
@@ -13,7 +13,7 @@ export default class Container extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentNote: null,
+      note: null,
       isError: false
     }
 
@@ -40,8 +40,12 @@ export default class Container extends React.Component {
     readNote(this.props.uid, this.props.match.params.noteId, successCallback, failureCallback)
   }
 
-  handleTitleChange (currentNote) {
-    this.setState({currentNote})
+  handleTitleChange (title) {
+    this.setState({
+      note: {...this.state.note, title}
+    })
+
+    updateNote(this.props.uid, this.props.match.params.noteId, title, this.state.note.body)
   }
 
   componentDidMount () {
@@ -51,7 +55,7 @@ export default class Container extends React.Component {
   }
 
   render () {
-    const currentNote = this.state.currentNote ? this.state.currentNote : {}
+    const currentNote = this.state.note ? {id: this.props.match.params.noteId, ...this.state.note} : {}
     const largerScreenContainer = (
       <div className='Container Container--not-small'>
         <Main classNames='Main--not-small' currentNote={currentNote} uid={this.props.uid} match={this.props.match} />

@@ -97,14 +97,8 @@ describe('Note', () => {
     const newTitle = 'new title'
     wrapper.find(ContentEditable).at(0).prop('onChange')({target: {value: newTitle}})
 
-    const expectedCurrentNote = {
-      id: noteId,
-      title: newTitle
-    }
-
     expect(wrapper.find(ContentEditable).at(0).props().html).toBe(newTitle)
-    expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
-    expect(handleTitleChange).toHaveBeenCalledWith(expectedCurrentNote)
+    expect(handleTitleChange).toHaveBeenCalledWith(newTitle)
   })
 
   it('updates body on change', () => {
