@@ -89,7 +89,7 @@ describe('Container', () => {
     expect(wrapper.find(Note).props().isError).toBe(true)
   })
 
-  it('updates title on change', () => {
+  it('updates note title on change', () => {
     const body = 'body'
     const note = {
       title: 'title',
@@ -115,6 +115,34 @@ describe('Container', () => {
     const expectedNote = {...note, title: newTitle}
 
     expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
+    expect(wrapper.find(Note).props().note).toEqual(expectedNote)
+  })
+
+  it('updates note body on change', () => {
+    const title = 'title'
+    const note = {
+      title,
+      body: 'body'
+    }
+    const snapshot = {
+      val: function () {
+        return note
+      }
+    }
+    readNote.mockImplementation((uid, noteId, cb) => {
+      cb(snapshot)
+    })
+
+    const uid = 'uid'
+    const noteId = 'noteId'
+    const match = {params: {noteId}}
+    const wrapper = shallow(<Container uid={uid} match={match} />)
+
+    const newBody = 'new body'
+    wrapper.find(Note).props().onBodyChange(newBody)
+
+    const expectedNote = {...note, body: newBody}
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, title, newBody)
     expect(wrapper.find(Note).props().note).toEqual(expectedNote)
   })
 
