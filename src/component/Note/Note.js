@@ -9,9 +9,7 @@ import './Note.css'
 export default class Note extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      isError: false
-    }
+    this.state = { }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleBodyChange = this.handleBodyChange.bind(this)
@@ -27,21 +25,13 @@ export default class Note extends Component {
     const successCallback = (snapshot) => {
       const note = snapshot.val()
 
-      if (note === null) {
-        console.error('Not able to read note: ' + this.props.match.params.noteId)
-        this.renderErrorMessage()
-      } else {
-        this.setState({
-          title: note.title,
-          body: note.body
-        })
-      }
+      this.setState({
+        title: note.title,
+        body: note.body
+      })
     }
 
-    const failureCallback = (err) => {
-      console.error(err)
-      this.renderErrorMessage()
-    }
+    const failureCallback = () => {}
 
     readNote(this.props.uid, this.props.match.params.noteId, successCallback, failureCallback)
   }
@@ -92,13 +82,14 @@ export default class Note extends Component {
           html={this.state.body}
           onChange={this.handleBodyChange}
         />}
-        {this.state.isError && <div className='error'>Note cannot be found</div>}
+        {this.props.isError && <div className='Note-error'>Note cannot be found</div>}
       </div>
     )
   }
 }
 
 Note.propTypes = {
+  isError: PropTypes.bool.isRequired,
   onTitleChange: PropTypes.func.isRequired,
   uid: PropTypes.string.isRequired,
   match: PropTypes.shape({

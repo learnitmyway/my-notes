@@ -27,56 +27,28 @@ describe('Note', () => {
     const uid = 'someUid'
     const noteId = 'someNoteId'
     const match = {params: {noteId: noteId}}
-    const wrapper = shallow(<Note onTitleChange={jest.fn()} uid={uid} match={match} />)
+    const wrapper = shallow(<Note isError={false} onTitleChange={jest.fn()} uid={uid} match={match} />)
 
     expect(wrapper.find(ContentEditable).at(0).props().html).toBe(note.title)
     expect(wrapper.find(ContentEditable).at(1).props().html).toBe(note.body)
-    expect(wrapper.find('.error').length).toBe(0)
+    expect(wrapper.find('.Note-error').length).toBe(0)
   })
 
   it('renders empty note when there is no note id in url path', () => {
     const uid = 'someUid'
     const match = {params: {}}
-    const wrapper = shallow(<Note onTitleChange={jest.fn()} uid={uid} match={match} />)
+    const wrapper = shallow(<Note isError={false} onTitleChange={jest.fn()} uid={uid} match={match} />)
 
     expect(readNote).not.toHaveBeenCalled()
     expect(wrapper.find(ContentEditable).length).toBe(0)
     expect(wrapper.find('.error').length).toBe(0)
   })
 
-  it('renders and logs error when reading note fails', () => {
-    console.error = jest.fn()
-    const err = new Error('Something bad happened')
+  it('renders error', () => {
+    const match = {params: {noteId: 'noteId'}}
+    const wrapper = shallow(<Note isError onTitleChange={jest.fn()} uid='' match={match} />)
 
-    readNote.mockImplementation((uid, noteId, successCallback, failureCallBack) => {
-      failureCallBack(err)
-    })
-
-    const match = {params: {noteId: 'non-existant'}}
-    const wrapper = shallow(<Note onTitleChange={jest.fn()} uid='' match={match} />)
-
-    expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
-  })
-
-  it('renders and logs error when there is no note', () => {
-    console.error = jest.fn()
-
-    const snapshot = {
-      val: function () {
-        return null
-      }
-    }
-    readNote.mockImplementation((uid, noteId, cb) => {
-      cb(snapshot)
-    })
-
-    const noteId = 'noteId'
-    const match = {params: {noteId}}
-    const wrapper = shallow(<Note onTitleChange={jest.fn()} uid='' match={match} />)
-
-    expect(console.error).toHaveBeenCalledWith('Not able to read note: ' + noteId)
-    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
+    expect(wrapper.find('.Note-error').text()).toBe('Note cannot be found')
   })
 
   it('reads new note when note id changes', () => {
@@ -84,7 +56,7 @@ describe('Note', () => {
     const noteId1 = 'noteId1'
     const match1 = {params: {noteId: noteId1}}
     const prevProps = {uid, match: match1}
-    const wrapper = shallow(<Note onTitleChange={jest.fn()} {...prevProps} />)
+    const wrapper = shallow(<Note isError={false} onTitleChange={jest.fn()} {...prevProps} />)
 
     const noteId2 = 'noteId2'
     const match2 = {params: {noteId: noteId2}}
@@ -96,7 +68,7 @@ describe('Note', () => {
 
   it('applies class names from props', () => {
     const match = {params: {noteId: 'id'}}
-    const wrapper = shallow(<Note classNames='forty-two' onTitleChange={jest.fn()} uid='uid' match={match} />)
+    const wrapper = shallow(<Note isError={false} classNames='forty-two' onTitleChange={jest.fn()} uid='uid' match={match} />)
 
     expect(wrapper.find('.forty-two').length).toBe(1)
   })
@@ -120,7 +92,7 @@ describe('Note', () => {
     const uid = 'uid'
     const noteId = 'noteId'
     const match = {params: {noteId}}
-    const wrapper = shallow(<Note onTitleChange={handleTitleChange} uid={uid} match={match} />)
+    const wrapper = shallow(<Note isError={false} onTitleChange={handleTitleChange} uid={uid} match={match} />)
 
     const newTitle = 'new title'
     wrapper.find(ContentEditable).at(0).prop('onChange')({target: {value: newTitle}})
@@ -153,7 +125,7 @@ describe('Note', () => {
     const uid = 'uid'
     const noteId = 'noteId'
     const match = {params: {noteId}}
-    const wrapper = shallow(<Note onTitleChange={jest.fn()} uid={uid} match={match} />)
+    const wrapper = shallow(<Note isError={false} onTitleChange={jest.fn()} uid={uid} match={match} />)
 
     const newBody = 'new body'
     wrapper.find(ContentEditable).at(1).prop('onChange')({target: {value: newBody}})
