@@ -57,6 +57,12 @@ export default class Container extends React.Component {
     updateNote(this.props.uid, this.props.match.params.noteId, title, this.state.note.body)
   }
 
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
+      this.readNote()
+    }
+  }
+
   componentDidMount () {
     if (this.props.match.params && this.props.match.params.noteId) {
       this.readNote()

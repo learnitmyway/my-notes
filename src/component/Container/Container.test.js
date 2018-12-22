@@ -54,6 +54,21 @@ describe('Container', () => {
     expect(wrapper.find(Note).props().match).toBe(match)
   })
 
+  it('reads new note when note id changes', () => {
+    const uid = 'someUid'
+    const noteId1 = 'noteId1'
+    const match1 = {params: {noteId: noteId1}}
+    const prevProps = {uid, match: match1}
+    const wrapper = shallow(<Container {...prevProps} />)
+
+    const noteId2 = 'noteId2'
+    const match2 = {params: {noteId: noteId2}}
+    const props = {uid, match: match2}
+    wrapper.setProps(props)
+
+    expect(readNote).toHaveBeenCalledWith(uid, noteId2, expect.any(Function), expect.any(Function))
+  })
+
   it('logs error and passes it as prop when there is no note', () => {
     console.error = jest.fn()
 
