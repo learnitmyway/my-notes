@@ -13,7 +13,8 @@ export default class Container extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentNote: null
+      currentNote: null,
+      isError: false
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
@@ -22,7 +23,13 @@ export default class Container extends React.Component {
   readNote () {
     const successCallback = (snapshot) => {
       const note = snapshot.val()
-      this.setState({note})
+
+      if (note === null) {
+        console.error('Not able to read note: ' + this.props.match.params.noteId)
+        this.setState({isError: true})
+      } else {
+        this.setState({note})
+      }
     }
 
     readNote(this.props.uid, this.props.match.params.noteId, successCallback)
@@ -43,12 +50,12 @@ export default class Container extends React.Component {
     const largerScreenContainer = (
       <div className='Container Container--not-small'>
         <Main classNames='Main--not-small' currentNote={currentNote} uid={this.props.uid} match={this.props.match} />
-        <Note classNames='Note--not-small' note={this.state.note} onTitleChange={this.handleTitleChange} {...this.props} />
+        <Note classNames='Note--not-small' isError={this.state.isError} note={this.state.note} onTitleChange={this.handleTitleChange} {...this.props} />
       </div>
     )
     return (
       window.innerWidth < deviceWidths.small
-        ? <Note note={this.state.note} onTitleChange={() => {}} {...this.props} />
+        ? <Note isError={this.state.isError} note={this.state.note} onTitleChange={() => {}} {...this.props} />
         : largerScreenContainer
     )
   }
