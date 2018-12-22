@@ -70,17 +70,16 @@ export default class Container extends React.Component {
   }
 
   render () {
+    const small = window.innerWidth < deviceWidths.small
     const currentNote = this.state.note ? {id: this.props.match.params.noteId, ...this.state.note} : {}
-    const largerScreenContainer = (
-      <div className='Container Container--not-small'>
-        <Main classNames='Main--not-small' currentNote={currentNote} uid={this.props.uid} match={this.props.match} />
-        <Note classNames='Note--not-small' isError={this.state.isError} note={this.state.note} onBodyChange={this.handleBodyChange} onTitleChange={this.handleTitleChange} {...this.props} />
-      </div>
-    )
+    const containerClasses = small ? 'Container' : 'Container Container--not-small'
+    const noteClasses = small ? undefined : 'Note--not-small'
+
     return (
-      window.innerWidth < deviceWidths.small
-        ? <Note isError={this.state.isError} note={this.state.note} onBodyChange={this.handleBodyChange} onTitleChange={() => {}} {...this.props} />
-        : largerScreenContainer
+      <div className={containerClasses}>
+        {small ? null : <Main classNames='Main--not-small' currentNote={currentNote} uid={this.props.uid} match={this.props.match} />}
+        <Note classNames={noteClasses} isError={this.state.isError} note={this.state.note} onBodyChange={this.handleBodyChange} onTitleChange={this.handleTitleChange} />
+      </div>
     )
   }
 }
