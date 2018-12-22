@@ -32,7 +32,7 @@ class App extends Component {
 
   renderRootPath (props) {
     return window.innerWidth < deviceWidths.small
-      ? <Main uid={this.state.uid} />
+      ? <Main uid={this.state.uid} currentNote={{}} />
       : <Container {...props} uid={this.state.uid} />
   }
 
