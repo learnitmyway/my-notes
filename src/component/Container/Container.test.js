@@ -104,6 +104,14 @@ describe('Container', () => {
     expect(wrapper.find(Note).props().isError).toBe(true)
   })
 
+  it('does not read note when there is not note id', () => {
+    const match = {params: {}}
+    const wrapper = shallow(<Container uid='uid' match={match} />)
+
+    expect(readNote).not.toHaveBeenCalled()
+    expect(wrapper.find(Note).props().isError).toBe(false)
+  })
+
   it('updates note title on change', () => {
     const body = 'body'
     const note = {
