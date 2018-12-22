@@ -13,6 +13,7 @@ describe('Note', () => {
   const initialProps = {
     isError: false,
     match: {params: {noteId: 'noteId'}},
+    note: {title: 'title', body: 'body'},
     onTitleChange: jest.fn(),
     onBodyChange: jest.fn(),
     uid: 'uid'

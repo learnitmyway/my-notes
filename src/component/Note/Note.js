@@ -85,6 +85,10 @@ export default class Note extends Component {
 
 Note.propTypes = {
   isError: PropTypes.bool.isRequired,
+  note: PropTypes.shape({
+    title: PropTypes.string,
+    body: PropTypes.string
+  }).isRequired,
   onBodyChange: PropTypes.func.isRequired,
   onTitleChange: PropTypes.func.isRequired,
   uid: PropTypes.string.isRequired,

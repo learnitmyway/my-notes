@@ -13,7 +13,7 @@ export default class Container extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      note: null,
+      note: {},
       isError: false
     }
 
