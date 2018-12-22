@@ -32,7 +32,12 @@ export default class Container extends React.Component {
       }
     }
 
-    readNote(this.props.uid, this.props.match.params.noteId, successCallback)
+    const failureCallback = (err) => {
+      console.error(err)
+      this.setState({isError: true})
+    }
+
+    readNote(this.props.uid, this.props.match.params.noteId, successCallback, failureCallback)
   }
 
   handleTitleChange (currentNote) {

@@ -69,6 +69,21 @@ describe('Container', () => {
     expect(wrapper.find(Note).props().isError).toBe(true)
   })
 
+  it('logs error and passes it as prop when reading note fails (eg. user is not authenticated)', () => {
+    console.error = jest.fn()
+    const err = new Error('Something bad happened')
+
+    readNote.mockImplementation((uid, noteId, successCallback, failureCallBack) => {
+      failureCallBack(err)
+    })
+
+    const match = {params: {noteId: 'non-existant'}}
+    const wrapper = shallow(<Container uid='uid' match={match} />)
+
+    expect(console.error).toHaveBeenCalledWith(err)
+    expect(wrapper.find(Note).props().isError).toBe(true)
+  })
+
   it('passes current note as prop on note title change', () => {
     const noteId = 'noteId'
     const match = {params: {noteId}}
