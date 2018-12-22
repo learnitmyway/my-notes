@@ -11,7 +11,12 @@ import { readNote, updateNote } from '../../service/noteService/noteService'
 jest.mock('../../service/noteService/noteService')
 
 describe('Container', () => {
+  beforeEach(() => {
+    window.innerWidth = 600
+  })
+
   it('renders note component', () => {
+    window.innerWidth = 599
     const match = {params: {noteId: 'some note id'}}
     const wrapper = shallow(<Container uid='some uid' match={match} />)
     expect(wrapper.find(Note).length).toBe(1)
