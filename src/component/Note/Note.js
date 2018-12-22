@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ContentEditable from 'react-contenteditable'
 
-import { readNote, updateNote } from '../../service/noteService/noteService'
+import { readNote } from '../../service/noteService/noteService'
 
 import './Note.css'
 
@@ -43,7 +43,7 @@ export default class Note extends Component {
 
   handleBodyChange (e) {
     this.setState({body: e.target.value})
-    updateNote(this.props.uid, this.props.match.params.noteId, this.state.title, e.target.value)
+    this.props.onBodyChange(e.target.value)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
@@ -85,6 +85,7 @@ export default class Note extends Component {
 
 Note.propTypes = {
   isError: PropTypes.bool.isRequired,
+  onBodyChange: PropTypes.func.isRequired,
   onTitleChange: PropTypes.func.isRequired,
   uid: PropTypes.string.isRequired,
   match: PropTypes.shape({
