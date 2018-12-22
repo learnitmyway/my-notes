@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import ContentEditable from 'react-contenteditable'
 
 import Note from './Note'
-import { readNote, updateNote } from '../../service/noteService/noteService'
+import { readNote } from '../../service/noteService/noteService'
 
 jest.mock('../../service/noteService/noteService')
 
