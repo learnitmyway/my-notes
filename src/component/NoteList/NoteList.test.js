@@ -31,7 +31,7 @@ describe('NoteList', () => {
     })
 
     const uid = 'uid'
-    const wrapper = shallow(<NoteList currentNote={{}} uid={uid} />)
+    const wrapper = shallow(<NoteList uid={uid} />)
 
     expect(readAllNotes).toHaveBeenCalledWith(uid, expect.any(Function), expect.any(Function))
     expect(wrapper.find(NoteListItem).length).toBe(3)
@@ -77,7 +77,7 @@ describe('NoteList', () => {
       failureCallBack(err)
     })
 
-    const wrapper = shallow(<NoteList currentNote={{}} uid='' />)
+    const wrapper = shallow(<NoteList uid='' />)
 
     expect(console.error).toHaveBeenCalledWith(err)
     expect(wrapper.find('.NoteList-error').text()).toBe('Notes cannot be found')
@@ -100,7 +100,7 @@ describe('NoteList', () => {
     })
 
     const match = {params: {noteId: selectedNoteId}}
-    const wrapper = shallow(<NoteList currentNote={{}} uid='uid' match={match} />)
+    const wrapper = shallow(<NoteList uid='uid' match={match} />)
 
     expect(wrapper.find(NoteListItem).at(0).props().isSelected).toBe(false)
     expect(wrapper.find(NoteListItem).at(1).props().isSelected).toBe(true)

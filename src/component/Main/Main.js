@@ -22,14 +22,14 @@ export default function Main (props) {
 
 Main.propTypes = {
   classNames: PropTypes.string,
+  currentNote: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string
+  }),
   match: PropTypes.shape({
     params: PropTypes.shape({
       noteId: PropTypes.string
     })
   }),
-  currentNote: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string
-  }).isRequired,
   uid: PropTypes.string.isRequired
 }

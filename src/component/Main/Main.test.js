@@ -9,7 +9,7 @@ import NoteList from '../NoteList/NoteList'
 
 describe('Main', () => {
   it('renders create-note component', () => {
-    const wrapper = shallow(<Main currentNote={{}} uid='uid' />)
+    const wrapper = shallow(<Main uid='uid' />)
 
     expect(wrapper.find(CreateNote).length).toBe(1)
   })
@@ -25,7 +25,7 @@ describe('Main', () => {
   })
 
   it('applies class names from props', () => {
-    const wrapper = shallow(<Main classNames='forty-two' currentNote={{}} uid='uid' />)
+    const wrapper = shallow(<Main classNames='forty-two' uid='uid' />)
 
     expect(wrapper.find('.forty-two').length).toBe(1)
   })
