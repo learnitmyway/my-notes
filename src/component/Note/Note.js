@@ -53,12 +53,12 @@ export default class Note extends Component {
       title: e.target.value
     }
     this.props.onTitleChange(currentNote)
-    updateNote(this.props.uid, this.props.match.params.noteId, e.target.value, this.state.body)
+    updateNote(this.props.uid, this.props.match.params.noteId, {title: e.target.value, body: this.state.body})
   }
 
   handleBodyChange (e) {
     this.setState({body: e.target.value})
-    updateNote(this.props.uid, this.props.match.params.noteId, this.state.title, e.target.value)
+    updateNote(this.props.uid, this.props.match.params.noteId, {title: this.state.title, body: e.target.value})
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {

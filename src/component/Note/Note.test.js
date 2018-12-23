@@ -131,7 +131,7 @@ describe('Note', () => {
     }
 
     expect(wrapper.find(ContentEditable).at(0).props().html).toBe(newTitle)
-    expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, {title: newTitle, body})
     expect(handleTitleChange).toHaveBeenCalledWith(expectedCurrentNote)
   })
 
@@ -159,6 +159,6 @@ describe('Note', () => {
     wrapper.find(ContentEditable).at(1).prop('onChange')({target: {value: newBody}})
 
     expect(wrapper.find(ContentEditable).at(1).props().html).toBe(newBody)
-    expect(updateNote).toHaveBeenCalledWith(uid, noteId, title, newBody)
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, {title, body: newBody})
   })
 })

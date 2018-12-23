@@ -123,9 +123,8 @@ describe('noteService', () => {
     const noteId = 'noteId'
     const title = 'An awesome title'
     const body = 'An awesome body'
-    updateNote(uid, noteId, title, body)
-
     const updatedNote = {title, body}
+    updateNote(uid, noteId, updatedNote)
 
     expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
     expect(update).toHaveBeenCalledWith(updatedNote)
