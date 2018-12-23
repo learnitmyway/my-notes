@@ -44,7 +44,7 @@ describe('Note', () => {
     expect(wrapper.find('.error').length).toBe(0)
   })
 
-  it('renders and logs error when reading note fails', () => {
+  it('renders and logs error when reading note fails (eg. user is not authenticated)', () => {
     console.error = jest.fn()
     const err = new Error('Something bad happened')
 
