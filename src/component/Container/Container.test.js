@@ -8,27 +8,67 @@ import Note from '../Note/Note'
 import Main from '../Main/Main'
 
 describe('Container', () => {
-  it('renders note component', () => {
-    const match = {params: {noteId: 'some note id'}}
-    const wrapper = shallow(<Container uid='some uid' match={match} />)
-    expect(wrapper.find(Note).length).toBe(1)
+  const initialProps = {
+    uid: 'uid',
+    match: {params: {noteId: 'noteId'}}
+  }
+
+  describe('for small devices', () => {
+    beforeEach(() => {
+      window.innerWidth = 599
+    })
+
+    it('renders', () => {
+      const wrapper = shallow(<Container {...initialProps} />)
+      expect(wrapper.props().className).toBe('Container')
+    })
+
+    it('renders note component', () => {
+      const uid = 'uid'
+      const match = {params: {noteId: 'note id'}}
+      const wrapper = shallow(<Container uid={uid} match={match} />)
+
+      const noteProps = wrapper.find(Note).props()
+
+      expect(noteProps.classNames).toBe(undefined)
+      expect(noteProps.match).toBe(match)
+      expect(noteProps.uid).toBe(uid)
+
+      expect(wrapper.find(Main).length).toBe(0)
+    })
   })
 
-  it('renders main and note components for larger screen widths', () => {
-    window.innerWidth = 600
-    const match = {params: {noteId: 'some note id'}}
-    const wrapper = shallow(<Container uid='some uid' match={match} />)
+  describe('for large devices', () => {
+    beforeEach(() => {
+      window.innerWidth = 600
+    })
 
-    const mainComponentProps = wrapper.find(Main).props()
-    expect(mainComponentProps.classNames).toBe('Main--not-small')
-    expect(mainComponentProps.match).toBe(match)
-    expect(wrapper.find(Note).props().classNames).toBe('Note--not-small')
+    it('renders', () => {
+      const wrapper = shallow(<Container {...initialProps} />)
+      expect(wrapper.props().className).toBe('Container Container--not-small')
+    })
+
+    it('renders main and note components', () => {
+      const uid = 'uid'
+      const match = {params: {noteId: 'note id'}}
+      const wrapper = shallow(<Container uid={uid} match={match} />)
+
+      const mainProps = wrapper.find(Main).props()
+      expect(mainProps.classNames).toBe('Main--not-small')
+      expect(mainProps.match).toBe(match)
+      expect(mainProps.uid).toBe(uid)
+
+      const noteProps = wrapper.find(Note).props()
+      expect(noteProps.classNames).toBe('Note--not-small')
+      expect(noteProps.match).toBe(match)
+      expect(noteProps.uid).toBe(uid)
+    })
   })
 
   it('passes current note as prop on note title change', () => {
     const noteId = 'noteId'
     const match = {params: {noteId}}
-    const wrapper = shallow(<Container uid='some uid' match={match} />)
+    const wrapper = shallow(<Container uid='uid' match={match} />)
 
     const newTitle = 'new title'
     const currentNote = {id: noteId, title: newTitle}
