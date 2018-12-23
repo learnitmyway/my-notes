@@ -12,7 +12,7 @@ export default class Container extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentNote: null
+      currentNote: {id: null, title: null}
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
