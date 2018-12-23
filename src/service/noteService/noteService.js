@@ -20,9 +20,9 @@ export function readAllNotes (uid, successCallback, failureCallback) {
   noteRef.once('value', successCallback, failureCallback)
 }
 
-export function updateNote (uid, noteId, note) {
+export function updateNote (uid, noteId, title, body) {
   const noteRef = getNoteRef(uid, noteId)
-  noteRef.update(note)
+  noteRef.update({title, body})
 }
 
 function getNoteRef (uid, noteId) {
