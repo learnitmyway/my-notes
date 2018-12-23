@@ -92,7 +92,7 @@ export default class Note extends Component {
           html={this.state.body}
           onChange={this.handleBodyChange}
         />}
-        {this.state.isError && <div className='error'>Note cannot be found</div>}
+        {this.state.isError && <div className='Note-error'>Note cannot be found</div>}
       </div>
     )
   }

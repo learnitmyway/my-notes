@@ -31,7 +31,7 @@ describe('Note', () => {
 
     expect(wrapper.find(ContentEditable).at(0).props().html).toBe(note.title)
     expect(wrapper.find(ContentEditable).at(1).props().html).toBe(note.body)
-    expect(wrapper.find('.error').length).toBe(0)
+    expect(wrapper.find('.Note-error').length).toBe(0)
   })
 
   it('renders empty note when there is no note id in url path', () => {
@@ -41,7 +41,7 @@ describe('Note', () => {
 
     expect(readNote).not.toHaveBeenCalled()
     expect(wrapper.find(ContentEditable).length).toBe(0)
-    expect(wrapper.find('.error').length).toBe(0)
+    expect(wrapper.find('.Note-error').length).toBe(0)
   })
 
   it('renders and logs error when reading note fails (eg. user is not authenticated)', () => {
@@ -56,7 +56,7 @@ describe('Note', () => {
     const wrapper = shallow(<Note onTitleChange={jest.fn()} uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
+    expect(wrapper.find('.Note-error').text()).toBe('Note cannot be found')
   })
 
   it('renders and logs error when there is no note', () => {
@@ -76,7 +76,7 @@ describe('Note', () => {
     const wrapper = shallow(<Note onTitleChange={jest.fn()} uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith('Not able to read note: ' + noteId)
-    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
+    expect(wrapper.find('.Note-error').text()).toBe('Note cannot be found')
   })
 
   it('reads new note when note id changes', () => {
