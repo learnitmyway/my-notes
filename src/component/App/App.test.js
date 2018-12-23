@@ -60,7 +60,7 @@ describe('App', () => {
     const uid = 'uid'
     wrapper.setState({uid})
 
-    expect(wrapper.find('Route[path="/"]').at(0).props().render()).toEqual(<Main uid={uid} />)
+    expect(wrapper.find('Route[path="/"]').at(0).props().render()).toEqual(<Main uid={uid} currentNote={{}} />)
   })
 
   it('renders container component for larger devices at root path', () => {
