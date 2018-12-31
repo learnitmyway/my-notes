@@ -31,7 +31,7 @@
     "eject": "react-scripts eject",
     "standard": "npx standard",
     "deploy:firebase": "npx firebase deploy --project $REACT_APP_PROJECT_ID --non-interactive --token $FIREBASE_TOKEN",
-    "deploy:netlify": "npm run test:ci && npm run build && npm run deploy:firebase"
+    "deploy:netlify": "npx standard && npm run test:ci && npm run build && npm run deploy:firebase"
   },
   "browserslist": [
     ">0.2%",
