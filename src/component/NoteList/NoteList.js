@@ -9,11 +9,11 @@ import './NoteList.css'
 export default class NoteList extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {isError: false}
+    this.state = { isError: false }
   }
 
   renderErrorMessage () {
-    this.setState({isError: true})
+    this.setState({ isError: true })
   }
 
   componentDidMount () {

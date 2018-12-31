@@ -26,7 +26,7 @@ describe('Note', () => {
 
     const uid = 'someUid'
     const noteId = 'someNoteId'
-    const match = {params: {noteId: noteId}}
+    const match = { params: { noteId: noteId } }
     const wrapper = shallow(<Note onTitleChange={jest.fn()} uid={uid} match={match} />)
 
     expect(wrapper.find(ContentEditable).at(0).props().html).toBe(note.title)
@@ -36,7 +36,7 @@ describe('Note', () => {
 
   it('renders empty note when there is no note id in url path', () => {
     const uid = 'someUid'
-    const match = {params: {}}
+    const match = { params: {} }
     const wrapper = shallow(<Note onTitleChange={jest.fn()} uid={uid} match={match} />)
 
     expect(readNote).not.toHaveBeenCalled()
@@ -52,7 +52,7 @@ describe('Note', () => {
       failureCallBack(err)
     })
 
-    const match = {params: {noteId: 'non-existant'}}
+    const match = { params: { noteId: 'non-existant' } }
     const wrapper = shallow(<Note onTitleChange={jest.fn()} uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith(err)
@@ -72,7 +72,7 @@ describe('Note', () => {
     })
 
     const noteId = 'noteId'
-    const match = {params: {noteId}}
+    const match = { params: { noteId } }
     const wrapper = shallow(<Note onTitleChange={jest.fn()} uid='' match={match} />)
 
     expect(console.error).toHaveBeenCalledWith('Not able to read note: ' + noteId)
@@ -82,20 +82,20 @@ describe('Note', () => {
   it('reads new note when note id changes', () => {
     const uid = 'someUid'
     const noteId1 = 'noteId1'
-    const match1 = {params: {noteId: noteId1}}
-    const prevProps = {uid, match: match1}
+    const match1 = { params: { noteId: noteId1 } }
+    const prevProps = { uid, match: match1 }
     const wrapper = shallow(<Note onTitleChange={jest.fn()} {...prevProps} />)
 
     const noteId2 = 'noteId2'
-    const match2 = {params: {noteId: noteId2}}
-    const props = {uid, match: match2}
+    const match2 = { params: { noteId: noteId2 } }
+    const props = { uid, match: match2 }
     wrapper.setProps(props)
 
     expect(readNote).toHaveBeenCalledWith(uid, noteId2, expect.any(Function), expect.any(Function))
   })
 
   it('applies class names from props', () => {
-    const match = {params: {noteId: 'id'}}
+    const match = { params: { noteId: 'id' } }
     const wrapper = shallow(<Note classNames='forty-two' onTitleChange={jest.fn()} uid='uid' match={match} />)
 
     expect(wrapper.find('.forty-two').length).toBe(1)
@@ -119,11 +119,11 @@ describe('Note', () => {
     const handleTitleChange = jest.fn()
     const uid = 'uid'
     const noteId = 'noteId'
-    const match = {params: {noteId}}
+    const match = { params: { noteId } }
     const wrapper = shallow(<Note onTitleChange={handleTitleChange} uid={uid} match={match} />)
 
     const newTitle = 'new title'
-    wrapper.find(ContentEditable).at(0).prop('onChange')({target: {value: newTitle}})
+    wrapper.find(ContentEditable).at(0).prop('onChange')({ target: { value: newTitle } })
 
     const expectedCurrentNote = {
       id: noteId,
@@ -152,11 +152,11 @@ describe('Note', () => {
 
     const uid = 'uid'
     const noteId = 'noteId'
-    const match = {params: {noteId}}
+    const match = { params: { noteId } }
     const wrapper = shallow(<Note onTitleChange={jest.fn()} uid={uid} match={match} />)
 
     const newBody = 'new body'
-    wrapper.find(ContentEditable).at(1).prop('onChange')({target: {value: newBody}})
+    wrapper.find(ContentEditable).at(1).prop('onChange')({ target: { value: newBody } })
 
     expect(wrapper.find(ContentEditable).at(1).props().html).toBe(newBody)
     expect(updateNote).toHaveBeenCalledWith(uid, noteId, title, newBody)

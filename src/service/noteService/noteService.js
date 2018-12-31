@@ -22,7 +22,7 @@ export function readAllNotes (uid, successCallback, failureCallback) {
 
 export function updateNote (uid, noteId, title, body) {
   const noteRef = getNoteRef(uid, noteId)
-  noteRef.update({title, body})
+  noteRef.update({ title, body })
 }
 
 function getNoteRef (uid, noteId) {

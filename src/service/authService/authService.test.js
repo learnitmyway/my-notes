@@ -6,7 +6,7 @@ import { signInAnonymously } from './authService'
 
 describe('authService', () => {
   it('signs in anonymously', async () => {
-    const userCredential = {uid: 'some uid'}
+    const userCredential = { uid: 'some uid' }
     const signInAnonymouslyMock = jest.fn(() => Promise.resolve(userCredential))
     jest.spyOn(firebase, 'auth').mockImplementation(() => {
       return {

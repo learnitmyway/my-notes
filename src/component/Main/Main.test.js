@@ -15,8 +15,8 @@ describe('Main', () => {
   })
 
   it('renders note list', () => {
-    const currentNote = {id: 'id', title: 'title'}
-    const match = {something: 'something'}
+    const currentNote = { id: 'id', title: 'title' }
+    const match = { something: 'something' }
     const wrapper = shallow(<Main currentNote={currentNote} uid='uid' match={match} />)
 
     expect(wrapper.find(NoteList).length).toBe(1)

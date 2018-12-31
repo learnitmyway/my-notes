@@ -99,7 +99,7 @@ describe('NoteList', () => {
       cb(snapshot)
     })
 
-    const match = {params: {noteId: selectedNoteId}}
+    const match = { params: { noteId: selectedNoteId } }
     const wrapper = shallow(<NoteList uid='uid' match={match} />)
 
     expect(wrapper.find(NoteListItem).at(0).props().isSelected).toBe(false)

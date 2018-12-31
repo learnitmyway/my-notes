@@ -47,7 +47,7 @@ export default class Note extends Component {
   }
 
   handleTitleChange (e) {
-    this.setState({title: e.target.value})
+    this.setState({ title: e.target.value })
     const currentNote = {
       id: this.props.match.params.noteId,
       title: e.target.value
@@ -57,7 +57,7 @@ export default class Note extends Component {
   }
 
   handleBodyChange (e) {
-    this.setState({body: e.target.value})
+    this.setState({ body: e.target.value })
     updateNote(this.props.uid, this.props.match.params.noteId, this.state.title, e.target.value)
   }
 

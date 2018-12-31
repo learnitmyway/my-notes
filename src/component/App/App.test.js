@@ -48,7 +48,7 @@ describe('App', () => {
     signInAnonymously.mockReturnValue(Promise.resolve())
 
     const wrapper = shallow(<App />)
-    wrapper.setState({uid: null})
+    wrapper.setState({ uid: null })
 
     expect(wrapper.find('.App').props().children).toBeNull()
   })
@@ -58,7 +58,7 @@ describe('App', () => {
 
     const wrapper = shallow(<App />)
     const uid = 'uid'
-    wrapper.setState({uid})
+    wrapper.setState({ uid })
 
     expect(wrapper.find('Route[path="/"]').at(0).props().render()).toEqual(<Main uid={uid} />)
   })
@@ -69,9 +69,9 @@ describe('App', () => {
 
     const wrapper = shallow(<App />)
     const uid = 'uid'
-    wrapper.setState({uid})
+    wrapper.setState({ uid })
 
-    const props = {something: 'something'}
+    const props = { something: 'something' }
 
     expect(wrapper.find('Route[path="/"]').at(0).props().render(props)).toEqual(<Container {...props} uid={uid} />)
   })
@@ -81,9 +81,9 @@ describe('App', () => {
 
     const wrapper = shallow(<App />)
     const uid = 'uid'
-    wrapper.setState({uid})
+    wrapper.setState({ uid })
 
-    const props = {something: 'something'}
+    const props = { something: 'something' }
 
     expect(wrapper.find('Route[path="/:noteId"]').at(0).props().render(props)).toEqual(<Container {...props} uid={uid} />)
   })

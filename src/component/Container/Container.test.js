@@ -10,7 +10,7 @@ import Main from '../Main/Main'
 describe('Container', () => {
   const initialProps = {
     uid: 'uid',
-    match: {params: {noteId: 'noteId'}}
+    match: { params: { noteId: 'noteId' } }
   }
 
   describe('for small devices', () => {
@@ -25,7 +25,7 @@ describe('Container', () => {
 
     it('renders note component', () => {
       const uid = 'uid'
-      const match = {params: {noteId: 'note id'}}
+      const match = { params: { noteId: 'note id' } }
       const wrapper = shallow(<Container uid={uid} match={match} />)
 
       const noteProps = wrapper.find(Note).props()
@@ -50,7 +50,7 @@ describe('Container', () => {
 
     it('renders main and note components', () => {
       const uid = 'uid'
-      const match = {params: {noteId: 'note id'}}
+      const match = { params: { noteId: 'note id' } }
       const wrapper = shallow(<Container uid={uid} match={match} />)
 
       const mainProps = wrapper.find(Main).props()
@@ -67,11 +67,11 @@ describe('Container', () => {
 
   it('passes current note as prop on note title change', () => {
     const noteId = 'noteId'
-    const match = {params: {noteId}}
+    const match = { params: { noteId } }
     const wrapper = shallow(<Container uid='uid' match={match} />)
 
     const newTitle = 'new title'
-    const currentNote = {id: noteId, title: newTitle}
+    const currentNote = { id: noteId, title: newTitle }
     wrapper.find(Note).props().onTitleChange(currentNote)
 
     expect(wrapper.find(Main).props().currentNote).toBe(currentNote)
