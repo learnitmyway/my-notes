@@ -3,7 +3,7 @@
 ## Local development
 
 ### Set up
-* Set env variables
+* Replace .env.temp with .env
 * Run `npm install`
 
 ### Run
