@@ -7,17 +7,17 @@ import { readAllNotes } from '../../service/noteService/noteService'
 import './NoteList.css'
 
 export default class NoteList extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { isError: false }
   }
 
-  renderErrorMessage () {
+  renderErrorMessage() {
     this.setState({ isError: true })
   }
 
-  componentDidMount () {
-    const successCallback = (snapshot) => {
+  componentDidMount() {
+    const successCallback = snapshot => {
       const notes = snapshot.val()
 
       this.setState({
@@ -25,7 +25,7 @@ export default class NoteList extends React.Component {
       })
     }
 
-    const failureCallback = (err) => {
+    const failureCallback = err => {
       console.error(err)
       this.renderErrorMessage()
     }
@@ -33,21 +33,31 @@ export default class NoteList extends React.Component {
     readAllNotes(this.props.uid, successCallback, failureCallback)
   }
 
-  render () {
+  render() {
     const noteIdInUrl = this.props.match && this.props.match.params.noteId
     const currentNoteId = this.props.currentNote && this.props.currentNote.id
-    const currentNoteTitle = this.props.currentNote && this.props.currentNote.title
+    const currentNoteTitle =
+      this.props.currentNote && this.props.currentNote.title
     return (
-      <div className='NoteList'>
+      <div className="NoteList">
         {this.state.notes &&
           Object.entries(this.state.notes).map(noteEntry => {
             const noteId = noteEntry[0]
-            const noteTitle = noteId === currentNoteId ? currentNoteTitle : noteEntry[1].title
+            const noteTitle =
+              noteId === currentNoteId ? currentNoteTitle : noteEntry[1].title
             const isSelected = !!(noteIdInUrl && noteId === noteIdInUrl)
-            return <NoteListItem key={noteId} title={noteTitle} noteId={noteId} isSelected={isSelected} />
-          })
-        }
-        {this.state.isError && <div className='NoteList-error'>Notes cannot be found</div>}
+            return (
+              <NoteListItem
+                key={noteId}
+                title={noteTitle}
+                noteId={noteId}
+                isSelected={isSelected}
+              />
+            )
+          })}
+        {this.state.isError && (
+          <div className="NoteList-error">Notes cannot be found</div>
+        )}
       </div>
     )
   }

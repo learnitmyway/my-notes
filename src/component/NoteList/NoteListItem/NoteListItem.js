@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import './NoteListItem.css'
 
-export default function NoteListItem (props) {
+export default function NoteListItem(props) {
   let classNames = 'NoteListItem '
   if (props.isSelected) {
     classNames += 'NoteListItem--selected'
@@ -12,7 +12,7 @@ export default function NoteListItem (props) {
 
   return (
     <Link className={classNames} to={'/' + props.noteId}>
-      <div className='NoteListItem-title'>{props.title}</div>
+      <div className="NoteListItem-title">{props.title}</div>
     </Link>
   )
 }

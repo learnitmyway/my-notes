@@ -8,14 +8,14 @@ import { signInAnonymously } from '../../service/authService/authService'
 import deviceWidths from '../../deviceWidths'
 
 class App extends Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {}
 
     this.renderRootPath = this.renderRootPath.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     signInAnonymously()
       .then(userCredentials => {
         this.setState({
@@ -24,24 +24,31 @@ class App extends Component {
       })
       .catch(err => {
         console.error(err)
-        window.alert('Something went wrong. Please refresh the page and try again.')
+        window.alert(
+          'Something went wrong. Please refresh the page and try again.'
+        )
       })
   }
 
-  renderRootPath (props) {
-    return window.innerWidth < deviceWidths.small
-      ? <Main uid={this.state.uid} />
-      : <Container {...props} uid={this.state.uid} />
+  renderRootPath(props) {
+    return window.innerWidth < deviceWidths.small ? (
+      <Main uid={this.state.uid} />
+    ) : (
+      <Container {...props} uid={this.state.uid} />
+    )
   }
 
-  render () {
-    return (
-      this.state.uid
-        ? <>
-          <Route exact path='/' render={this.renderRootPath} />
-          <Route exact path='/:noteId' render={(props) => <Container {...props} uid={this.state.uid} />} />
-        </> : null
-    )
+  render() {
+    return this.state.uid ? (
+      <>
+        <Route exact path="/" render={this.renderRootPath} />
+        <Route
+          exact
+          path="/:noteId"
+          render={props => <Container {...props} uid={this.state.uid} />}
+        />
+      </>
+    ) : null
   }
 }
 

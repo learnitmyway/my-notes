@@ -6,7 +6,7 @@ import NoteList from '../NoteList/NoteList'
 
 import './Main.css'
 
-export default function Main (props) {
+export default function Main(props) {
   let classNames = 'Main '
   if (props.classNames) {
     classNames += props.classNames
@@ -15,7 +15,11 @@ export default function Main (props) {
   return (
     <div className={classNames}>
       <CreateNote uid={props.uid} />
-      <NoteList uid={props.uid} match={props.match} currentNote={props.currentNote} />
+      <NoteList
+        uid={props.uid}
+        match={props.match}
+        currentNote={props.currentNote}
+      />
     </div>
   )
 }
