@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import 'jest-styled-components'
 
 import Main from './Main'
 import CreateNote from '../CreateNote/CreateNote'
