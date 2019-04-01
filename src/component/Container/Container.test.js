@@ -54,7 +54,7 @@ describe('Container', () => {
       const wrapper = shallow(<Container uid={uid} match={match} />)
 
       const mainProps = wrapper.find(Main).props()
-      expect(mainProps.classNames).toBe('Main--not-small')
+      expect(mainProps.notSmall).toBe(true)
       expect(mainProps.match).toBe(match)
       expect(mainProps.uid).toBe(uid)
 

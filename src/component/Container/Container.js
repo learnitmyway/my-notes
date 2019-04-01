@@ -29,7 +29,7 @@ export default class Container extends React.Component {
 
     return (
       <div className={containerClasses}>
-        {small ? null : <Main classNames='Main--not-small' currentNote={this.state.currentNote} uid={this.props.uid} match={this.props.match} />}
+        {small ? null : <Main notSmall currentNote={this.state.currentNote} uid={this.props.uid} match={this.props.match} />}
         <Note classNames={noteClasses} onTitleChange={this.handleTitleChange} uid={this.props.uid} match={this.props.match} />
       </div>
     )

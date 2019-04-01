@@ -1,27 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled, {css} from 'styled-components'
 
 import CreateNote from '../CreateNote/CreateNote'
 import NoteList from '../NoteList/NoteList'
 
-import './Main.css'
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f4;
+  height: 100%
+
+  ${props => props.notSmall && css`
+    flex: 1;
+  `}
+`
 
 export default function Main (props) {
-  let classNames = 'Main '
-  if (props.classNames) {
-    classNames += props.classNames
-  }
-
   return (
-    <div className={classNames}>
+    <Wrapper {...props}>
       <CreateNote uid={props.uid} />
       <NoteList uid={props.uid} match={props.match} currentNote={props.currentNote} />
-    </div>
+    </Wrapper>
   )
 }
 
 Main.propTypes = {
-  classNames: PropTypes.string,
   currentNote: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string
@@ -31,5 +35,6 @@ Main.propTypes = {
       noteId: PropTypes.string
     })
   }),
+  notSmall: PropTypes.bool.isRequired,
   uid: PropTypes.string.isRequired
 }
