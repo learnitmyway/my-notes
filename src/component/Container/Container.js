@@ -9,7 +9,7 @@ import deviceWidths from '../../deviceWidths'
 import './Container.css'
 
 export default class Container extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       currentNote: { id: null, title: null }
@@ -18,19 +18,33 @@ export default class Container extends React.Component {
     this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
-  handleTitleChange (currentNote) {
+  handleTitleChange(currentNote) {
     this.setState({ currentNote })
   }
 
-  render () {
+  render() {
     const small = window.innerWidth < deviceWidths.small
-    const containerClasses = small ? 'Container' : 'Container Container--not-small'
+    const containerClasses = small
+      ? 'Container'
+      : 'Container Container--not-small'
     const noteClasses = small ? undefined : 'Note--not-small'
 
     return (
       <div className={containerClasses}>
-        {small ? null : <Main classNames='Main--not-small' currentNote={this.state.currentNote} uid={this.props.uid} match={this.props.match} />}
-        <Note classNames={noteClasses} onTitleChange={this.handleTitleChange} uid={this.props.uid} match={this.props.match} />
+        {small ? null : (
+          <Main
+            classNames="Main--not-small"
+            currentNote={this.state.currentNote}
+            uid={this.props.uid}
+            match={this.props.match}
+          />
+        )}
+        <Note
+          classNames={noteClasses}
+          onTitleChange={this.handleTitleChange}
+          uid={this.props.uid}
+          match={this.props.match}
+        />
       </div>
     )
   }

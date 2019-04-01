@@ -7,7 +7,7 @@ import { readNote, updateNote } from '../../service/noteService/noteService'
 import './Note.css'
 
 export default class Note extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isError: false
@@ -17,18 +17,20 @@ export default class Note extends Component {
     this.handleBodyChange = this.handleBodyChange.bind(this)
   }
 
-  renderErrorMessage () {
+  renderErrorMessage() {
     this.setState({
       isError: true
     })
   }
 
-  readNote () {
-    const successCallback = (snapshot) => {
+  readNote() {
+    const successCallback = snapshot => {
       const note = snapshot.val()
 
       if (note === null) {
-        console.error('Not able to read note: ' + this.props.match.params.noteId)
+        console.error(
+          'Not able to read note: ' + this.props.match.params.noteId
+        )
         this.renderErrorMessage()
       } else {
         this.setState({
@@ -38,42 +40,57 @@ export default class Note extends Component {
       }
     }
 
-    const failureCallback = (err) => {
+    const failureCallback = err => {
       console.error(err)
       this.renderErrorMessage()
     }
 
-    readNote(this.props.uid, this.props.match.params.noteId, successCallback, failureCallback)
+    readNote(
+      this.props.uid,
+      this.props.match.params.noteId,
+      successCallback,
+      failureCallback
+    )
   }
 
-  handleTitleChange (e) {
+  handleTitleChange(e) {
     this.setState({ title: e.target.value })
     const currentNote = {
       id: this.props.match.params.noteId,
       title: e.target.value
     }
     this.props.onTitleChange(currentNote)
-    updateNote(this.props.uid, this.props.match.params.noteId, e.target.value, this.state.body)
+    updateNote(
+      this.props.uid,
+      this.props.match.params.noteId,
+      e.target.value,
+      this.state.body
+    )
   }
 
-  handleBodyChange (e) {
+  handleBodyChange(e) {
     this.setState({ body: e.target.value })
-    updateNote(this.props.uid, this.props.match.params.noteId, this.state.title, e.target.value)
+    updateNote(
+      this.props.uid,
+      this.props.match.params.noteId,
+      this.state.title,
+      e.target.value
+    )
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.readNote()
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.match.params && this.props.match.params.noteId) {
       this.readNote()
     }
   }
 
-  render () {
+  render() {
     let classNames = 'Note '
     if (this.props.classNames) {
       classNames += this.props.classNames
@@ -84,15 +101,23 @@ export default class Note extends Component {
 
     return (
       <div className={classNames}>
-        {shouldRenderTitle && <ContentEditable className='Note-title'
-          html={this.state.title}
-          onChange={this.handleTitleChange}
-        />}
-        {shouldRenderBody && <ContentEditable className='Note-body'
-          html={this.state.body}
-          onChange={this.handleBodyChange}
-        />}
-        {this.state.isError && <div className='Note-error'>Note cannot be found</div>}
+        {shouldRenderTitle && (
+          <ContentEditable
+            className="Note-title"
+            html={this.state.title}
+            onChange={this.handleTitleChange}
+          />
+        )}
+        {shouldRenderBody && (
+          <ContentEditable
+            className="Note-body"
+            html={this.state.body}
+            onChange={this.handleBodyChange}
+          />
+        )}
+        {this.state.isError && (
+          <div className="Note-error">Note cannot be found</div>
+        )}
       </div>
     )
   }

@@ -68,11 +68,14 @@ describe('Container', () => {
   it('passes current note as prop on note title change', () => {
     const noteId = 'noteId'
     const match = { params: { noteId } }
-    const wrapper = shallow(<Container uid='uid' match={match} />)
+    const wrapper = shallow(<Container uid="uid" match={match} />)
 
     const newTitle = 'new title'
     const currentNote = { id: noteId, title: newTitle }
-    wrapper.find(Note).props().onTitleChange(currentNote)
+    wrapper
+      .find(Note)
+      .props()
+      .onTitleChange(currentNote)
 
     expect(wrapper.find(Main).props().currentNote).toBe(currentNote)
   })

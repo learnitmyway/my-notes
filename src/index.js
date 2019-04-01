@@ -8,9 +8,10 @@ import { unregister } from './registerServiceWorker'
 import 'normalize.css'
 import './index.css'
 
-ReactDOM.render((
+ReactDOM.render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>
-), document.getElementById('root'))
+  </BrowserRouter>,
+  document.getElementById('root')
+)
 unregister()

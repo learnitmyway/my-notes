@@ -41,7 +41,9 @@ describe('App', () => {
     await wrapper.update()
 
     expect(console.error).toHaveBeenCalledWith(err)
-    expect(window.alert).toHaveBeenCalledWith('Something went wrong. Please refresh the page and try again.')
+    expect(window.alert).toHaveBeenCalledWith(
+      'Something went wrong. Please refresh the page and try again.'
+    )
   })
 
   it('does not render children when there is no uid', () => {
@@ -60,7 +62,13 @@ describe('App', () => {
     const uid = 'uid'
     wrapper.setState({ uid })
 
-    expect(wrapper.find('Route[path="/"]').at(0).props().render()).toEqual(<Main uid={uid} />)
+    expect(
+      wrapper
+        .find('Route[path="/"]')
+        .at(0)
+        .props()
+        .render()
+    ).toEqual(<Main uid={uid} />)
   })
 
   it('renders container component for larger devices at root path', () => {
@@ -73,7 +81,13 @@ describe('App', () => {
 
     const props = { something: 'something' }
 
-    expect(wrapper.find('Route[path="/"]').at(0).props().render(props)).toEqual(<Container {...props} uid={uid} />)
+    expect(
+      wrapper
+        .find('Route[path="/"]')
+        .at(0)
+        .props()
+        .render(props)
+    ).toEqual(<Container {...props} uid={uid} />)
   })
 
   it('renders container component at noteId path', () => {
@@ -85,6 +99,12 @@ describe('App', () => {
 
     const props = { something: 'something' }
 
-    expect(wrapper.find('Route[path="/:noteId"]').at(0).props().render(props)).toEqual(<Container {...props} uid={uid} />)
+    expect(
+      wrapper
+        .find('Route[path="/:noteId"]')
+        .at(0)
+        .props()
+        .render(props)
+    ).toEqual(<Container {...props} uid={uid} />)
   })
 })
