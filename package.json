@@ -19,9 +19,6 @@
     "styled-components": "^4.2.0",
     "uuid": "^3.3.2"
   },
-  "devDependencies": {
-    "pre-commit": "^1.2.2"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -36,10 +33,6 @@
       "plugin:jsx-a11y/recommended"
     ]
   },
-  "pre-commit": [
-    "lint",
-    "test:ci"
-  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
