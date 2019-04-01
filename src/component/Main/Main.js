@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, {css} from 'styled-components'
+import styled, {css} from 'styled-components/macro'
 
 import CreateNote from '../CreateNote/CreateNote'
 import NoteList from '../NoteList/NoteList'
