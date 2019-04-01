@@ -47,6 +47,7 @@
     "test:ci": "CI=true npm test",
     "eject": "react-scripts eject",
     "lint": "npx standardx --verbose | snazzy",
+    "lint:fix": "npx standardx --fix",
     "deploy:firebase": "npx firebase deploy --project $REACT_APP_PROJECT_ID --non-interactive --token $FIREBASE_TOKEN",
     "deploy:netlify": "npm run lint && npm run test:ci && npm run build && npm run deploy:firebase"
   }
