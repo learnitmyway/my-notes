@@ -36,6 +36,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "pretest": "npm run lint",
     "test": "react-scripts test",
     "test:ci": "CI=true npm test",
     "eject": "react-scripts eject",
