@@ -19,6 +19,8 @@
     "react-scripts": "^2.1.1",
     "snazzy": "^8.0.0",
     "standardx": "^3.0.1",
+    "stylelint": "^9.10.1",
+    "stylelint-config-recommended": "^2.1.0",
     "uuid": "^3.3.2"
   },
   "browserslist": [
@@ -40,16 +42,19 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
+  "stylelint": {
+    "extends": "stylelint-config-recommended"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "pretest": "npm run lint",
+    "pretest": "npm run lint && npx stylelint src/**/*.css",
     "test": "react-scripts test",
     "test:ci": "CI=true npm test",
     "eject": "react-scripts eject",
     "lint": "npx standardx --verbose | snazzy",
     "lint:fix": "npx standardx --fix",
     "deploy:firebase": "npx firebase deploy --project $REACT_APP_PROJECT_ID --non-interactive --token $FIREBASE_TOKEN",
-    "deploy:netlify": "npm run lint && npm run test:ci && npm run build && npm run deploy:firebase"
+    "deploy:netlify": "npm run pretest && npm run test:ci && npm run build && npm run deploy:firebase"
   }
 }
