@@ -4,7 +4,7 @@ import ContentEditable from 'react-contenteditable'
 
 import { readNote, updateNote } from '../../service/noteService/noteService'
 
-import './Note.css'
+import styles from './Note.module.css'
 
 export default class Note extends Component {
   constructor(props) {
@@ -91,9 +91,9 @@ export default class Note extends Component {
   }
 
   render() {
-    let classNames = 'Note '
+    let classNames = styles.Note
     if (this.props.classNames) {
-      classNames += this.props.classNames
+      classNames += ' ' + this.props.classNames
     }
 
     const shouldRenderTitle = this.state.title || this.state.title === ''
@@ -103,20 +103,20 @@ export default class Note extends Component {
       <div className={classNames}>
         {shouldRenderTitle && (
           <ContentEditable
-            className="Note-title"
+            className={styles.title}
             html={this.state.title}
             onChange={this.handleTitleChange}
           />
         )}
         {shouldRenderBody && (
           <ContentEditable
-            className="Note-body"
+            className={styles.body}
             html={this.state.body}
             onChange={this.handleBodyChange}
           />
         )}
         {this.state.isError && (
-          <div className="Note-error">Note cannot be found</div>
+          <div className={styles.error}>Note cannot be found</div>
         )}
       </div>
     )

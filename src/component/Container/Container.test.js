@@ -59,7 +59,7 @@ describe('Container', () => {
       expect(mainProps.uid).toBe(uid)
 
       const noteProps = wrapper.find(Note).props()
-      expect(noteProps.classNames).toBe('Note--not-small')
+      expect(noteProps.classNames).toBe('notSmall')
       expect(noteProps.match).toBe(match)
       expect(noteProps.uid).toBe(uid)
     })

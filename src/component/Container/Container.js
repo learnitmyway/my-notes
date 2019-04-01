@@ -7,6 +7,7 @@ import Main from '../Main/Main'
 import deviceWidths from '../../deviceWidths'
 
 import './Container.css'
+import noteStyles from '../Note/Note.module.css'
 
 export default class Container extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ export default class Container extends React.Component {
     const containerClasses = small
       ? 'Container'
       : 'Container Container--not-small'
-    const noteClasses = small ? undefined : 'Note--not-small'
+    const noteClasses = small ? undefined : noteStyles.notSmall
 
     return (
       <div className={containerClasses}>

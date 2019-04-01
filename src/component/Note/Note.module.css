@@ -4,23 +4,23 @@
   overflow: hidden auto;
 }
 
-.Note--not-small {
-  flex: 2
+.notSmall {
+  flex: 2;
 }
 
-.Note-title {
+.title {
   outline: none;
   font-size: 1.5rem;
-  font-weight: 600
+  font-weight: 600;
 }
 
-.Note-body {
+.body {
   color: hsl(0, 0%, 29%);
   outline: none;
   padding-top: 1rem;
-  line-height: 1.5
+  line-height: 1.5;
 }
 
-.Note-error {
-  color: red
+.error {
+  color: red;
 }

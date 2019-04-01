@@ -74,7 +74,7 @@ describe('Note', () => {
     )
 
     expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find('.Note-error').text()).toBe('Note cannot be found')
+    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
   })
 
   it('renders and logs error when there is no note', () => {
@@ -98,7 +98,7 @@ describe('Note', () => {
     expect(console.error).toHaveBeenCalledWith(
       'Not able to read note: ' + noteId
     )
-    expect(wrapper.find('.Note-error').text()).toBe('Note cannot be found')
+    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
   })
 
   it('reads new note when note id changes', () => {
