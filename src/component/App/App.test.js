@@ -50,7 +50,7 @@ describe('App', () => {
     const wrapper = shallow(<App />)
     wrapper.setState({ uid: null })
 
-    expect(wrapper.find('.App').props().children).toBeNull()
+    expect(wrapper.html()).toBeNull()
   })
 
   it('renders main component at root path', () => {

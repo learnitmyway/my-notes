@@ -7,8 +7,6 @@ import { signInAnonymously } from '../../service/authService/authService'
 
 import deviceWidths from '../../deviceWidths'
 
-import './App.css'
-
 class App extends Component {
   constructor () {
     super()
@@ -38,14 +36,11 @@ class App extends Component {
 
   render () {
     return (
-      <div className='App'>
-        {this.state.uid &&
-          <React.Fragment>
-            <Route exact path='/' render={this.renderRootPath} />
-            <Route exact path='/:noteId' render={(props) => <Container {...props} uid={this.state.uid} />} />
-          </React.Fragment>
-        }
-      </div>
+      this.state.uid
+        ? <>
+          <Route exact path='/' render={this.renderRootPath} />
+          <Route exact path='/:noteId' render={(props) => <Container {...props} uid={this.state.uid} />} />
+        </> : null
     )
   }
 }
