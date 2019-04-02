@@ -1,20 +1,17 @@
-/* eslint-env jest */
-
 import React from 'react'
-import { shallow } from 'enzyme'
-import ContentEditable from 'react-contenteditable'
-
+import { render, fireEvent, waitForElement } from 'react-testing-library'
+import 'jest-dom/extend-expect'
 import Note from './Note'
+
 import { readNote, updateNote } from '../../service/noteService/noteService'
 
 jest.mock('../../service/noteService/noteService')
 
 describe('Note', () => {
-  it('renders note', () => {
-    const note = {
-      title: 'title',
-      body: 'body'
-    }
+  it('displays title and body', () => {
+    const body = 'body'
+    const title = 'title'
+    const note = { title, body }
     const snapshot = {
       val: function() {
         return note
@@ -27,38 +24,50 @@ describe('Note', () => {
     const uid = 'someUid'
     const noteId = 'someNoteId'
     const match = { params: { noteId: noteId } }
-    const wrapper = shallow(
+    const { getByTestId } = render(
       <Note onTitleChange={jest.fn()} uid={uid} match={match} />
     )
 
-    expect(
-      wrapper
-        .find(ContentEditable)
-        .at(0)
-        .props().html
-    ).toBe(note.title)
-    expect(
-      wrapper
-        .find(ContentEditable)
-        .at(1)
-        .props().html
-    ).toBe(note.body)
-    expect(wrapper.find('.Note-error').length).toBe(0)
+    expect(getByTestId('Note__title').value).toBe(title)
+    expect(getByTestId('Note__body').value).toBe(body)
   })
 
-  it('renders empty note when there is no note id in url path', () => {
+  it('does not display error', () => {
+    const body = 'body'
+    const title = 'title'
+    const note = { title, body }
+    const snapshot = {
+      val: function() {
+        return note
+      }
+    }
+    readNote.mockImplementation((uid, noteId, cb) => {
+      cb(snapshot)
+    })
+
+    const uid = 'someUid'
+    const noteId = 'someNoteId'
+    const match = { params: { noteId: noteId } }
+    const { queryByTestId } = render(
+      <Note onTitleChange={jest.fn()} uid={uid} match={match} />
+    )
+
+    expect(queryByTestId('Note__error')).not.toBeInTheDocument()
+  })
+
+  it('displays empty note when there is no note id in url path', () => {
     const uid = 'someUid'
     const match = { params: {} }
-    const wrapper = shallow(
+    const { queryByTestId } = render(
       <Note onTitleChange={jest.fn()} uid={uid} match={match} />
     )
 
-    expect(readNote).not.toHaveBeenCalled()
-    expect(wrapper.find(ContentEditable).length).toBe(0)
-    expect(wrapper.find('.Note-error').length).toBe(0)
+    expect(queryByTestId('Note__title')).not.toBeInTheDocument()
+    expect(queryByTestId('Note__body')).not.toBeInTheDocument()
+    expect(queryByTestId('Note__error')).not.toBeInTheDocument()
   })
 
-  it('renders and logs error when reading note fails (eg. user is not authenticated)', () => {
+  it('displays and logs error when reading note fails (eg. user is not authenticated)', () => {
     console.error = jest.fn()
     const err = new Error('Something bad happened')
 
@@ -69,15 +78,17 @@ describe('Note', () => {
     )
 
     const match = { params: { noteId: 'non-existant' } }
-    const wrapper = shallow(
+    const { queryByTestId } = render(
       <Note onTitleChange={jest.fn()} uid="" match={match} />
     )
 
     expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
+    expect(queryByTestId('Note__error')).toHaveTextContent(
+      'Note cannot be found'
+    )
   })
 
-  it('renders and logs error when there is no note', () => {
+  it('displays and logs error when there is no note', () => {
     console.error = jest.fn()
 
     const snapshot = {
@@ -91,14 +102,35 @@ describe('Note', () => {
 
     const noteId = 'noteId'
     const match = { params: { noteId } }
-    const wrapper = shallow(
-      <Note onTitleChange={jest.fn()} uid="" match={match} />
+    const { queryByTestId } = render(
+      <Note onTitleChange={jest.fn()} uid="uid" match={match} />
     )
 
     expect(console.error).toHaveBeenCalledWith(
       'Not able to read note: ' + noteId
     )
-    expect(wrapper.find('.error').text()).toBe('Note cannot be found')
+    expect(queryByTestId('Note__error')).toHaveTextContent(
+      'Note cannot be found'
+    )
+  })
+
+  it('does not display note title or body if there is an error', () => {
+    console.error = jest.fn()
+    const err = new Error('Something bad happened')
+
+    readNote.mockImplementation(
+      (uid, noteId, successCallback, failureCallBack) => {
+        failureCallBack(err)
+      }
+    )
+
+    const match = { params: { noteId: 'non-existant' } }
+    const { queryByTestId } = render(
+      <Note onTitleChange={jest.fn()} uid="" match={match} />
+    )
+
+    expect(queryByTestId('Note__title')).not.toBeInTheDocument()
+    expect(queryByTestId('Note__body')).not.toBeInTheDocument()
   })
 
   it('reads new note when note id changes', () => {
@@ -106,12 +138,14 @@ describe('Note', () => {
     const noteId1 = 'noteId1'
     const match1 = { params: { noteId: noteId1 } }
     const prevProps = { uid, match: match1 }
-    const wrapper = shallow(<Note onTitleChange={jest.fn()} {...prevProps} />)
+    const { rerender } = render(
+      <Note onTitleChange={jest.fn()} {...prevProps} />
+    )
 
     const noteId2 = 'noteId2'
     const match2 = { params: { noteId: noteId2 } }
     const props = { uid, match: match2 }
-    wrapper.setProps(props)
+    rerender(<Note onTitleChange={jest.fn()} {...props} />)
 
     expect(readNote).toHaveBeenCalledWith(
       uid,
@@ -123,7 +157,7 @@ describe('Note', () => {
 
   it('applies class names from props', () => {
     const match = { params: { noteId: 'id' } }
-    const wrapper = shallow(
+    const { container } = render(
       <Note
         classNames="forty-two"
         onTitleChange={jest.fn()}
@@ -132,15 +166,13 @@ describe('Note', () => {
       />
     )
 
-    expect(wrapper.find('.forty-two').length).toBe(1)
+    expect(container.querySelector('.forty-two')).not.toBeNull()
   })
 
-  it('updates title on change and handles it', () => {
+  it('updates title and body on change and handles it', () => {
     const body = 'body'
-    const note = {
-      title: 'title',
-      body
-    }
+    const title = 'title'
+    const note = { title, body }
     const snapshot = {
       val: function() {
         return note
@@ -154,65 +186,22 @@ describe('Note', () => {
     const uid = 'uid'
     const noteId = 'noteId'
     const match = { params: { noteId } }
-    const wrapper = shallow(
+    const { getByTestId } = render(
       <Note onTitleChange={handleTitleChange} uid={uid} match={match} />
     )
 
     const newTitle = 'new title'
-    wrapper
-      .find(ContentEditable)
-      .at(0)
-      .prop('onChange')({ target: { value: newTitle } })
-
-    const expectedCurrentNote = {
-      id: noteId,
-      title: newTitle
-    }
-
-    expect(
-      wrapper
-        .find(ContentEditable)
-        .at(0)
-        .props().html
-    ).toBe(newTitle)
-    expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
-    expect(handleTitleChange).toHaveBeenCalledWith(expectedCurrentNote)
-  })
-
-  it('updates body on change', () => {
-    const title = 'title'
-    const note = {
-      title,
-      body: 'body'
-    }
-    const snapshot = {
-      val: function() {
-        return note
-      }
-    }
-    readNote.mockImplementation((uid, noteId, cb) => {
-      cb(snapshot)
-    })
-
-    const uid = 'uid'
-    const noteId = 'noteId'
-    const match = { params: { noteId } }
-    const wrapper = shallow(
-      <Note onTitleChange={jest.fn()} uid={uid} match={match} />
-    )
+    fireEvent.input(getByTestId('Note__title'), { target: { value: newTitle } })
 
     const newBody = 'new body'
-    wrapper
-      .find(ContentEditable)
-      .at(1)
-      .prop('onChange')({ target: { value: newBody } })
+    fireEvent.input(getByTestId('Note__body'), { target: { value: newBody } })
 
-    expect(
-      wrapper
-        .find(ContentEditable)
-        .at(1)
-        .props().html
-    ).toBe(newBody)
-    expect(updateNote).toHaveBeenCalledWith(uid, noteId, title, newBody)
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, body)
+    expect(updateNote).toHaveBeenCalledWith(uid, noteId, newTitle, newBody)
+    expect(handleTitleChange).toHaveBeenCalledWith({
+      id: noteId,
+      title: newTitle
+    })
+    expect(getByTestId('Note__title').value).toBe(newTitle)
   })
 })

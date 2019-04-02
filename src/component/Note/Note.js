@@ -104,6 +104,7 @@ export default class Note extends Component {
         {shouldRenderTitle && (
           <ContentEditable
             className={styles.title}
+            data-testid={'Note__title'}
             html={this.state.title}
             onChange={this.handleTitleChange}
           />
@@ -111,12 +112,15 @@ export default class Note extends Component {
         {shouldRenderBody && (
           <ContentEditable
             className={styles.body}
+            data-testid={'Note__body'}
             html={this.state.body}
             onChange={this.handleBodyChange}
           />
         )}
         {this.state.isError && (
-          <div className={styles.error}>Note cannot be found</div>
+          <div data-testid="Note__error" className={styles.error}>
+            Note cannot be found
+          </div>
         )}
       </div>
     )
