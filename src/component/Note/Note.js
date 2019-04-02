@@ -104,6 +104,7 @@ export default class Note extends Component {
         {shouldRenderTitle && (
           <ContentEditable
             className={styles.title}
+            data-test="Note__title"
             html={this.state.title}
             onChange={this.handleTitleChange}
           />
@@ -111,6 +112,7 @@ export default class Note extends Component {
         {shouldRenderBody && (
           <ContentEditable
             className={styles.body}
+            data-test="Note__body"
             html={this.state.body}
             onChange={this.handleBodyChange}
           />

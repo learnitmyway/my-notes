@@ -39,7 +39,7 @@ export default class NoteList extends React.Component {
     const currentNoteTitle =
       this.props.currentNote && this.props.currentNote.title
     return (
-      <div className="NoteList">
+      <div data-test="NoteList" className="NoteList">
         {this.state.notes &&
           Object.entries(this.state.notes).map(noteEntry => {
             const noteId = noteEntry[0]

@@ -18,6 +18,7 @@ export default function CreateNote(props) {
     <div className="CreateNote">
       <Link
         className="CreateNote-button"
+        data-test="CreateNote__button"
         onClick={() => createNoteFrom(noteId)}
         to={'/' + noteId}
       >
