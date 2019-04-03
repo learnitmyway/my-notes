@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import Note from '../Note/Note'
 import Main from '../Main/Main'
@@ -9,17 +8,31 @@ import deviceWidths from '../../deviceWidths'
 import './Container.css'
 import noteStyles from '../Note/Note.module.css'
 
-export default class Container extends React.Component {
-  constructor(props) {
+export interface Props {
+  uid: string
+  match: any
+}
+
+interface CurrentNote {
+  id: string
+  title: string
+}
+
+interface State {
+  currentNote: CurrentNote
+}
+
+export default class Container extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = {
-      currentNote: { id: null, title: null }
+      currentNote: { id: '', title: '' }
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
-  handleTitleChange(currentNote) {
+  handleTitleChange(currentNote: CurrentNote) {
     this.setState({ currentNote })
   }
 
@@ -49,13 +62,4 @@ export default class Container extends React.Component {
       </div>
     )
   }
-}
-
-Container.propTypes = {
-  uid: PropTypes.string.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      noteId: PropTypes.string
-    })
-  }).isRequired
 }
