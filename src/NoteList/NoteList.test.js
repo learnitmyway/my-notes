@@ -7,7 +7,7 @@ import NoteList from './NoteList'
 import NoteListItem from './NoteListItem/NoteListItem'
 import { readAllNotes } from '../noteService/noteService'
 
-jest.mock('../../service/noteService/noteService')
+jest.mock('../noteService/noteService')
 
 describe('NoteList', () => {
   it('renders list items', () => {

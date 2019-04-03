@@ -8,7 +8,7 @@ import Main from '../Main/Main'
 import Container from '../Container/Container'
 import { signInAnonymously } from '../authService/authService'
 
-jest.mock('../../service/authService/authService')
+jest.mock('../authService/authService')
 jest.mock('react-router-dom')
 
 describe('App', () => {

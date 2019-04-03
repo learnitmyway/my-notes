@@ -5,7 +5,7 @@ import Note from './Note'
 
 import { readNote, updateNote } from '../noteService/noteService'
 
-jest.mock('../../service/noteService/noteService')
+jest.mock('../noteService/noteService')
 
 describe('Note', () => {
   it('displays title and body', () => {

@@ -9,7 +9,7 @@ import CreateNote from './CreateNote'
 import { createNote } from '../noteService/noteService'
 
 jest.mock('uuid/v1')
-jest.mock('../../service/noteService/noteService')
+jest.mock('../noteService/noteService')
 
 describe('CreateNote', () => {
   it('creates and navigates to new note when clicking the button', () => {
