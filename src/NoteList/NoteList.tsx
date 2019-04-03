@@ -24,10 +24,6 @@ export default class NoteList extends React.Component<Props, State> {
     this.state = { notes: [], isError: false }
   }
 
-  renderErrorMessage() {
-    this.setState({ isError: true })
-  }
-
   componentDidMount() {
     const successCallback = (snapshot: any) => {
       const notes = snapshot.val()
@@ -39,7 +35,7 @@ export default class NoteList extends React.Component<Props, State> {
 
     const failureCallback = (err: any) => {
       console.error(err)
-      this.renderErrorMessage()
+      this.setState({ isError: true })
     }
 
     readAllNotes(this.props.uid, successCallback, failureCallback)
