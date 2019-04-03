@@ -117,20 +117,6 @@ describe('NoteList', () => {
     ).toBe(currentNoteTitle)
   })
 
-  it('renders and logs error when reading all notes fails', () => {
-    console.error = jest.fn()
-    const err = new Error('Something bad happened')
-
-    readAllNotes.mockImplementation((uid, successCallback, failureCallBack) => {
-      failureCallBack(err)
-    })
-
-    const wrapper = shallow(<NoteList uid="" />)
-
-    expect(console.error).toHaveBeenCalledWith(err)
-    expect(wrapper.find('.NoteList-error').text()).toBe('Notes cannot be found')
-  })
-
   it('marks selected item', () => {
     const selectedNoteId = 'noteId2'
     const notes = {

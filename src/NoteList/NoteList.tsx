@@ -2,8 +2,8 @@ import React from 'react'
 
 import NoteListItem from './NoteListItem/NoteListItem'
 
-import { readAllNotes } from '../noteService/noteService'
 import CurrentNote from '../CurrentNote'
+import { readAllNotes } from '../noteService/noteService'
 
 import './NoteList.css'
 
@@ -24,7 +24,7 @@ export default class NoteList extends React.Component<Props, State> {
     this.state = { notes: [], isError: false }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(prevProps: Props) {
     if (!this.props.match || !prevProps.match) {
       return
     }
@@ -34,25 +34,11 @@ export default class NoteList extends React.Component<Props, State> {
     }
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.readAllNotes()
   }
 
-  private readAllNotes() {
-    const successCallback = (snapshot: any) => {
-      const notes = snapshot.val()
-      this.setState({
-        notes: notes
-      })
-    }
-    const failureCallback = (err: any) => {
-      console.error(err)
-      this.setState({ isError: true })
-    }
-    readAllNotes(this.props.uid, successCallback, failureCallback)
-  }
-
-  render() {
+  public render() {
     const { match, currentNote } = this.props
     const { notes } = this.state
     const noteIdInUrl = match && match.params.noteId
@@ -80,5 +66,18 @@ export default class NoteList extends React.Component<Props, State> {
         )}
       </div>
     )
+  }
+
+  private readAllNotes() {
+    const successCallback = (snapshot: any) => {
+      const notes = snapshot.val()
+      this.setState({
+        notes
+      })
+    }
+    const failureCallback = () => {
+      this.setState({ isError: true })
+    }
+    readAllNotes(this.props.uid, successCallback, failureCallback)
   }
 }

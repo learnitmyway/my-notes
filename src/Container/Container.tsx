@@ -1,13 +1,13 @@
 import React from 'react'
 
-import Note from '../Note/Note'
 import Main from '../Main/Main'
+import Note from '../Note/Note'
 
-import deviceWidths from '../deviceWidths'
 import CurrentNote from '../CurrentNote'
+import deviceWidths from '../deviceWidths'
 
-import './Container.css'
 import noteStyles from '../Note/Note.module.css'
+import './Container.css'
 
 export interface Props {
   uid: string
@@ -28,11 +28,11 @@ export default class Container extends React.Component<Props, State> {
     this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
-  handleTitleChange(currentNote: CurrentNote) {
+  public handleTitleChange(currentNote: CurrentNote) {
     this.setState({ currentNote })
   }
 
-  render() {
+  public render() {
     const small = window.innerWidth < deviceWidths.small
     const containerClasses = small
       ? 'Container'
