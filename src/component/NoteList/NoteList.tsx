@@ -1,15 +1,27 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import NoteListItem from './NoteListItem/NoteListItem'
+
 import { readAllNotes } from '../../service/noteService/noteService'
+import CurrentNote from '../../CurrentNote'
 
 import './NoteList.css'
 
-export default class NoteList extends React.Component {
-  constructor(props) {
+export interface Props {
+  uid: string
+  currentNote: CurrentNote
+  match: any
+}
+
+interface State {
+  notes: any[]
+  isError: boolean
+}
+
+export default class NoteList extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props)
-    this.state = { isError: false }
+    this.state = { notes: [], isError: false }
   }
 
   renderErrorMessage() {
@@ -17,7 +29,7 @@ export default class NoteList extends React.Component {
   }
 
   componentDidMount() {
-    const successCallback = snapshot => {
+    const successCallback = (snapshot: any) => {
       const notes = snapshot.val()
 
       this.setState({
@@ -25,7 +37,7 @@ export default class NoteList extends React.Component {
       })
     }
 
-    const failureCallback = err => {
+    const failureCallback = (err: any) => {
       console.error(err)
       this.renderErrorMessage()
     }
@@ -34,14 +46,15 @@ export default class NoteList extends React.Component {
   }
 
   render() {
-    const noteIdInUrl = this.props.match && this.props.match.params.noteId
-    const currentNoteId = this.props.currentNote && this.props.currentNote.id
-    const currentNoteTitle =
-      this.props.currentNote && this.props.currentNote.title
+    const { match, currentNote } = this.props
+    const { notes } = this.state
+    const noteIdInUrl = match && match.params.noteId
+    const currentNoteId = currentNote && currentNote.id
+    const currentNoteTitle = currentNote && currentNote.title
     return (
       <div className="NoteList">
         {this.state.notes &&
-          Object.entries(this.state.notes).map(noteEntry => {
+          Object.entries(notes).map(noteEntry => {
             const noteId = noteEntry[0]
             const noteTitle =
               noteId === currentNoteId ? currentNoteTitle : noteEntry[1].title
@@ -61,17 +74,4 @@ export default class NoteList extends React.Component {
       </div>
     )
   }
-}
-
-NoteList.propTypes = {
-  currentNote: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string
-  }),
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      noteId: PropTypes.string
-    })
-  }),
-  uid: PropTypes.string.isRequired
 }

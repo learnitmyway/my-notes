@@ -4,6 +4,7 @@ import Note from '../Note/Note'
 import Main from '../Main/Main'
 
 import deviceWidths from '../../deviceWidths'
+import CurrentNote from '../../CurrentNote'
 
 import './Container.css'
 import noteStyles from '../Note/Note.module.css'
@@ -11,11 +12,6 @@ import noteStyles from '../Note/Note.module.css'
 export interface Props {
   uid: string
   match: any
-}
-
-interface CurrentNote {
-  id: string
-  title: string
 }
 
 interface State {
