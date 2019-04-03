@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 
 import NoteList from './NoteList'
 import NoteListItem from './NoteListItem/NoteListItem'
-import { readAllNotes } from '../../service/noteService/noteService'
+import { readAllNotes } from '../noteService/noteService'
 
 jest.mock('../../service/noteService/noteService')
 

@@ -3,9 +3,9 @@ import { Route } from 'react-router-dom'
 
 import Main from '../Main/Main'
 import Container from '../Container/Container'
-import { signInAnonymously } from '../../service/authService/authService'
+import { signInAnonymously } from '../authService/authService'
 
-import deviceWidths from '../../deviceWidths'
+import deviceWidths from '../deviceWidths'
 
 class App extends Component {
   constructor() {

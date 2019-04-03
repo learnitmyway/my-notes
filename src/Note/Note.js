@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ContentEditable from 'react-contenteditable'
 
-import { readNote, updateNote } from '../../service/noteService/noteService'
+import { readNote, updateNote } from '../noteService/noteService'
 
 import styles from './Note.module.css'
 

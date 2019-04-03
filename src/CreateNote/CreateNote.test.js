@@ -6,7 +6,7 @@ import { shallow } from 'enzyme'
 import uuidv1 from 'uuid/v1'
 
 import CreateNote from './CreateNote'
-import { createNote } from '../../service/noteService/noteService'
+import { createNote } from '../noteService/noteService'
 
 jest.mock('uuid/v1')
 jest.mock('../../service/noteService/noteService')

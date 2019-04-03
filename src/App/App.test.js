@@ -6,7 +6,7 @@ import { shallow } from 'enzyme'
 import App from './App'
 import Main from '../Main/Main'
 import Container from '../Container/Container'
-import { signInAnonymously } from '../../service/authService/authService'
+import { signInAnonymously } from '../authService/authService'
 
 jest.mock('../../service/authService/authService')
 jest.mock('react-router-dom')

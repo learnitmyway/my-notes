@@ -2,8 +2,8 @@ import React from 'react'
 
 import NoteListItem from './NoteListItem/NoteListItem'
 
-import { readAllNotes } from '../../service/noteService/noteService'
-import CurrentNote from '../../CurrentNote'
+import { readAllNotes } from '../noteService/noteService'
+import CurrentNote from '../CurrentNote'
 
 import './NoteList.css'
 

@@ -3,7 +3,7 @@ import { render, fireEvent, waitForElement } from 'react-testing-library'
 import 'jest-dom/extend-expect'
 import Note from './Note'
 
-import { readNote, updateNote } from '../../service/noteService/noteService'
+import { readNote, updateNote } from '../noteService/noteService'
 
 jest.mock('../../service/noteService/noteService')
 
