@@ -7,8 +7,12 @@ import { createNote } from '../noteService/noteService'
 import plus from './plus.svg'
 import './CreateNote.css'
 
-export default function CreateNote(props) {
-  function createNoteFrom(noteId) {
+export interface Props {
+  uid: string
+}
+
+export default function CreateNote(props: Props) {
+  function createNoteFrom(noteId: string) {
     createNote(props.uid, noteId)
   }
 
