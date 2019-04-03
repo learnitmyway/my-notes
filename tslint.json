@@ -2,7 +2,8 @@
   "extends": [
     "tslint:recommended",
     "tslint-react",
-    "tslint-config-prettier"
+    "tslint-config-prettier",
+    "tslint-react-a11y"
   ],
   "rulesDirectory": [
     "tslint-plugin-prettier"
