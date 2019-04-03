@@ -52,6 +52,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy:firebase": "npx firebase deploy --project $REACT_APP_PROJECT_ID --non-interactive --token $FIREBASE_TOKEN",
-    "deploy:netlify": "CI=true npm test && npm run build && npm run deploy:firebase"
+    "deploy:netlify": "CI=true npm run lint && npm test && npm run build && npm run deploy:firebase"
   }
 }
