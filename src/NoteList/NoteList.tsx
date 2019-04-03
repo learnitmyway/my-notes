@@ -24,20 +24,31 @@ export default class NoteList extends React.Component<Props, State> {
     this.state = { notes: [], isError: false }
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (!this.props.match || !prevProps.match) {
+      return
+    }
+
+    if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
+      this.readAllNotes()
+    }
+  }
+
   componentDidMount() {
+    this.readAllNotes()
+  }
+
+  private readAllNotes() {
     const successCallback = (snapshot: any) => {
       const notes = snapshot.val()
-
       this.setState({
         notes: notes
       })
     }
-
     const failureCallback = (err: any) => {
       console.error(err)
       this.setState({ isError: true })
     }
-
     readAllNotes(this.props.uid, successCallback, failureCallback)
   }
 

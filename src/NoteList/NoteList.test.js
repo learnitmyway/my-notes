@@ -1,5 +1,3 @@
-/* eslint-env jest */
-
 import React from 'react'
 import { shallow } from 'enzyme'
 
@@ -9,17 +7,19 @@ import { readAllNotes } from '../noteService/noteService'
 
 jest.mock('../noteService/noteService')
 
+const note = {
+  title: 'title',
+  body: 'body'
+}
+
+const notes = {
+  note1: note,
+  note2: note,
+  note3: note
+}
+
 describe('NoteList', () => {
-  it('renders list items', () => {
-    const note = {
-      title: 'title',
-      body: 'body'
-    }
-    const notes = {
-      note1: note,
-      note2: note,
-      note3: note
-    }
+  beforeEach(() => {
     const snapshot = {
       val: function() {
         return notes
@@ -28,7 +28,9 @@ describe('NoteList', () => {
     readAllNotes.mockImplementation((uid, cb) => {
       cb(snapshot)
     })
+  })
 
+  it('renders list items', () => {
     const uid = 'uid'
     const wrapper = shallow(<NoteList uid={uid} />)
 
@@ -38,6 +40,45 @@ describe('NoteList', () => {
       expect.any(Function)
     )
     expect(wrapper.find(NoteListItem).length).toBe(3)
+  })
+
+  it('renders list items when a note has been added', () => {
+    const snapshot = {
+      val: function() {
+        return notes
+      }
+    }
+    readAllNotes.mockImplementationOnce((uid, cb) => {
+      cb(snapshot)
+    })
+
+    const newNote = { title: 'new', body: 'and improved' }
+    const newNotes = { ...notes, newNote }
+
+    const newSnapshot = {
+      val: function() {
+        return newNotes
+      }
+    }
+    readAllNotes.mockImplementationOnce((uid, cb) => {
+      cb(newSnapshot)
+    })
+
+    const uid = 'uid'
+    const prevProps = {
+      uid,
+      match: { params: {} }
+    }
+    const wrapper = shallow(<NoteList {...prevProps} />)
+
+    const props = {
+      ...prevProps,
+      match: { params: { noteId: 'noteId' } }
+    }
+
+    wrapper.setProps(props)
+
+    expect(wrapper.find(NoteListItem).length).toBe(4)
   })
 
   it('passes current note title as prop', () => {
