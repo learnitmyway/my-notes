@@ -1,34 +1,58 @@
 /* eslint-env jest */
 
 import React from 'react'
-import { shallow } from 'enzyme'
+import uuidv1 from 'uuid/v1'
+import { Link, Route, Router, Switch } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
+import { render, fireEvent, waitForElement } from 'react-testing-library'
 
 import Sidebar from './Sidebar'
 import CreateNote from '../CreateNote/CreateNote'
 import NoteList from '../NoteList/NoteList'
 
-describe('Sidebar', () => {
-  it('renders create-note component', () => {
-    const wrapper = shallow(<Sidebar uid="uid" />)
+import { createNote } from '../noteService/noteService'
 
-    expect(wrapper.find(CreateNote).length).toBe(1)
+jest.mock('uuid/v1')
+jest.mock('../noteService/noteService')
+
+function renderWithRouter(ui) {
+  const route = '/'
+  const history = createMemoryHistory({ initialEntries: [route] })
+  return {
+    ...render(<Router history={history}>{ui}</Router>),
+    history
+  }
+}
+
+describe('Sidebar', () => {
+  it('creates and navigates to new note when on click', () => {
+    const noteId = 'noteId'
+    uuidv1.mockReturnValue(noteId)
+
+    const uid = 'uid'
+    const { history, getByTestId } = renderWithRouter(<Sidebar uid="uid" />)
+
+    fireEvent.click(getByTestId('CreateNote__btn'))
+
+    expect(createNote).toHaveBeenCalledWith(uid, noteId)
+    expect(history.entries[1].pathname).toBe('/' + noteId)
   })
 
   it('renders note list', () => {
     const currentNote = { id: 'id', title: 'title' }
-    const match = { something: 'something' }
-    const wrapper = shallow(
+    const match = { params: { noteId: 'noteId' } }
+    const { getByTestId } = renderWithRouter(
       <Sidebar currentNote={currentNote} uid="uid" match={match} />
     )
 
-    expect(wrapper.find(NoteList).length).toBe(1)
-    expect(wrapper.find(NoteList).props().match).toBe(match)
-    expect(wrapper.find(NoteList).props().currentNote).toBe(currentNote)
+    expect(getByTestId('NoteList')).not.toBeNull()
   })
 
   it('applies class names from props', () => {
-    const wrapper = shallow(<Sidebar classNames="forty-two" uid="uid" />)
+    const { container } = renderWithRouter(
+      <Sidebar classNames="forty-two" uid="uid" />
+    )
 
-    expect(wrapper.find('.forty-two').length).toBe(1)
+    expect(container.querySelector('.forty-two')).not.toBeNull()
   })
 })
