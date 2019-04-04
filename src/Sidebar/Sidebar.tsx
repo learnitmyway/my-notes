@@ -1,12 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import CreateNote from '../CreateNote/CreateNote'
 import NoteList from '../NoteList/NoteList'
 
+import CurrentNote from '../CurrentNote'
+
 import './Sidebar.css'
 
-export default function Sidebar(props) {
+export interface Props {
+  classNames?: string
+  currentNote: CurrentNote
+  match: any
+  uid: string
+}
+
+export default function Sidebar(props: Props) {
   let classNames = 'Sidebar '
   if (props.classNames) {
     classNames += props.classNames
@@ -22,18 +30,4 @@ export default function Sidebar(props) {
       />
     </div>
   )
-}
-
-Sidebar.propTypes = {
-  classNames: PropTypes.string,
-  currentNote: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string
-  }),
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      noteId: PropTypes.string
-    })
-  }),
-  uid: PropTypes.string.isRequired
 }
