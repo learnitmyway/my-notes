@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import CreateNote from '../CreateNote/CreateNote'
 import NoteList from '../NoteList/NoteList'
 
-import './Main.css'
+import './Sidebar.css'
 
-export default function Main(props) {
-  let classNames = 'Main '
+export default function Sidebar(props) {
+  let classNames = 'Sidebar '
   if (props.classNames) {
     classNames += props.classNames
   }
@@ -24,7 +24,7 @@ export default function Main(props) {
   )
 }
 
-Main.propTypes = {
+Sidebar.propTypes = {
   classNames: PropTypes.string,
   currentNote: PropTypes.shape({
     id: PropTypes.string,

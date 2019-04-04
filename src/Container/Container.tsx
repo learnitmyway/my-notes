@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Main from '../Main/Main'
 import Note from '../Note/Note'
+import Sidebar from '../Sidebar/Sidebar'
 
 import CurrentNote from '../CurrentNote'
 import deviceWidths from '../deviceWidths'
@@ -42,8 +42,8 @@ export default class Container extends React.Component<Props, State> {
     return (
       <div className={containerClasses}>
         {small ? null : (
-          <Main
-            classNames="Main--not-small"
+          <Sidebar
+            classNames="Sidebar--not-small"
             currentNote={this.state.currentNote}
             uid={this.props.uid}
             match={this.props.match}

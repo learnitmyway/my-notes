@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 
 import Container from './Container'
 import Note from '../Note/Note'
-import Main from '../Main/Main'
+import Sidebar from '../Sidebar/Sidebar'
 
 describe('Container', () => {
   const initialProps = {
@@ -34,7 +34,7 @@ describe('Container', () => {
       expect(noteProps.match).toBe(match)
       expect(noteProps.uid).toBe(uid)
 
-      expect(wrapper.find(Main).length).toBe(0)
+      expect(wrapper.find(Sidebar).length).toBe(0)
     })
   })
 
@@ -53,8 +53,8 @@ describe('Container', () => {
       const match = { params: { noteId: 'note id' } }
       const wrapper = shallow(<Container uid={uid} match={match} />)
 
-      const mainProps = wrapper.find(Main).props()
-      expect(mainProps.classNames).toBe('Main--not-small')
+      const mainProps = wrapper.find(Sidebar).props()
+      expect(mainProps.classNames).toBe('Sidebar--not-small')
       expect(mainProps.match).toBe(match)
       expect(mainProps.uid).toBe(uid)
 
@@ -77,6 +77,6 @@ describe('Container', () => {
       .props()
       .onTitleChange(currentNote)
 
-    expect(wrapper.find(Main).props().currentNote).toBe(currentNote)
+    expect(wrapper.find(Sidebar).props().currentNote).toBe(currentNote)
   })
 })

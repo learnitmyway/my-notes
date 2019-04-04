@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
-import Main from '../Main/Main'
+import Sidebar from '../Sidebar/Sidebar'
 import Container from '../Container/Container'
 import { signInAnonymously } from '../authService/authService'
 
@@ -32,7 +32,7 @@ class App extends Component {
 
   renderRootPath(props) {
     return window.innerWidth < deviceWidths.small ? (
-      <Main uid={this.state.uid} />
+      <Sidebar uid={this.state.uid} />
     ) : (
       <Container {...props} uid={this.state.uid} />
     )

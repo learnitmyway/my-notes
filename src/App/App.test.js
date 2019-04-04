@@ -4,7 +4,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import App from './App'
-import Main from '../Main/Main'
+import Sidebar from '../Sidebar/Sidebar'
 import Container from '../Container/Container'
 import { signInAnonymously } from '../authService/authService'
 
@@ -68,7 +68,7 @@ describe('App', () => {
         .at(0)
         .props()
         .render()
-    ).toEqual(<Main uid={uid} />)
+    ).toEqual(<Sidebar uid={uid} />)
   })
 
   it('renders container component for larger devices at root path', () => {
