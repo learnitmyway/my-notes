@@ -15,12 +15,6 @@ describe('Container', () => {
     uid: 'uid'
   }
 
-  it('displays navigation bar', () => {
-    const { container } = renderWithRouter(<Container {...initialProps} />)
-
-    expect(container.querySelector('nav')).not.toBe(null)
-  })
-
   it('displays note', () => {
     const { getByTestId } = renderWithRouter(<Container {...initialProps} />)
 
@@ -30,6 +24,12 @@ describe('Container', () => {
   describe('for small devices', () => {
     beforeEach(() => {
       window.innerWidth = 599
+    })
+
+    it('displays navigation bar', () => {
+      const { container } = renderWithRouter(<Container {...initialProps} />)
+
+      expect(container.querySelector('nav')).not.toBe(null)
     })
 
     it('does not display sidebar', () => {
@@ -70,6 +70,11 @@ describe('Container', () => {
   describe('for large devices', () => {
     beforeEach(() => {
       window.innerWidth = 600
+    })
+    it('does not display nav bar', () => {
+      const { container } = renderWithRouter(<Container {...initialProps} />)
+
+      expect(container.querySelector('nav')).toBe(null)
     })
 
     it('displays sidebar', () => {

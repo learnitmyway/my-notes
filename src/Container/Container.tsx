@@ -44,7 +44,9 @@ export default class Container extends React.Component<Props, State> {
     const { match, uid } = this.props
     return (
       <>
-        <NavigationBar handleClick={this.handleHamburgerClick} />
+        {window.innerWidth < deviceWidths.small && (
+          <NavigationBar handleClick={this.handleHamburgerClick} />
+        )}
         <div className={styles.root + ' ' + (small ? '' : styles.notSmall)}>
           <Sidebar
             small={small}
