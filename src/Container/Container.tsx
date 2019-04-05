@@ -6,6 +6,7 @@ import Sidebar from '../Sidebar/Sidebar'
 import CurrentNote from '../CurrentNote'
 import deviceWidths from '../deviceWidths'
 
+import NavigationBar from '../NavigationBar/NavigationBar'
 import noteStyles from '../Note/Note.module.css'
 import styles from './Container.module.css'
 
@@ -16,13 +17,16 @@ export interface Props {
 
 interface State {
   currentNote: CurrentNote
+  sidebarIsOpen: boolean
 }
 
 export default class Container extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
+    const small = window.innerWidth < deviceWidths.small
     this.state = {
-      currentNote: { id: '', title: '' }
+      currentNote: { id: '', title: '' },
+      sidebarIsOpen: !small
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
@@ -34,28 +38,34 @@ export default class Container extends React.Component<Props, State> {
 
   public render() {
     const small = window.innerWidth < deviceWidths.small
-    const containerClasses = small
-      ? styles.container
-      : styles.container + ' ' + styles.containerNotSmall
     const noteClasses = small ? undefined : noteStyles.notSmall
 
+    const { currentNote, sidebarIsOpen } = this.state
+    const { match, uid } = this.props
     return (
-      <div className={containerClasses}>
-        {small ? null : (
-          <Sidebar
-            classNames="Sidebar--not-small"
-            currentNote={this.state.currentNote}
-            uid={this.props.uid}
-            match={this.props.match}
+      <>
+        <NavigationBar handleClick={this.handleHamburgerClick} />
+        <div className={small ? styles.container : styles.containerNotSmall}>
+          {sidebarIsOpen ? (
+            <Sidebar
+              classNames="Sidebar--not-small"
+              currentNote={currentNote}
+              uid={uid}
+              match={match}
+            />
+          ) : null}
+          <Note
+            classNames={noteClasses}
+            onTitleChange={this.handleTitleChange}
+            uid={uid}
+            match={match}
           />
-        )}
-        <Note
-          classNames={noteClasses}
-          onTitleChange={this.handleTitleChange}
-          uid={this.props.uid}
-          match={this.props.match}
-        />
-      </div>
+        </div>
+      </>
     )
+  }
+
+  private handleHamburgerClick = () => {
+    this.setState({ sidebarIsOpen: !this.state.sidebarIsOpen })
   }
 }

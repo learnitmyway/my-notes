@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import { fireEvent } from 'react-testing-library'
+import { fireEvent, getByAltText } from 'react-testing-library'
 import 'jest-dom/extend-expect'
 
 import { renderWithRouter } from '../testUtils/renderWithRouter'
@@ -21,6 +21,12 @@ describe('Container', () => {
     match: { params: { noteId: 'noteId' } }
   }
 
+  it('displays navigation bar', () => {
+    const { container } = renderWithRouter(<Container {...initialProps} />)
+
+    expect(container.querySelector('nav')).not.toBe(null)
+  })
+
   it('displays note', () => {
     const { getByTestId } = renderWithRouter(<Container {...initialProps} />)
 
@@ -38,6 +44,16 @@ describe('Container', () => {
       )
 
       expect(queryByTestId('Sidebar')).toBeNull()
+    })
+
+    it('displays sidebar when hamburger menu is clicked', () => {
+      const { getByAltText, queryByTestId } = renderWithRouter(
+        <Container {...initialProps} />
+      )
+
+      fireEvent.click(getByAltText('hamburger menu'))
+
+      expect(queryByTestId('Sidebar')).not.toBeNull()
     })
   })
 

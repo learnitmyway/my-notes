@@ -3,6 +3,6 @@
 }
 
 .containerNotSmall {
-  height: 100%;
+  composes: container;
   display: flex;
 }
