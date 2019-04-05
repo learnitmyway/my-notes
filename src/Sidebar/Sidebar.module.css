@@ -1,4 +1,4 @@
-.Sidebar {
+.root {
   display: flex;
   flex-direction: column;
   background-color: #f4f4f4;
@@ -7,12 +7,10 @@
 }
 
 .notSmall {
-  composes: Sidebar;
   flex: 1;
 }
 
 .small {
-  composes: Sidebar;
   position: absolute;
   left: -100%;
   width: 100%;

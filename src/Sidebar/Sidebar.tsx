@@ -18,7 +18,11 @@ export interface Props {
 export default function Sidebar(props: Props) {
   const { currentNote, match, open, small, uid } = props
   const className =
-    (small ? styles.small : styles.notSmall) + ' ' + (open ? styles.open : '')
+    styles.root +
+    ' ' +
+    (small ? styles.small : styles.notSmall) +
+    ' ' +
+    (open ? styles.open : '')
   return (
     <div data-testid="Sidebar" className={className}>
       <CreateNote uid={uid} />

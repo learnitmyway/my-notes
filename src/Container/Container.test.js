@@ -43,7 +43,9 @@ describe('Container', () => {
     it('does not display sidebar', () => {
       const { container } = renderWithRouter(<Container {...initialProps} />)
 
-      expect(container.querySelector(`.${sidebarStyles.open}`)).toBeNull()
+      expect(
+        container.querySelector(`.${sidebarStyles.root}.${sidebarStyles.open}`)
+      ).toBeNull()
     })
 
     it('displays sidebar when hamburger menu is clicked', () => {
@@ -53,7 +55,9 @@ describe('Container', () => {
 
       fireEvent.click(getByAltText('hamburger menu'))
 
-      expect(container.querySelector(`.${sidebarStyles.open}`)).not.toBeNull()
+      expect(
+        container.querySelector(`.${sidebarStyles.root}.${sidebarStyles.open}`)
+      ).not.toBeNull()
     })
 
     it('displays sidebar with correct class names', () => {
@@ -64,7 +68,9 @@ describe('Container', () => {
       fireEvent.click(getByAltText('hamburger menu'))
 
       expect(
-        container.querySelector(`.${sidebarStyles.small}.${sidebarStyles.open}`)
+        container.querySelector(
+          `.${sidebarStyles.root}.${sidebarStyles.small}.${sidebarStyles.open}`
+        )
       ).not.toBeNull()
     })
   })
@@ -86,7 +92,9 @@ describe('Container', () => {
       const { container } = renderWithRouter(<Container {...initialProps} />)
 
       expect(
-        container.querySelector(`.${sidebarStyles.notSmall}`)
+        container.querySelector(
+          `.${sidebarStyles.root}.${sidebarStyles.notSmall}`
+        )
       ).not.toBeNull()
     })
 
