@@ -5,6 +5,7 @@
   height: 100%;
 }
 
-.Sidebar--not-small {
+.SidebarNotSmall {
+  composes: Sidebar;
   flex: 1;
 }

@@ -11,6 +11,8 @@ import Container from './Container'
 import Note from '../Note/Note'
 import Sidebar from '../Sidebar/Sidebar'
 
+import sidebarStyles from '../Sidebar/Sidebar.module.css'
+
 import { readNote, readAllNotes } from '../noteService/noteService'
 
 jest.mock('../noteService/noteService')
@@ -84,7 +86,7 @@ describe('Container', () => {
       const { container } = renderWithRouter(<Container {...initialProps} />)
 
       expect(
-        container.querySelector('.Sidebar.Sidebar--not-small')
+        container.querySelector(`.${sidebarStyles.SidebarNotSmall}`)
       ).not.toBeNull()
     })
 

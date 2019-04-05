@@ -5,7 +5,7 @@ import NoteList from '../NoteList/NoteList'
 
 import CurrentNote from '../CurrentNote'
 
-import './Sidebar.css'
+import styles from './Sidebar.module.css'
 
 export interface Props {
   currentNote: CurrentNote
@@ -19,7 +19,7 @@ export default function Sidebar(props: Props) {
   return (
     <div
       data-testid="Sidebar"
-      className={small ? 'Sidebar' : 'Sidebar Sidebar--not-small'}
+      className={small ? styles.Sidebar : styles.SidebarNotSmall}
     >
       <CreateNote uid={uid} />
       <NoteList uid={uid} match={match} currentNote={currentNote} />
