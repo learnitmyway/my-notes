@@ -36,7 +36,7 @@ export default class Container extends React.Component<Props, State> {
     const small = window.innerWidth < deviceWidths.small
     const containerClasses = small
       ? styles.container
-      : styles.container + ' '  + styles.containerNotSmall
+      : styles.container + ' ' + styles.containerNotSmall
     const noteClasses = small ? undefined : noteStyles.notSmall
 
     return (
