@@ -8,26 +8,21 @@ import CurrentNote from '../CurrentNote'
 import './Sidebar.css'
 
 export interface Props {
-  classNames?: string
   currentNote: CurrentNote
   match: any
+  small: boolean
   uid: string
 }
 
 export default function Sidebar(props: Props) {
-  let classNames = 'Sidebar '
-  if (props.classNames) {
-    classNames += props.classNames
-  }
-
+  const { currentNote, match, small, uid } = props
   return (
-    <div data-testid="Sidebar" className={classNames}>
-      <CreateNote uid={props.uid} />
-      <NoteList
-        uid={props.uid}
-        match={props.match}
-        currentNote={props.currentNote}
-      />
+    <div
+      data-testid="Sidebar"
+      className={small ? 'Sidebar' : 'Sidebar Sidebar--not-small'}
+    >
+      <CreateNote uid={uid} />
+      <NoteList uid={uid} match={match} currentNote={currentNote} />
     </div>
   )
 }

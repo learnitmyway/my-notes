@@ -68,7 +68,7 @@ describe('App', () => {
         .at(0)
         .props()
         .render()
-    ).toEqual(<Sidebar uid={uid} />)
+    ).toEqual(<Sidebar small uid={uid} />)
   })
 
   it('renders container component for larger devices at root path', () => {

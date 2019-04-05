@@ -55,6 +55,16 @@ describe('Container', () => {
 
       expect(queryByTestId('Sidebar')).not.toBeNull()
     })
+
+    it('displays sidebar with correct class names', () => {
+      const { getByAltText, container } = renderWithRouter(
+        <Container {...initialProps} />
+      )
+
+      fireEvent.click(getByAltText('hamburger menu'))
+
+      expect(container.querySelector('.Sidebar--not-small')).toBeNull()
+    })
   })
 
   describe('for large devices', () => {
@@ -68,6 +78,14 @@ describe('Container', () => {
       )
 
       expect(queryByTestId('Sidebar')).not.toBeNull()
+    })
+
+    it('displays sidebar with correct class names', () => {
+      const { container } = renderWithRouter(<Container {...initialProps} />)
+
+      expect(
+        container.querySelector('.Sidebar.Sidebar--not-small')
+      ).not.toBeNull()
     })
 
     it('displays new note title in sidebar when note title changes', () => {

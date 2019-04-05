@@ -39,12 +39,4 @@ describe('Sidebar', () => {
 
     expect(getByTestId('NoteList')).not.toBeNull()
   })
-
-  it('applies class names from props', () => {
-    const { container } = renderWithRouter(
-      <Sidebar classNames="forty-two" uid="uid" />
-    )
-
-    expect(container.querySelector('.forty-two')).not.toBeNull()
-  })
 })

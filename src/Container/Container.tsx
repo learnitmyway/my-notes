@@ -48,7 +48,7 @@ export default class Container extends React.Component<Props, State> {
         <div className={small ? styles.container : styles.containerNotSmall}>
           {sidebarIsOpen ? (
             <Sidebar
-              classNames="Sidebar--not-small"
+              small={small}
               currentNote={currentNote}
               uid={uid}
               match={match}
