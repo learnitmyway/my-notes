@@ -1,26 +1,18 @@
-/* eslint-env jest */
-
-import React from 'react'
-import { shallow } from 'enzyme'
-import { fireEvent, getByAltText } from 'react-testing-library'
 import 'jest-dom/extend-expect'
+import React from 'react'
+import { fireEvent } from 'react-testing-library'
 
-import { renderWithRouter } from '../testUtils/renderWithRouter'
-
-import Container from './Container'
-import Note from '../Note/Note'
-import Sidebar from '../Sidebar/Sidebar'
-
+import { readAllNotes, readNote } from '../noteService/noteService'
 import sidebarStyles from '../Sidebar/Sidebar.module.css'
-
-import { readNote, readAllNotes } from '../noteService/noteService'
+import { renderWithRouter } from '../testUtils/renderWithRouter'
+import Container from './Container'
 
 jest.mock('../noteService/noteService')
 
 describe('Container', () => {
   const initialProps = {
-    uid: 'uid',
-    match: { params: { noteId: 'noteId' } }
+    match: { params: { noteId: 'noteId' } },
+    uid: 'uid'
   }
 
   it('displays navigation bar', () => {
@@ -101,7 +93,7 @@ describe('Container', () => {
     it('displays new note title in sidebar when note title changes', () => {
       const note = { title: 'title', body: 'body' }
       const snapshot = {
-        val: function() {
+        val() {
           return note
         }
       }
@@ -116,7 +108,7 @@ describe('Container', () => {
       }
 
       const allSnapshot = {
-        val: function() {
+        val() {
           return notes
         }
       }
