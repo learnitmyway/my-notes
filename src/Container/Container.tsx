@@ -46,14 +46,13 @@ export default class Container extends React.Component<Props, State> {
       <>
         <NavigationBar handleClick={this.handleHamburgerClick} />
         <div className={small ? styles.container : styles.containerNotSmall}>
-          {sidebarIsOpen ? (
-            <Sidebar
-              small={small}
-              currentNote={currentNote}
-              uid={uid}
-              match={match}
-            />
-          ) : null}
+          <Sidebar
+            small={small}
+            open={sidebarIsOpen}
+            currentNote={currentNote}
+            uid={uid}
+            match={match}
+          />
           <Note
             classNames={noteClasses}
             onTitleChange={this.handleTitleChange}

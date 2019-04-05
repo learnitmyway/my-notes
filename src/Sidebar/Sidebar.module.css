@@ -3,9 +3,21 @@
   flex-direction: column;
   background-color: #f4f4f4;
   height: 100%;
+  transition: 0.5s;
 }
 
-.SidebarNotSmall {
+.notSmall {
   composes: Sidebar;
   flex: 1;
+}
+
+.small {
+  composes: Sidebar;
+  position: absolute;
+  left: -100%;
+  width: 100%;
+}
+
+.open {
+  left: 0;
 }

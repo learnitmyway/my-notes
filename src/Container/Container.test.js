@@ -41,21 +41,19 @@ describe('Container', () => {
     })
 
     it('does not display sidebar', () => {
-      const { queryByTestId } = renderWithRouter(
-        <Container {...initialProps} />
-      )
+      const { container } = renderWithRouter(<Container {...initialProps} />)
 
-      expect(queryByTestId('Sidebar')).toBeNull()
+      expect(container.querySelector(`.${sidebarStyles.open}`)).toBeNull()
     })
 
     it('displays sidebar when hamburger menu is clicked', () => {
-      const { getByAltText, queryByTestId } = renderWithRouter(
+      const { container, getByAltText } = renderWithRouter(
         <Container {...initialProps} />
       )
 
       fireEvent.click(getByAltText('hamburger menu'))
 
-      expect(queryByTestId('Sidebar')).not.toBeNull()
+      expect(container.querySelector(`.${sidebarStyles.open}`)).not.toBeNull()
     })
 
     it('displays sidebar with correct class names', () => {
@@ -65,7 +63,9 @@ describe('Container', () => {
 
       fireEvent.click(getByAltText('hamburger menu'))
 
-      expect(container.querySelector('.Sidebar--not-small')).toBeNull()
+      expect(
+        container.querySelector(`.${sidebarStyles.small}.${sidebarStyles.open}`)
+      ).not.toBeNull()
     })
   })
 
@@ -86,7 +86,7 @@ describe('Container', () => {
       const { container } = renderWithRouter(<Container {...initialProps} />)
 
       expect(
-        container.querySelector(`.${sidebarStyles.SidebarNotSmall}`)
+        container.querySelector(`.${sidebarStyles.notSmall}`)
       ).not.toBeNull()
     })
 

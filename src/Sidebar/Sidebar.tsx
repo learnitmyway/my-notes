@@ -10,17 +10,17 @@ import styles from './Sidebar.module.css'
 export interface Props {
   currentNote: CurrentNote
   match: any
+  open?: boolean
   small: boolean
   uid: string
 }
 
 export default function Sidebar(props: Props) {
-  const { currentNote, match, small, uid } = props
+  const { currentNote, match, open, small, uid } = props
+  const className =
+    (small ? styles.small : styles.notSmall) + ' ' + (open ? styles.open : '')
   return (
-    <div
-      data-testid="Sidebar"
-      className={small ? styles.Sidebar : styles.SidebarNotSmall}
-    >
+    <div data-testid="Sidebar" className={className}>
       <CreateNote uid={uid} />
       <NoteList uid={uid} match={match} currentNote={currentNote} />
     </div>
