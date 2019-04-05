@@ -39,7 +39,15 @@
     "not op_mini all"
   ],
   "stylelint": {
-    "extends": "stylelint-config-recommended"
+    "extends": "stylelint-config-recommended",
+    "rules": {
+      "property-no-unknown": [
+        true,
+        {
+          "ignoreProperties": "composes"
+        }
+      ]
+    }
   },
   "scripts": {
     "start": "react-scripts start",
