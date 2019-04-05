@@ -1,8 +1,7 @@
-.container {
+.root {
   height: 100%;
 }
 
-.containerNotSmall {
-  composes: container;
+.notSmall {
   display: flex;
 }
