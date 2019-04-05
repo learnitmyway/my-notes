@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React from 'react'
 
 import CreateNote from '../CreateNote/CreateNote'
@@ -17,12 +18,11 @@ export interface Props {
 
 export default function Sidebar(props: Props) {
   const { currentNote, match, open, small, uid } = props
-  const className =
-    styles.root +
-    ' ' +
-    (small ? styles.small : styles.notSmall) +
-    ' ' +
-    (open ? styles.open : '')
+  const className = classNames(
+    styles.root,
+    small ? styles.small : styles.notSmall,
+    open ? styles.open : ''
+  )
   return (
     <div data-testid="Sidebar" className={className}>
       <CreateNote uid={uid} />
