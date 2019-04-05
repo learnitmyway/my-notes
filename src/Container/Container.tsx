@@ -7,7 +7,7 @@ import CurrentNote from '../CurrentNote'
 import deviceWidths from '../deviceWidths'
 
 import noteStyles from '../Note/Note.module.css'
-import './Container.css'
+import styles from './Container.module.css'
 
 export interface Props {
   uid: string
@@ -35,8 +35,8 @@ export default class Container extends React.Component<Props, State> {
   public render() {
     const small = window.innerWidth < deviceWidths.small
     const containerClasses = small
-      ? 'Container'
-      : 'Container Container--not-small'
+      ? styles.container
+      : styles.container + ' '  + styles.containerNotSmall
     const noteClasses = small ? undefined : noteStyles.notSmall
 
     return (
