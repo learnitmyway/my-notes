@@ -2,10 +2,18 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import { fireEvent } from 'react-testing-library'
+import 'jest-dom/extend-expect'
+
+import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import Container from './Container'
 import Note from '../Note/Note'
 import Sidebar from '../Sidebar/Sidebar'
+
+import { readNote, readAllNotes } from '../noteService/noteService'
+
+jest.mock('../noteService/noteService')
 
 describe('Container', () => {
   const initialProps = {
@@ -13,28 +21,23 @@ describe('Container', () => {
     match: { params: { noteId: 'noteId' } }
   }
 
+  it('displays note', () => {
+    const { getByTestId } = renderWithRouter(<Container {...initialProps} />)
+
+    expect(getByTestId('Note')).not.toBeNull()
+  })
+
   describe('for small devices', () => {
     beforeEach(() => {
       window.innerWidth = 599
     })
 
-    it('renders', () => {
-      const wrapper = shallow(<Container {...initialProps} />)
-      expect(wrapper.props().className).toBe('Container')
-    })
+    it('does not display sidebar', () => {
+      const { queryByTestId } = renderWithRouter(
+        <Container {...initialProps} />
+      )
 
-    it('renders note component', () => {
-      const uid = 'uid'
-      const match = { params: { noteId: 'note id' } }
-      const wrapper = shallow(<Container uid={uid} match={match} />)
-
-      const noteProps = wrapper.find(Note).props()
-
-      expect(noteProps.classNames).toBe(undefined)
-      expect(noteProps.match).toBe(match)
-      expect(noteProps.uid).toBe(uid)
-
-      expect(wrapper.find(Sidebar).length).toBe(0)
+      expect(queryByTestId('Sidebar')).toBeNull()
     })
   })
 
@@ -43,40 +46,57 @@ describe('Container', () => {
       window.innerWidth = 600
     })
 
-    it('renders', () => {
-      const wrapper = shallow(<Container {...initialProps} />)
-      expect(wrapper.props().className).toBe('Container Container--not-small')
+    it('displays sidebar', () => {
+      const { queryByTestId } = renderWithRouter(
+        <Container {...initialProps} />
+      )
+
+      expect(queryByTestId('Sidebar')).not.toBeNull()
     })
 
-    it('renders main and note components', () => {
-      const uid = 'uid'
-      const match = { params: { noteId: 'note id' } }
-      const wrapper = shallow(<Container uid={uid} match={match} />)
+    it('displays new note title in sidebar when note title changes', () => {
+      const note = { title: 'title', body: 'body' }
+      const snapshot = {
+        val: function() {
+          return note
+        }
+      }
+      readNote.mockImplementation((uid, noteId, cb) => {
+        cb(snapshot)
+      })
 
-      const mainProps = wrapper.find(Sidebar).props()
-      expect(mainProps.classNames).toBe('Sidebar--not-small')
-      expect(mainProps.match).toBe(match)
-      expect(mainProps.uid).toBe(uid)
+      const notes = {
+        note0: {},
+        note1: {},
+        note2: note
+      }
 
-      const noteProps = wrapper.find(Note).props()
-      expect(noteProps.classNames).toBe('notSmall')
-      expect(noteProps.match).toBe(match)
-      expect(noteProps.uid).toBe(uid)
+      const allSnapshot = {
+        val: function() {
+          return notes
+        }
+      }
+      readAllNotes.mockImplementation((uid, cb) => {
+        cb(allSnapshot)
+      })
+
+      const match = {
+        params: {
+          noteId: 'note2'
+        }
+      }
+      const { getByTestId, getAllByTestId } = renderWithRouter(
+        <Container {...initialProps} match={match} />
+      )
+
+      const newTitle = 'new title'
+      fireEvent.input(getByTestId('Note__title'), {
+        target: { value: newTitle }
+      })
+
+      expect(getAllByTestId('NoteListItem__title')[2]).toHaveTextContent(
+        newTitle
+      )
     })
-  })
-
-  it('passes current note as prop on note title change', () => {
-    const noteId = 'noteId'
-    const match = { params: { noteId } }
-    const wrapper = shallow(<Container uid="uid" match={match} />)
-
-    const newTitle = 'new title'
-    const currentNote = { id: noteId, title: newTitle }
-    wrapper
-      .find(Note)
-      .props()
-      .onTitleChange(currentNote)
-
-    expect(wrapper.find(Sidebar).props().currentNote).toBe(currentNote)
   })
 })

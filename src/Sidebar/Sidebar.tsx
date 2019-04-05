@@ -21,7 +21,7 @@ export default function Sidebar(props: Props) {
   }
 
   return (
-    <div className={classNames}>
+    <div data-testid='Sidebar' className={classNames}>
       <CreateNote uid={props.uid} />
       <NoteList
         uid={props.uid}

@@ -100,7 +100,7 @@ export default class Note extends Component {
     const shouldRenderBody = this.state.body || this.state.body === ''
 
     return (
-      <div className={classNames}>
+      <div data-testid="Note" className={classNames}>
         {shouldRenderTitle && (
           <ContentEditable
             className={styles.title}
