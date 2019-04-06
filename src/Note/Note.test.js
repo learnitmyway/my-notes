@@ -7,30 +7,6 @@ import { readNote, updateNote } from '../noteService/noteService'
 jest.mock('../noteService/noteService')
 
 describe('Note', () => {
-  it('displays title and body', () => {
-    const body = 'body'
-    const title = 'title'
-    const note = { title, body }
-    const snapshot = {
-      val: function() {
-        return note
-      }
-    }
-    readNote.mockImplementation((uid, noteId, cb) => {
-      cb(snapshot)
-    })
-
-    const uid = 'someUid'
-    const noteId = 'someNoteId'
-    const match = { params: { noteId: noteId } }
-    const { getByTestId } = render(
-      <Note onTitleChange={jest.fn()} uid={uid} match={match} />
-    )
-
-    expect(getByTestId('Note__title').value).toBe(title)
-    expect(getByTestId('Note__body').value).toBe(body)
-  })
-
   it('does not display error', () => {
     const body = 'body'
     const title = 'title'

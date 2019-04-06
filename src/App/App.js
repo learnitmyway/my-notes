@@ -7,7 +7,7 @@ import { signInAnonymously } from '../authService/authService'
 
 import deviceWidths from '../deviceWidths'
 
-class App extends Component {
+export default class App extends Component {
   constructor() {
     super()
     this.state = {}
@@ -39,17 +39,16 @@ class App extends Component {
   }
 
   render() {
-    return this.state.uid ? (
+    const { uid } = this.state
+    return uid ? (
       <>
         <Route exact path="/" render={this.renderRootPath} />
         <Route
           exact
           path="/:noteId"
-          render={props => <Container {...props} uid={this.state.uid} />}
+          render={props => <Container {...props} uid={uid} />}
         />
       </>
     ) : null
   }
 }
-
-export default App

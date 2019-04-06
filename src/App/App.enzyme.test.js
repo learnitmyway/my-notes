@@ -16,21 +16,6 @@ describe('App', () => {
     window.innerWidth = 200
   })
 
-  it('sets anonymous uid on mount', async () => {
-    const expectedUid = 42
-    const userCredential = {
-      user: {
-        uid: expectedUid
-      }
-    }
-
-    signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
-
-    const wrapper = await shallow(<App />)
-
-    expect(wrapper.state().uid).toBe(expectedUid)
-  })
-
   it('logs error and displays an alert when anonymous sign in fails', async () => {
     window.alert = jest.fn()
     console.error = jest.fn()
@@ -69,25 +54,6 @@ describe('App', () => {
         .props()
         .render()
     ).toEqual(<Sidebar open small uid={uid} />)
-  })
-
-  it('renders container component for larger devices at root path', () => {
-    window.innerWidth = 600
-    signInAnonymously.mockResolvedValue()
-
-    const wrapper = shallow(<App />)
-    const uid = 'uid'
-    wrapper.setState({ uid })
-
-    const props = { something: 'something' }
-
-    expect(
-      wrapper
-        .find('Route[path="/"]')
-        .at(0)
-        .props()
-        .render(props)
-    ).toEqual(<Container {...props} uid={uid} />)
   })
 
   it('renders container component at noteId path', () => {

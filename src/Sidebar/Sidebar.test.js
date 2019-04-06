@@ -17,19 +17,6 @@ jest.mock('uuid/v1')
 jest.mock('../noteService/noteService')
 
 describe('Sidebar', () => {
-  it('creates and navigates to new note on click', () => {
-    const noteId = 'noteId'
-    uuidv1.mockReturnValue(noteId)
-
-    const uid = 'uid'
-    const { history, getByTestId } = renderWithRouter(<Sidebar uid="uid" />)
-
-    fireEvent.click(getByTestId('CreateNote__btn'))
-
-    expect(createNote).toHaveBeenCalledWith(uid, noteId)
-    expect(history.entries[1].pathname).toBe('/' + noteId)
-  })
-
   it('renders note list', () => {
     const currentNote = { id: 'id', title: 'title' }
     const match = { params: { noteId: 'noteId' } }
