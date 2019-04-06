@@ -49,7 +49,7 @@
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}' && npx stylelint src/**/*.css",
     "lint:fix": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --fix  && npx stylelint src/**/*.css --fix",
     "pretest": "npm run lint",
-    "test": "react-scripts test",
+    "test": "react-scripts test --verbose=false",
     "eject": "react-scripts eject",
     "deploy:firebase": "npx firebase deploy --project $REACT_APP_PROJECT_ID --non-interactive --token $FIREBASE_TOKEN",
     "deploy:netlify": "CI=true npm test && CI=true npm run build && npm run deploy:firebase"
