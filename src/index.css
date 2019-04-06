@@ -1,3 +1,9 @@
+:root {
+  --primary: darkgrey;
+  --primary-light: lightgrey;
+  --off-white: #f4f4f4;
+}
+
 html {
   box-sizing: border-box;
   height: 100%;
@@ -12,7 +18,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+  font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
   height: 100%;
   color: hsl(0, 0%, 13%);
 }

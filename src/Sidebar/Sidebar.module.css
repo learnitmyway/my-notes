@@ -1,7 +1,7 @@
 .root {
   display: flex;
   flex-direction: column;
-  background-color: #f4f4f4;
+  background-color: var(--primary);
   height: 100%;
   transition: 0.5s;
 }
