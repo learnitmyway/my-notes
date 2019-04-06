@@ -1,4 +1,3 @@
-import 'jest-dom/extend-expect'
 import React from 'react'
 import { fireEvent } from 'react-testing-library'
 
