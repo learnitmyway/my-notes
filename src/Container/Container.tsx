@@ -32,8 +32,10 @@ export default class Container extends React.Component<Props, State> {
     this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
-  public handleTitleChange(currentNote: CurrentNote) {
-    this.setState({ currentNote })
+  public componentDidUpdate(prevProps: Props) {
+    if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
+      this.setState({ sidebarIsOpen: false })
+    }
   }
 
   public render() {
@@ -64,6 +66,10 @@ export default class Container extends React.Component<Props, State> {
         </div>
       </>
     )
+  }
+
+  private handleTitleChange(currentNote: CurrentNote) {
+    this.setState({ currentNote })
   }
 
   private handleHamburgerClick = () => {

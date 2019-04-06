@@ -19,7 +19,7 @@ describe('App', () => {
       window.innerWidth = 599
     })
 
-    describe('at root path', () => {
+    describe('from /', () => {
       it('creates a new note with title and body and navigates to it. Closes sidebar', async () => {
         const expectedNoteId = 'noteId'
         uuidv1.mockReturnValue(expectedNoteId)
@@ -57,6 +57,51 @@ describe('App', () => {
         expect(container.querySelector(`.${sidebarStyles.open}`)).toBeNull()
       })
     })
+
+    describe('from /:noteId', () => {
+      it('Opens sidebar. Creates a new note with title and body and navigates to it. Closes sidebar', async () => {
+        const expectedNoteId = 'noteId'
+        uuidv1.mockReturnValue(expectedNoteId)
+
+        const expectedUid = '42'
+        const userCredential = {
+          user: {
+            uid: expectedUid
+          }
+        }
+
+        signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
+
+        const expectedTitle = 'title'
+        const expectedBody = 'body'
+        const snapshot = {
+          val() {
+            return { title: expectedTitle, body: expectedBody }
+          }
+        }
+        readNote.mockImplementation((uid, noteId, cb) => {
+          cb(snapshot)
+        })
+
+        const {
+          container,
+          getByAltText,
+          getByTestId,
+          history
+        } = await renderWithRouter(<App />, { route: '/anotherNoteId' })
+
+        fireEvent.click(getByAltText('hamburger menu'))
+        expect(container.querySelector(`.${sidebarStyles.open}`)).not.toBeNull()
+
+        fireEvent.click(getByTestId('CreateNote__btn'))
+
+        expect(createNote).toHaveBeenCalledWith(expectedUid, expectedNoteId)
+        expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
+        expect(getByTestId('Note__title').value).toBe(expectedTitle)
+        expect(getByTestId('Note__body').value).toBe(expectedBody)
+        expect(container.querySelector(`.${sidebarStyles.open}`)).toBeNull()
+      })
+    })
   })
 
   describe('for non-small devices', () => {
@@ -64,7 +109,7 @@ describe('App', () => {
       window.innerWidth = 600
     })
 
-    describe('at root path', () => {
+    describe('from /', () => {
       it('creates a new note with title and body and navigates to it. Does not close sidebar', async () => {
         const expectedNoteId = 'noteId'
         uuidv1.mockReturnValue(expectedNoteId)
