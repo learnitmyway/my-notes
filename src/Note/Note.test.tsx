@@ -224,4 +224,25 @@ describe('Note', () => {
     expect(deleteNote).toHaveBeenCalledWith(expectedUid, noteIdToDelete)
     expect(push).toHaveBeenCalledWith('/')
   })
+
+  it('logs error when delete fails', async () => {
+    const noteIdToDelete = 'abc123'
+    const err = new Error('Something bad happened')
+
+    deleteNote.mockRejectedValue(err)
+
+    const push = jest.fn()
+    const history = { push }
+    const match = { params: { noteId: noteIdToDelete } }
+    const expectedUid = 'expectedUid'
+    const { getByText } = await render(
+      <Note history={history} match={match} uid={expectedUid} />
+    )
+
+    await await fireEvent.click(getByText('Delete'))
+
+    expect(deleteNote).toHaveBeenCalledWith(expectedUid, noteIdToDelete)
+    expect(push).not.toHaveBeenCalled()
+    expect(log).toHaveBeenCalledWith('Delete note failed', err)
+  })
 })

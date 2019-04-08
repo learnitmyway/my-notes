@@ -101,7 +101,9 @@ export default class Note extends Component<Props, State> {
 
   public handleClick = () => {
     const { history, match, uid } = this.props
-    deleteNote(uid, match.params.noteId).then(() => history.push('/'))
+    deleteNote(uid, match.params.noteId)
+      .then(() => history.push('/'))
+      .catch(err => log('Delete note failed', err))
   }
 
   public componentDidUpdate(prevProps: Props, prevState: any, snapshot: any) {
