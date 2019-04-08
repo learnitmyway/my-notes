@@ -96,12 +96,12 @@ describe('Routes', () => {
       expect(queryByTestId('Sidebar')).not.toBeNull()
     })
 
-    it('does not display container', async () => {
+    it('does not display note', async () => {
       const { queryByTestId } = await renderWithRouter(
         <Routes {...defaultProps} />
       )
 
-      expect(queryByTestId('Container')).toBeNull()
+      expect(queryByTestId('Note')).toBeNull()
     })
   })
 
@@ -110,12 +110,12 @@ describe('Routes', () => {
       window.innerWidth = 600
     })
 
-    it('displays container', async () => {
+    it('displays note', async () => {
       const { queryByTestId } = await renderWithRouter(
         <Routes {...defaultProps} />
       )
 
-      expect(queryByTestId('Container')).not.toBeNull()
+      expect(queryByTestId('Note')).not.toBeNull()
     })
   })
 })
