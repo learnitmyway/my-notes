@@ -9,6 +9,11 @@
   flex: 2;
 }
 
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
 .title {
   outline: none;
   font-size: 1.5rem;

@@ -129,29 +129,29 @@ export default class Note extends Component<Props, State> {
 
     return (
       <div data-testid="Note" className={classNames}>
-        {shouldRenderTitle && (
-          <ContentEditable
-            className={styles.title}
-            data-testid={'Note__title'}
-            html={this.state.title || ''}
-            onChange={this.handleTitleChange}
-          />
-        )}
-        {shouldRenderBody && (
-          <ContentEditable
-            className={styles.body}
-            data-testid={'Note__body'}
-            html={this.state.body || ''}
-            onChange={this.handleBodyChange}
-          />
+        {shouldRenderTitle && shouldRenderBody && (
+          <>
+            <div className={styles.titleWrapper}>
+              <ContentEditable
+                className={styles.title}
+                data-testid={'Note__title'}
+                html={this.state.title || ''}
+                onChange={this.handleTitleChange}
+              />
+              <button onClick={this.handleClick}>Delete</button>
+            </div>
+            <ContentEditable
+              className={styles.body}
+              data-testid={'Note__body'}
+              html={this.state.body || ''}
+              onChange={this.handleBodyChange}
+            />
+          </>
         )}
         {this.state.isError && (
           <div data-testid="Note__error" className={styles.error}>
             Note cannot be found
           </div>
-        )}
-        {(shouldRenderTitle || shouldRenderBody) && (
-          <button onClick={this.handleClick}>Delete</button>
         )}
       </div>
     )
