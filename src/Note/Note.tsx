@@ -42,7 +42,9 @@ export default class Note extends Component<Props, State> {
 
   public renderErrorMessage() {
     this.setState({
-      isError: true
+      body: null,
+      isError: true,
+      title: null
     })
   }
 
@@ -56,6 +58,7 @@ export default class Note extends Component<Props, State> {
       } else {
         this.setState({
           body: note.body,
+          isError: false,
           title: note.title
         })
       }

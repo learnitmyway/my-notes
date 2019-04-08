@@ -110,6 +110,36 @@ describe('Note', () => {
     expect(queryByTestId('Note__body')).not.toBeInTheDocument()
   })
 
+  it('hides error after successful read', () => {
+    readNote.mockImplementationOnce(
+      (a, b, successCallback, failureCallBack) => {
+        failureCallBack(new Error())
+      }
+    )
+
+    const snapshot = {
+      val() {
+        return { title: 'title', body: 'body' }
+      }
+    }
+    readNote.mockImplementationOnce((a, b, cb) => {
+      cb(snapshot)
+    })
+
+    const uid = 'someUid'
+    const noteId1 = 'noteId1'
+    const match1 = { params: { noteId: noteId1 } }
+    const prevProps = { ...defaultProps, uid, match: match1 }
+    const { rerender, queryByText } = render(<Note {...prevProps} />)
+
+    const noteId2 = 'noteId2'
+    const match2 = { params: { noteId: noteId2 } }
+    const props = { ...prevProps, match: match2 }
+    rerender(<Note {...props} />)
+
+    expect(queryByText('Note cannot be found')).toBeNull()
+  })
+
   it('reads new note when note id changes', () => {
     const uid = 'someUid'
     const noteId1 = 'noteId1'
