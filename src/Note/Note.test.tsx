@@ -9,7 +9,23 @@ import { deleteNote, readNote, updateNote } from '../noteService/noteService'
 jest.mock('../noteService/noteService')
 jest.mock('../errorService')
 
+const defaultProps = {
+  match: { params: { noteId: 'someNoteId' } },
+  uid: 'someUid'
+}
+
 describe('Note', () => {
+  beforeEach(() => {
+    const snapshot = {
+      val() {
+        return { title: 'title', body: 'body' }
+      }
+    }
+    readNote.mockImplementation((a, b, cb) => {
+      cb(snapshot)
+    })
+  })
+
   it('displays title and body', () => {
     const body = 'body'
     const title = 'title'
@@ -23,68 +39,25 @@ describe('Note', () => {
       cb(snapshot)
     })
 
-    const uid = 'someUid'
-    const noteId = 'someNoteId'
-    const match = { params: { noteId } }
-    const { getByTestId } = render(
-      <Note onTitleChange={jest.fn()} uid={uid} match={match} />
-    )
+    const { getByTestId } = render(<Note {...defaultProps} />)
 
     expect(getByTestId('Note__title').value).toBe(title)
     expect(getByTestId('Note__body').value).toBe(body)
   })
 
   it('does not display error', () => {
-    const body = 'body'
-    const title = 'title'
-    const note = { title, body }
-    const snapshot = {
-      val() {
-        return note
-      }
-    }
-    readNote.mockImplementation((a, b, cb) => {
-      cb(snapshot)
-    })
-
-    const uid = 'someUid'
-    const noteId = 'someNoteId'
-    const match = { params: { noteId } }
-    const { queryByTestId } = render(
-      <Note onTitleChange={jest.fn()} uid={uid} match={match} />
-    )
+    const { queryByTestId } = render(<Note {...defaultProps} />)
 
     expect(queryByTestId('Note__error')).not.toBeInTheDocument()
   })
 
   it('displays empty note when there is no note id in url path', () => {
-    const uid = 'someUid'
     const match = { params: {} }
-    const { queryByTestId } = render(
-      <Note onTitleChange={jest.fn()} uid={uid} match={match} />
-    )
+    const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
 
     expect(queryByTestId('Note__title')).not.toBeInTheDocument()
     expect(queryByTestId('Note__body')).not.toBeInTheDocument()
     expect(queryByTestId('Note__error')).not.toBeInTheDocument()
-  })
-
-  it('displays and logs error when reading note fails (eg. user is not authenticated)', () => {
-    const err = new Error('Something bad happened')
-
-    readNote.mockImplementation((a, b, successCallback, failureCallBack) => {
-      failureCallBack(err)
-    })
-
-    const match = { params: { noteId: 'non-existant' } }
-    const { queryByTestId } = render(
-      <Note onTitleChange={jest.fn()} uid="" match={match} />
-    )
-
-    expect(log).toHaveBeenCalledWith('Read note failed', err)
-    expect(queryByTestId('Note__error')).toHaveTextContent(
-      'Note cannot be found'
-    )
   })
 
   it('displays and logs error when there is no note', () => {
@@ -99,9 +72,7 @@ describe('Note', () => {
 
     const noteId = 'noteId'
     const match = { params: { noteId } }
-    const { queryByTestId } = render(
-      <Note onTitleChange={jest.fn()} uid="uid" match={match} />
-    )
+    const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
 
     expect(log).toHaveBeenCalledWith('Not able to read note: ' + noteId)
     expect(queryByTestId('Note__error')).toHaveTextContent(
@@ -109,7 +80,7 @@ describe('Note', () => {
     )
   })
 
-  it('does not display note title or body if there is an error', () => {
+  it('displays and logs error when reading note fails', () => {
     const err = new Error('Something bad happened')
 
     readNote.mockImplementation((a, b, successCallback, failureCallBack) => {
@@ -117,9 +88,23 @@ describe('Note', () => {
     })
 
     const match = { params: { noteId: 'non-existant' } }
-    const { queryByTestId } = render(
-      <Note onTitleChange={jest.fn()} uid="" match={match} />
+    const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
+
+    expect(log).toHaveBeenCalledWith('Read note failed', err)
+    expect(queryByTestId('Note__error')).toHaveTextContent(
+      'Note cannot be found'
     )
+  })
+
+  it('does not display note title or body when reading note fails', () => {
+    const err = new Error('Something bad happened')
+
+    readNote.mockImplementation((a, b, successCallback, failureCallBack) => {
+      failureCallBack(err)
+    })
+
+    const match = { params: { noteId: 'non-existant' } }
+    const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
 
     expect(queryByTestId('Note__title')).not.toBeInTheDocument()
     expect(queryByTestId('Note__body')).not.toBeInTheDocument()
@@ -129,15 +114,13 @@ describe('Note', () => {
     const uid = 'someUid'
     const noteId1 = 'noteId1'
     const match1 = { params: { noteId: noteId1 } }
-    const prevProps = { uid, match: match1 }
-    const { rerender } = render(
-      <Note onTitleChange={jest.fn()} {...prevProps} />
-    )
+    const prevProps = { ...defaultProps, uid, match: match1 }
+    const { rerender } = render(<Note {...prevProps} />)
 
     const noteId2 = 'noteId2'
     const match2 = { params: { noteId: noteId2 } }
-    const props = { uid, match: match2 }
-    rerender(<Note onTitleChange={jest.fn()} {...props} />)
+    const props = { ...prevProps, match: match2 }
+    rerender(<Note {...props} />)
 
     expect(readNote).toHaveBeenCalledWith(
       uid,
@@ -148,14 +131,8 @@ describe('Note', () => {
   })
 
   it('applies class names from props', () => {
-    const match = { params: { noteId: 'id' } }
     const { container } = render(
-      <Note
-        classNames="forty-two"
-        onTitleChange={jest.fn()}
-        uid="uid"
-        match={match}
-      />
+      <Note {...defaultProps} classNames="forty-two" />
     )
 
     expect(container.querySelector('.forty-two')).not.toBeNull()
@@ -203,15 +180,6 @@ describe('Note', () => {
 
     deleteNote.mockResolvedValue()
 
-    const snapshot = {
-      val() {
-        return { title: 'title', body: 'body' }
-      }
-    }
-    readNote.mockImplementation((a, b, cb) => {
-      cb(snapshot)
-    })
-
     const push = jest.fn()
     const history = { push }
     const match = { params: { noteId: noteIdToDelete } }
@@ -228,18 +196,6 @@ describe('Note', () => {
   it('logs error when delete fails', async () => {
     const noteIdToDelete = 'abc123'
     const err = new Error('Something bad happened')
-
-    const body = 'body'
-    const title = 'title'
-    const note = { title, body }
-    const snapshot = {
-      val() {
-        return note
-      }
-    }
-    readNote.mockImplementation((a, b, cb) => {
-      cb(snapshot)
-    })
 
     deleteNote.mockRejectedValue(err)
 
@@ -259,11 +215,10 @@ describe('Note', () => {
   })
 
   it('does not display delete button when there is no title and body', async () => {
-    const defaultProps = {
-      match: { params: { noteId: 'someNoteId' } }
-    }
-
-    const { queryByText } = await render(<Note {...defaultProps} />)
+    const match = { params: {} }
+    const { queryByText } = await render(
+      <Note {...defaultProps} match={match} />
+    )
 
     expect(queryByText('Delete')).toBeNull()
   })
