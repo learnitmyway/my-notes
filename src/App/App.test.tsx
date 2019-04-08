@@ -17,15 +17,13 @@ describe('App', () => {
     signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
   })
 
-  it('logs error and displays an alert when anonymous sign in fails', async () => {
+  it('displays an alert when anonymous sign in fails', async () => {
     window.alert = jest.fn()
-    console.error = jest.fn()
     const err = new Error('Something bad happened')
     signInAnonymously.mockReturnValue(Promise.reject(err))
 
     await await renderWithRouter(<App />)
 
-    expect(console.error).toHaveBeenCalledWith('Sign in failed', err)
     expect(window.alert).toHaveBeenCalledWith(
       'Something went wrong. Please refresh the page and try again.'
     )

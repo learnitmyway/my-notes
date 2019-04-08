@@ -17,7 +17,6 @@ export default class App extends Component {
         })
       })
       .catch(err => {
-        log('Sign in failed', err)
         window.alert(
           'Something went wrong. Please refresh the page and try again.'
         )
