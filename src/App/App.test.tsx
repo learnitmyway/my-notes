@@ -6,7 +6,7 @@ import { renderWithRouter } from '../testUtils/renderWithRouter'
 import App from './App'
 
 import { signInAnonymously } from '../authService/authService'
-import { createNote, readNote } from '../noteService/noteService'
+import { createNote, readAllNotes, readNote } from '../noteService/noteService'
 
 jest.mock('uuid/v1')
 jest.mock('../noteService/noteService')
@@ -36,17 +36,16 @@ describe('App', () => {
   describe('for small devices', () => {
     beforeEach(() => {
       window.innerWidth = 599
+      const userCredential = {
+        user: {
+          uid: 'uid'
+        }
+      }
+      signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
     })
 
     describe('from /', () => {
       it('displays sidebar', async () => {
-        const userCredential = {
-          user: {
-            uid: 'uid'
-          }
-        }
-        signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
-
         const { queryByTestId } = await renderWithRouter(<App />)
 
         expect(queryByTestId('Sidebar')).not.toBeNull()
@@ -98,24 +97,48 @@ describe('App', () => {
         expect(getByTestId('Note__title').value).toBe(expectedTitle)
         expect(getByTestId('Note__body').value).toBe(expectedBody)
       })
+
+      it('navigates to existing note', async () => {
+        const expectedTitle = 'title'
+        const expectedBody = 'body'
+        const expectedNoteId = 'note2'
+        const expectedNote = { title: expectedTitle, body: expectedBody }
+
+        const notes = {
+          note1: {},
+          [expectedNoteId]: expectedNote,
+          note3: {}
+        }
+        const readAllSnapshot = {
+          val() {
+            return notes
+          }
+        }
+        readAllNotes.mockImplementation((uid, cb) => {
+          cb(readAllSnapshot)
+        })
+
+        const snapshot = {
+          val() {
+            return expectedNote
+          }
+        }
+        readNote.mockImplementation((uid, noteId, cb) => {
+          cb(snapshot)
+        })
+
+        const { getByText, getByTestId, history } = await renderWithRouter(
+          <App />
+        )
+
+        fireEvent.click(getByText(expectedTitle))
+
+        expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
+        expect(getByTestId('Note__title').value).toBe(expectedTitle)
+      })
     })
 
     describe('from /:noteId', () => {
-      it('displays container', async () => {
-        const userCredential = {
-          user: {
-            uid: 'uid'
-          }
-        }
-        signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
-
-        const { queryByTestId } = await renderWithRouter(<App />, {
-          route: '/anotherNoteId'
-        })
-
-        expect(queryByTestId('Container')).not.toBeNull()
-      })
-
       it('creates a new note and navigates to it', async () => {
         const expectedNoteId = 'noteId'
         uuidv1.mockReturnValue(expectedNoteId)
@@ -152,6 +175,49 @@ describe('App', () => {
         expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
         expect(getByTestId('Note__title').value).toBe(expectedTitle)
         expect(getByTestId('Note__body').value).toBe(expectedBody)
+      })
+
+      it('navigates to existing note', async () => {
+        const expectedTitle = 'title'
+        const expectedBody = 'body'
+        const expectedNoteId = 'note2'
+        const expectedNote = { title: expectedTitle, body: expectedBody }
+
+        const notes = {
+          note1: {},
+          [expectedNoteId]: expectedNote,
+          note3: {}
+        }
+        const readAllSnapshot = {
+          val() {
+            return notes
+          }
+        }
+        readAllNotes.mockImplementation((uid, cb) => {
+          cb(readAllSnapshot)
+        })
+
+        const snapshot = {
+          val() {
+            return expectedNote
+          }
+        }
+        readNote.mockImplementation((uid, noteId, cb) => {
+          cb(snapshot)
+        })
+
+        const {
+          getByText,
+          getByTestId,
+          history,
+          getByAltText
+        } = await renderWithRouter(<App />, { route: '/anotherNoteId' })
+
+        fireEvent.click(getByAltText('hamburger menu'))
+        fireEvent.click(getByText(expectedTitle))
+
+        expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
+        expect(getByTestId('Note__title').value).toBe(expectedTitle)
       })
     })
   })
