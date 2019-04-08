@@ -1,8 +1,9 @@
-/* eslint-env jest */
-
 import firebase from 'firebase/app'
 
-import { createNote, readNote, readAllNotes, updateNote } from './noteService'
+import { log } from '../errorService'
+import { createNote, readAllNotes, readNote, updateNote } from './noteService'
+
+jest.mock('../errorService')
 
 describe('noteService', () => {
   it('creates a note in the firebase database', () => {
@@ -31,7 +32,6 @@ describe('noteService', () => {
   })
 
   it('handles error when creating a note', async () => {
-    console.error = jest.fn()
     const err = new Error('Something bad happened')
     const set = jest.fn(() => Promise.reject(err))
 
@@ -51,7 +51,7 @@ describe('noteService', () => {
     const noteId = 'noteId'
     await createNote(uid, noteId)
 
-    expect(console.error).toHaveBeenCalledWith(
+    expect(log).toHaveBeenCalledWith(
       `Cannot create note: /notes/${uid}/${noteId}`,
       err
     )
