@@ -30,3 +30,18 @@
 .error {
   color: red;
 }
+
+.deleteBtn {
+  color: var(--primary);
+  padding: 0;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.deleteBtn:hover,
+.deleteBtn:focus {
+  color: var(--primary-light);
+}

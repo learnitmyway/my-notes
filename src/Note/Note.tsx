@@ -138,7 +138,9 @@ export default class Note extends Component<Props, State> {
                 html={this.state.title || ''}
                 onChange={this.handleTitleChange}
               />
-              <button onClick={this.handleClick}>Delete</button>
+              <button className={styles.deleteBtn} onClick={this.handleClick}>
+                Delete
+              </button>
             </div>
             <ContentEditable
               className={styles.body}
