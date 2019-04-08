@@ -14,6 +14,26 @@ jest.mock('../noteService/noteService')
 jest.mock('../authService/authService')
 
 describe('App', () => {
+  it('displays an alert when anonymous sign in fails', async () => {
+    window.alert = jest.fn()
+    const err = new Error('Something bad happened')
+    signInAnonymously.mockReturnValue(Promise.reject(err))
+
+    await await renderWithRouter(<App />)
+
+    expect(window.alert).toHaveBeenCalledWith(
+      'Something went wrong. Please refresh the page and try again.'
+    )
+  })
+
+  it('does not render children when there is no uid', async () => {
+    signInAnonymously.mockReturnValue(Promise.resolve({}))
+
+    const { container } = await renderWithRouter(<App />)
+
+    expect(container.firstChild).toBeNull()
+  })
+
   describe('for small devices', () => {
     beforeEach(() => {
       window.innerWidth = 599

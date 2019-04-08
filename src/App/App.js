@@ -23,7 +23,6 @@ export default class App extends Component {
         })
       })
       .catch(err => {
-        console.error(err)
         window.alert(
           'Something went wrong. Please refresh the page and try again.'
         )
