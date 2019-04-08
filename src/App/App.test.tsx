@@ -3,7 +3,6 @@ import { fireEvent } from 'react-testing-library'
 import uuidv1 from 'uuid/v1'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
-import sidebarStyles from '../Sidebar/Sidebar.module.css'
 import App from './App'
 
 import { signInAnonymously } from '../authService/authService'
@@ -40,7 +39,33 @@ describe('App', () => {
     })
 
     describe('from /', () => {
-      it('creates a new note with title and body and navigates to it. Closes sidebar', async () => {
+      it('displays sidebar', async () => {
+        const userCredential = {
+          user: {
+            uid: 'uid'
+          }
+        }
+        signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
+
+        const { queryByTestId } = await renderWithRouter(<App />)
+
+        expect(queryByTestId('Sidebar')).not.toBeNull()
+      })
+
+      it('does not display container', async () => {
+        const userCredential = {
+          user: {
+            uid: 'uid'
+          }
+        }
+        signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
+
+        const { queryByTestId } = await renderWithRouter(<App />)
+
+        expect(queryByTestId('Container')).toBeNull()
+      })
+
+      it('creates a new note and navigates to it', async () => {
         const expectedNoteId = 'noteId'
         uuidv1.mockReturnValue(expectedNoteId)
 
@@ -64,9 +89,7 @@ describe('App', () => {
           cb(snapshot)
         })
 
-        const { container, getByTestId, history } = await renderWithRouter(
-          <App />
-        )
+        const { getByTestId, history } = await renderWithRouter(<App />)
 
         fireEvent.click(getByTestId('CreateNote__btn'))
 
@@ -74,12 +97,26 @@ describe('App', () => {
         expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
         expect(getByTestId('Note__title').value).toBe(expectedTitle)
         expect(getByTestId('Note__body').value).toBe(expectedBody)
-        expect(container.querySelector(`.${sidebarStyles.open}`)).toBeNull()
       })
     })
 
     describe('from /:noteId', () => {
-      it('Opens sidebar. Creates a new note with title and body and navigates to it. Closes sidebar', async () => {
+      it('displays container', async () => {
+        const userCredential = {
+          user: {
+            uid: 'uid'
+          }
+        }
+        signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
+
+        const { queryByTestId } = await renderWithRouter(<App />, {
+          route: '/anotherNoteId'
+        })
+
+        expect(queryByTestId('Container')).not.toBeNull()
+      })
+
+      it('creates a new note and navigates to it', async () => {
         const expectedNoteId = 'noteId'
         uuidv1.mockReturnValue(expectedNoteId)
 
@@ -103,23 +140,18 @@ describe('App', () => {
           cb(snapshot)
         })
 
-        const {
-          container,
-          getByAltText,
-          getByTestId,
-          history
-        } = await renderWithRouter(<App />, { route: '/anotherNoteId' })
+        const { getByAltText, getByTestId, history } = await renderWithRouter(
+          <App />,
+          { route: '/anotherNoteId' }
+        )
 
         fireEvent.click(getByAltText('hamburger menu'))
-        expect(container.querySelector(`.${sidebarStyles.open}`)).not.toBeNull()
-
         fireEvent.click(getByTestId('CreateNote__btn'))
 
         expect(createNote).toHaveBeenCalledWith(expectedUid, expectedNoteId)
         expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
         expect(getByTestId('Note__title').value).toBe(expectedTitle)
         expect(getByTestId('Note__body').value).toBe(expectedBody)
-        expect(container.querySelector(`.${sidebarStyles.open}`)).toBeNull()
       })
     })
   })
@@ -130,7 +162,7 @@ describe('App', () => {
     })
 
     describe('from /', () => {
-      it('creates a new note with title and body and navigates to it. Does not close sidebar', async () => {
+      it('creates a new note and navigates to it', async () => {
         const expectedNoteId = 'noteId'
         uuidv1.mockReturnValue(expectedNoteId)
 
@@ -154,9 +186,7 @@ describe('App', () => {
           cb(snapshot)
         })
 
-        const { container, history, getByTestId } = await renderWithRouter(
-          <App />
-        )
+        const { history, getByTestId } = await renderWithRouter(<App />)
 
         fireEvent.click(getByTestId('CreateNote__btn'))
 
@@ -164,7 +194,6 @@ describe('App', () => {
         expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
         expect(getByTestId('Note__title').value).toBe(expectedTitle)
         expect(getByTestId('Note__body').value).toBe(expectedBody)
-        expect(container.querySelector(`.${sidebarStyles.open}`)).not.toBeNull()
       })
     })
   })

@@ -45,7 +45,7 @@ export default class Container extends React.Component<Props, State> {
     const { currentNote, sidebarIsOpen } = this.state
     const { match, uid } = this.props
     return (
-      <>
+      <div data-testid="Container">
         {window.innerWidth < deviceWidths.small && (
           <NavigationBar handleClick={this.handleHamburgerClick} />
         )}
@@ -64,7 +64,7 @@ export default class Container extends React.Component<Props, State> {
             match={match}
           />
         </div>
-      </>
+      </div>
     )
   }
 
