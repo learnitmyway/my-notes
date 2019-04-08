@@ -3,6 +3,7 @@ import React from 'react'
 import NoteListItem from './NoteListItem/NoteListItem'
 
 import CurrentNote from '../CurrentNote'
+import { log } from '../errorService'
 import { readAllNotes } from '../noteService/noteService'
 
 import './NoteList.css'
@@ -75,7 +76,8 @@ export default class NoteList extends React.Component<Props, State> {
         notes
       })
     }
-    const failureCallback = () => {
+    const failureCallback = (err: any) => {
+      log('Cannot read all notes', err)
       this.setState({ isError: true })
     }
     readAllNotes(this.props.uid, successCallback, failureCallback)

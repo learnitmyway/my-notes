@@ -1,5 +1,7 @@
-import firebase from '../firebase'
 import 'firebase/database'
+import firebase from '../firebase'
+
+import { log } from '../errorService'
 
 export function createNote(uid, noteId) {
   const newNoteRef = getNoteRef(uid, noteId)
@@ -8,9 +10,7 @@ export function createNote(uid, noteId) {
       title: 'click to edit',
       body: 'click to edit'
     })
-    .catch(err =>
-      console.error(`Cannot create note: /notes/${uid}/${noteId}`, err)
-    )
+    .catch(err => log(`Cannot create note: /notes/${uid}/${noteId}`, err))
 }
 
 export function readNote(uid, noteId, successCallback, failureCallback) {
