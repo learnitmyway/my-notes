@@ -42,6 +42,11 @@ export function updateNote(
   noteRef.update({ title, body })
 }
 
+export function deleteNote(uid: string, noteId: string) {
+  const noteRef = getNoteRef(uid, noteId)
+  noteRef.remove()
+}
+
 function getNoteRef(uid: string, noteId: string) {
   return firebase.database().ref(`/notes/${uid}/${noteId}`)
 }

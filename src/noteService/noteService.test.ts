@@ -1,7 +1,13 @@
 import firebase from 'firebase/app'
 
 import { log } from '../errorService'
-import { createNote, readAllNotes, readNote, updateNote } from './noteService'
+import {
+  createNote,
+  deleteNote,
+  readAllNotes,
+  readNote,
+  updateNote
+} from './noteService'
 
 jest.mock('../errorService')
 
@@ -132,5 +138,27 @@ describe('noteService', () => {
 
     expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
     expect(update).toHaveBeenCalledWith(updatedNote)
+  })
+
+  it('deletes a note in the firebase database', () => {
+    const remove = jest.fn(() => Promise.resolve())
+
+    const ref = jest.fn(() => {
+      return {
+        remove
+      }
+    })
+    jest.spyOn(firebase, 'database').mockImplementation(() => {
+      return {
+        ref
+      }
+    })
+
+    const uid = 'uid'
+    const noteId = 'noteId'
+    deleteNote(uid, noteId)
+
+    expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
+    expect(remove).toHaveBeenCalled()
   })
 })
