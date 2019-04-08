@@ -1,7 +1,9 @@
 :root {
-  --primary: darkgrey;
-  --primary-light: lightgrey;
-  --off-white: #f4f4f4;
+  --primary: hsl(0, 0%, 90%);
+  --primary-light: hsl(0, 0%, 99%);
+  --accent: hsl(31, 100%, 50%);
+  --accent-light: hsl(31, 100%, 80%);
+  --off-white: hsl(0, 0%, 99%);
 }
 
 html {

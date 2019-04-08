@@ -32,7 +32,7 @@
 }
 
 .deleteBtn {
-  color: var(--primary);
+  color: var(--accent);
   padding: 0;
   text-decoration: underline;
   background: none;
@@ -43,5 +43,5 @@
 
 .deleteBtn:hover,
 .deleteBtn:focus {
-  color: var(--primary-light);
+  color: var(--accent-light);
 }
