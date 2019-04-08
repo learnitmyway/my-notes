@@ -150,7 +150,9 @@ export default class Note extends Component<Props, State> {
             Note cannot be found
           </div>
         )}
-        <button onClick={this.handleClick}>Delete</button>
+        {(shouldRenderTitle || shouldRenderBody) && (
+          <button onClick={this.handleClick}>Delete</button>
+        )}
       </div>
     )
   }

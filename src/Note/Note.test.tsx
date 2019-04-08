@@ -229,6 +229,18 @@ describe('Note', () => {
     const noteIdToDelete = 'abc123'
     const err = new Error('Something bad happened')
 
+    const body = 'body'
+    const title = 'title'
+    const note = { title, body }
+    const snapshot = {
+      val() {
+        return note
+      }
+    }
+    readNote.mockImplementation((a, b, cb) => {
+      cb(snapshot)
+    })
+
     deleteNote.mockRejectedValue(err)
 
     const push = jest.fn()
@@ -244,5 +256,15 @@ describe('Note', () => {
     expect(deleteNote).toHaveBeenCalledWith(expectedUid, noteIdToDelete)
     expect(push).not.toHaveBeenCalled()
     expect(log).toHaveBeenCalledWith('Delete note failed', err)
+  })
+
+  it('does not display delete button when there is no title and body', async () => {
+    const defaultProps = {
+      match: { params: { noteId: 'someNoteId' } }
+    }
+
+    const { queryByText } = await render(<Note {...defaultProps} />)
+
+    expect(queryByText('Delete')).toBeNull()
   })
 })
