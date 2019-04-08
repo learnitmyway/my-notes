@@ -1,47 +1,65 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ContentEditable from 'react-contenteditable'
 
+import CurrentNote from '../CurrentNote'
+import { log } from '../errorService'
 import { readNote, updateNote } from '../noteService/noteService'
 
 import styles from './Note.module.css'
 
-export default class Note extends Component {
-  constructor(props) {
+export interface Props {
+  classNames?: string
+  match: {
+    params: {
+      noteId: string
+    }
+  }
+  onTitleChange: (currentNote: CurrentNote) => void
+  uid: string
+}
+
+interface State {
+  body: string | null
+  isError: boolean
+  title: string | null
+}
+
+export default class Note extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = {
-      isError: false
+      body: null,
+      isError: false,
+      title: null
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleBodyChange = this.handleBodyChange.bind(this)
   }
 
-  renderErrorMessage() {
+  public renderErrorMessage() {
     this.setState({
       isError: true
     })
   }
 
-  readNote() {
-    const successCallback = snapshot => {
+  public readNote() {
+    const successCallback = (snapshot: any) => {
       const note = snapshot.val()
 
       if (note === null) {
-        console.error(
-          'Not able to read note: ' + this.props.match.params.noteId
-        )
+        log('Not able to read note: ' + this.props.match.params.noteId)
         this.renderErrorMessage()
       } else {
         this.setState({
-          title: note.title,
-          body: note.body
+          body: note.body,
+          title: note.title
         })
       }
     }
 
-    const failureCallback = err => {
-      console.error(err)
+    const failureCallback = (err: any) => {
+      log('Read note failed', err)
       this.renderErrorMessage()
     }
 
@@ -53,7 +71,7 @@ export default class Note extends Component {
     )
   }
 
-  handleTitleChange(e) {
+  public handleTitleChange(e: any) {
     this.setState({ title: e.target.value })
     const currentNote = {
       id: this.props.match.params.noteId,
@@ -64,33 +82,33 @@ export default class Note extends Component {
       this.props.uid,
       this.props.match.params.noteId,
       e.target.value,
-      this.state.body
+      this.state.body || ''
     )
   }
 
-  handleBodyChange(e) {
+  public handleBodyChange(e: any) {
     this.setState({ body: e.target.value })
     updateNote(
       this.props.uid,
       this.props.match.params.noteId,
-      this.state.title,
+      this.state.title || '',
       e.target.value
     )
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  public componentDidUpdate(prevProps: Props, prevState: any, snapshot: any) {
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.readNote()
     }
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     if (this.props.match.params && this.props.match.params.noteId) {
       this.readNote()
     }
   }
 
-  render() {
+  public render() {
     let classNames = styles.Note
     if (this.props.classNames) {
       classNames += ' ' + this.props.classNames
@@ -105,7 +123,7 @@ export default class Note extends Component {
           <ContentEditable
             className={styles.title}
             data-testid={'Note__title'}
-            html={this.state.title}
+            html={this.state.title || ''}
             onChange={this.handleTitleChange}
           />
         )}
@@ -113,7 +131,7 @@ export default class Note extends Component {
           <ContentEditable
             className={styles.body}
             data-testid={'Note__body'}
-            html={this.state.body}
+            html={this.state.body || ''}
             onChange={this.handleBodyChange}
           />
         )}
@@ -125,15 +143,4 @@ export default class Note extends Component {
       </div>
     )
   }
-}
-
-Note.propTypes = {
-  onTitleChange: PropTypes.func.isRequired,
-  uid: PropTypes.string.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      noteId: PropTypes.string
-    })
-  }).isRequired,
-  classNames: PropTypes.string
 }

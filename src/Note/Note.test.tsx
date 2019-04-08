@@ -1,10 +1,12 @@
 import React from 'react'
-import { render, fireEvent, waitForElement } from 'react-testing-library'
+import { fireEvent, render } from 'react-testing-library'
 import Note from './Note'
 
+import { log } from '../errorService'
 import { readNote, updateNote } from '../noteService/noteService'
 
 jest.mock('../noteService/noteService')
+jest.mock('../errorService')
 
 describe('Note', () => {
   it('displays title and body', () => {
@@ -12,17 +14,17 @@ describe('Note', () => {
     const title = 'title'
     const note = { title, body }
     const snapshot = {
-      val: function() {
+      val() {
         return note
       }
     }
-    readNote.mockImplementation((uid, noteId, cb) => {
+    readNote.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
 
     const uid = 'someUid'
     const noteId = 'someNoteId'
-    const match = { params: { noteId: noteId } }
+    const match = { params: { noteId } }
     const { getByTestId } = render(
       <Note onTitleChange={jest.fn()} uid={uid} match={match} />
     )
@@ -36,17 +38,17 @@ describe('Note', () => {
     const title = 'title'
     const note = { title, body }
     const snapshot = {
-      val: function() {
+      val() {
         return note
       }
     }
-    readNote.mockImplementation((uid, noteId, cb) => {
+    readNote.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
 
     const uid = 'someUid'
     const noteId = 'someNoteId'
-    const match = { params: { noteId: noteId } }
+    const match = { params: { noteId } }
     const { queryByTestId } = render(
       <Note onTitleChange={jest.fn()} uid={uid} match={match} />
     )
@@ -67,35 +69,30 @@ describe('Note', () => {
   })
 
   it('displays and logs error when reading note fails (eg. user is not authenticated)', () => {
-    console.error = jest.fn()
     const err = new Error('Something bad happened')
 
-    readNote.mockImplementation(
-      (uid, noteId, successCallback, failureCallBack) => {
-        failureCallBack(err)
-      }
-    )
+    readNote.mockImplementation((a, b, successCallback, failureCallBack) => {
+      failureCallBack(err)
+    })
 
     const match = { params: { noteId: 'non-existant' } }
     const { queryByTestId } = render(
       <Note onTitleChange={jest.fn()} uid="" match={match} />
     )
 
-    expect(console.error).toHaveBeenCalledWith(err)
+    expect(log).toHaveBeenCalledWith('Read note failed', err)
     expect(queryByTestId('Note__error')).toHaveTextContent(
       'Note cannot be found'
     )
   })
 
   it('displays and logs error when there is no note', () => {
-    console.error = jest.fn()
-
     const snapshot = {
-      val: function() {
+      val() {
         return null
       }
     }
-    readNote.mockImplementation((uid, noteId, cb) => {
+    readNote.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
 
@@ -105,23 +102,18 @@ describe('Note', () => {
       <Note onTitleChange={jest.fn()} uid="uid" match={match} />
     )
 
-    expect(console.error).toHaveBeenCalledWith(
-      'Not able to read note: ' + noteId
-    )
+    expect(log).toHaveBeenCalledWith('Not able to read note: ' + noteId)
     expect(queryByTestId('Note__error')).toHaveTextContent(
       'Note cannot be found'
     )
   })
 
   it('does not display note title or body if there is an error', () => {
-    console.error = jest.fn()
     const err = new Error('Something bad happened')
 
-    readNote.mockImplementation(
-      (uid, noteId, successCallback, failureCallBack) => {
-        failureCallBack(err)
-      }
-    )
+    readNote.mockImplementation((a, b, successCallback, failureCallBack) => {
+      failureCallBack(err)
+    })
 
     const match = { params: { noteId: 'non-existant' } }
     const { queryByTestId } = render(
@@ -173,11 +165,11 @@ describe('Note', () => {
     const title = 'title'
     const note = { title, body }
     const snapshot = {
-      val: function() {
+      val() {
         return note
       }
     }
-    readNote.mockImplementation((uid, noteId, cb) => {
+    readNote.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
 
