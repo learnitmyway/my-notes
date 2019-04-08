@@ -9,7 +9,7 @@ import './NoteList.css'
 
 export interface Props {
   uid: string
-  currentNote: CurrentNote
+  currentNote?: CurrentNote
   match: any
 }
 

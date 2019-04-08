@@ -9,8 +9,8 @@ import CurrentNote from '../CurrentNote'
 import styles from './Sidebar.module.css'
 
 export interface Props {
-  currentNote: CurrentNote
-  match: any
+  currentNote?: CurrentNote
+  match?: any
   open?: boolean
   small: boolean
   uid: string

@@ -1,18 +1,12 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
 
-import Sidebar from '../Sidebar/Sidebar'
-import Container from '../Container/Container'
+import Routes from './Routes'
 import { signInAnonymously } from '../authService/authService'
-
-import deviceWidths from '../deviceWidths'
 
 export default class App extends Component {
   constructor() {
     super()
-    this.state = {}
-
-    this.renderRootPath = this.renderRootPath.bind(this)
+    this.state = { uid: '' }
   }
 
   componentDidMount() {
@@ -29,25 +23,8 @@ export default class App extends Component {
       })
   }
 
-  renderRootPath(props) {
-    return window.innerWidth < deviceWidths.small ? (
-      <Sidebar open small uid={this.state.uid} />
-    ) : (
-      <Container {...props} uid={this.state.uid} />
-    )
-  }
-
   render() {
     const { uid } = this.state
-    return uid ? (
-      <>
-        <Route exact path="/" render={this.renderRootPath} />
-        <Route
-          exact
-          path="/:noteId"
-          render={props => <Container {...props} uid={uid} />}
-        />
-      </>
-    ) : null
+    return uid ? <Routes {...this.props} uid={uid} /> : null
   }
 }
