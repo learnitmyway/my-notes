@@ -8,8 +8,8 @@ import { fireEvent } from 'react-testing-library'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import Sidebar from './Sidebar'
-import CreateNote from '../CreateNote/CreateNote'
-import NoteList from '../NoteList/NoteList'
+import CreateNote from './CreateNote'
+import NoteList from './NoteList'
 
 import { createNote } from '../noteService/noteService'
 

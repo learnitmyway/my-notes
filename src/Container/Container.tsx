@@ -6,9 +6,9 @@ import Sidebar from '../Sidebar/Sidebar'
 import CurrentNote from '../CurrentNote'
 import deviceWidths from '../deviceWidths'
 
-import NavigationBar from '../NavigationBar/NavigationBar'
 import noteStyles from '../Note/Note.module.css'
 import styles from './Container.module.css'
+import NavigationBar from './NavigationBar'
 
 export interface Props {
   history: any

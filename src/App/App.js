@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import Routes from './Routes'
-import { signInAnonymously } from '../authService/authService'
+import { signInAnonymously } from './authService'
 import { log } from '../errorService'
 
 export default class App extends Component {

@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import React from 'react'
 
-import CreateNote from '../CreateNote/CreateNote'
-import NoteList from '../NoteList/NoteList'
+import CreateNote from './CreateNote'
+import NoteList from './NoteList'
 
 import CurrentNote from '../CurrentNote'
 

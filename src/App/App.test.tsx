@@ -3,10 +3,10 @@ import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import App from './App'
 
-import { signInAnonymously } from '../authService/authService'
 import { log } from '../errorService'
+import { signInAnonymously } from './authService'
 
-jest.mock('../authService/authService')
+jest.mock('./authService')
 jest.mock('../errorService')
 
 describe('App', () => {

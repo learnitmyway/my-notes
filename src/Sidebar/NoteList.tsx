@@ -1,6 +1,6 @@
 import React from 'react'
 
-import NoteListItem from './NoteListItem/NoteListItem'
+import NoteListItem from './NoteListItem'
 
 import CurrentNote from '../CurrentNote'
 import { log } from '../errorService'
