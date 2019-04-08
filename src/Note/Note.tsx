@@ -3,12 +3,15 @@ import ContentEditable from 'react-contenteditable'
 
 import CurrentNote from '../CurrentNote'
 import { log } from '../errorService'
-import { readNote, updateNote } from '../noteService/noteService'
+import { deleteNote, readNote, updateNote } from '../noteService/noteService'
 
 import styles from './Note.module.css'
 
 export interface Props {
   classNames?: string
+  history: {
+    push: (path: string) => void
+  }
   match: {
     params: {
       noteId: string
@@ -96,6 +99,11 @@ export default class Note extends Component<Props, State> {
     )
   }
 
+  public handleClick = () => {
+    const { history, match, uid } = this.props
+    deleteNote(uid, match.params.noteId).then(() => history.push('/'))
+  }
+
   public componentDidUpdate(prevProps: Props, prevState: any, snapshot: any) {
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.readNote()
@@ -140,6 +148,7 @@ export default class Note extends Component<Props, State> {
             Note cannot be found
           </div>
         )}
+        <button onClick={this.handleClick}>Delete</button>
       </div>
     )
   }

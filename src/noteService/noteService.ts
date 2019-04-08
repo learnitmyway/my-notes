@@ -44,7 +44,7 @@ export function updateNote(
 
 export function deleteNote(uid: string, noteId: string) {
   const noteRef = getNoteRef(uid, noteId)
-  noteRef.remove()
+  return noteRef.remove()
 }
 
 function getNoteRef(uid: string, noteId: string) {

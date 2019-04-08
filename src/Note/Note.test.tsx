@@ -1,9 +1,10 @@
 import React from 'react'
 import { fireEvent, render } from 'react-testing-library'
+
 import Note from './Note'
 
 import { log } from '../errorService'
-import { readNote, updateNote } from '../noteService/noteService'
+import { deleteNote, readNote, updateNote } from '../noteService/noteService'
 
 jest.mock('../noteService/noteService')
 jest.mock('../errorService')
@@ -194,5 +195,33 @@ describe('Note', () => {
       title: newTitle
     })
     expect(getByTestId('Note__title').value).toBe(newTitle)
+  })
+
+  it('deletes note and navigates back to root route', async () => {
+    const noteIdToDelete = 'abc123'
+    const expectedUid = 'expectedUid'
+
+    deleteNote.mockResolvedValue()
+
+    const snapshot = {
+      val() {
+        return { title: 'title', body: 'body' }
+      }
+    }
+    readNote.mockImplementation((a, b, cb) => {
+      cb(snapshot)
+    })
+
+    const push = jest.fn()
+    const history = { push }
+    const match = { params: { noteId: noteIdToDelete } }
+    const { getByText } = await render(
+      <Note history={history} match={match} uid={expectedUid} />
+    )
+
+    await fireEvent.click(getByText('Delete'))
+
+    expect(deleteNote).toHaveBeenCalledWith(expectedUid, noteIdToDelete)
+    expect(push).toHaveBeenCalledWith('/')
   })
 })

@@ -11,6 +11,7 @@ import noteStyles from '../Note/Note.module.css'
 import styles from './Container.module.css'
 
 export interface Props {
+  history: any
   uid: string
   match: any
 }
@@ -43,7 +44,7 @@ export default class Container extends React.Component<Props, State> {
     const noteClasses = small ? undefined : noteStyles.notSmall
 
     const { currentNote, sidebarIsOpen } = this.state
-    const { match, uid } = this.props
+    const { history, match, uid } = this.props
     return (
       <>
         {window.innerWidth < deviceWidths.small && (
@@ -59,6 +60,7 @@ export default class Container extends React.Component<Props, State> {
           />
           <Note
             classNames={noteClasses}
+            history={history}
             onTitleChange={this.handleTitleChange}
             uid={uid}
             match={match}
