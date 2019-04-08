@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 import uuidv1 from 'uuid/v1'
 
 import { createNote } from '../noteService/noteService'
-import './CreateNote.css'
-import plus from './plus.svg'
+import styles from './CreateNote.module.css'
 
 export interface Props {
   uid: string
@@ -19,14 +18,14 @@ export default function CreateNote(props: Props) {
   }
 
   return (
-    <div className="CreateNote">
+    <div className={styles.CreateNote}>
       <Link
-        className="CreateNote-button"
+        className={styles.btn}
         data-testid="CreateNote__btn"
         onClick={handleClick}
         to={'/' + noteId}
       >
-        <img className="CreateNote-img" src={plus} alt="plus sign" />
+        Create Note
       </Link>
     </div>
   )

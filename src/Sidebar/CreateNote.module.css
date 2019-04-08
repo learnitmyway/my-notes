@@ -1,0 +1,19 @@
+.CreateNote {
+  padding: 1rem;
+  text-align: center;
+}
+
+.btn {
+  color: var(--accent);
+  padding: 0;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn:hover,
+.btn:focus {
+  color: var(--accent-light);
+}

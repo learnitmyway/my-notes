@@ -31,11 +31,11 @@ describe('Routes', () => {
     })
 
     const expectedUid = 'uid'
-    const { getByTestId, history } = await renderWithRouter(
+    const { getByTestId, getByText, history } = await renderWithRouter(
       <Routes uid={expectedUid} />
     )
 
-    fireEvent.click(getByTestId('CreateNote__btn'))
+    fireEvent.click(getByText('Create Note'))
 
     expect(createNote).toHaveBeenCalledWith(expectedUid, expectedNoteId)
     expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
