@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 
 import NoteListItem from './NoteListItem'
 
@@ -16,6 +17,7 @@ export interface Props {
 
 interface State {
   notes: any[]
+  firstNoteId?: string
   isError: boolean
 }
 
@@ -41,8 +43,14 @@ export default class NoteList extends React.Component<Props, State> {
 
   public render() {
     const { match, currentNote } = this.props
-    const { notes } = this.state
+    const { notes, firstNoteId } = this.state
+
     const noteIdInUrl = match && match.params.noteId
+
+    if (!noteIdInUrl && firstNoteId) {
+      return <Redirect to={`/${firstNoteId}`} />
+    }
+
     const currentNoteId = currentNote && currentNote.id
     const currentNoteTitle = currentNote && currentNote.title
     return (
@@ -72,7 +80,9 @@ export default class NoteList extends React.Component<Props, State> {
   private readAllNotes() {
     const successCallback = (snapshot: any) => {
       const notes = snapshot.val()
+      const firstNoteId = Object.keys(notes)[0]
       this.setState({
+        firstNoteId,
         notes
       })
     }

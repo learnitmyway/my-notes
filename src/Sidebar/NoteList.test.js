@@ -18,6 +18,11 @@ const notes = {
   note3: note
 }
 
+const defaultProps = {
+  match: { params: { noteId: 'someNoteId' } },
+  uid: 'someUid'
+}
+
 describe('NoteList', () => {
   beforeEach(() => {
     const snapshot = {
@@ -32,7 +37,7 @@ describe('NoteList', () => {
 
   it('renders list items', () => {
     const uid = 'uid'
-    const wrapper = shallow(<NoteList uid={uid} />)
+    const wrapper = shallow(<NoteList {...defaultProps} uid={uid} />)
 
     expect(readAllNotes).toHaveBeenCalledWith(
       uid,
@@ -101,13 +106,14 @@ describe('NoteList', () => {
       cb(snapshot)
     })
 
-    const uid = 'uid'
     const currentNoteTitle = 'new title'
     const currentNote = {
       id: currentNoteId,
       title: currentNoteTitle
     }
-    const wrapper = shallow(<NoteList uid={uid} currentNote={currentNote} />)
+    const wrapper = shallow(
+      <NoteList {...defaultProps} currentNote={currentNote} />
+    )
 
     expect(
       wrapper
@@ -125,7 +131,7 @@ describe('NoteList', () => {
       failureCallBack(err)
     })
 
-    const wrapper = shallow(<NoteList uid="" />)
+    const wrapper = shallow(<NoteList {...defaultProps} uid="" />)
 
     expect(console.error).toHaveBeenCalledWith(`Cannot read all notes`, err)
     expect(wrapper.find('.NoteList-error').text()).toBe('Notes cannot be found')
@@ -148,7 +154,7 @@ describe('NoteList', () => {
     })
 
     const match = { params: { noteId: selectedNoteId } }
-    const wrapper = shallow(<NoteList uid="uid" match={match} />)
+    const wrapper = shallow(<NoteList {...defaultProps} match={match} />)
 
     expect(
       wrapper
