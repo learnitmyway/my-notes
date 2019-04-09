@@ -163,40 +163,4 @@ describe('Routes', () => {
     expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
     expect(getByTestId('Note__title').value).toBe(expectedTitle)
   })
-
-  describe('for small devices', () => {
-    beforeEach(() => {
-      window.innerWidth = 599
-    })
-
-    it('displays sidebar', async () => {
-      const { queryByTestId } = await renderWithRouter(
-        <Routes {...defaultProps} />
-      )
-
-      expect(queryByTestId('Sidebar')).not.toBeNull()
-    })
-
-    it('does not display note', async () => {
-      const { queryByTestId } = await renderWithRouter(
-        <Routes {...defaultProps} />
-      )
-
-      expect(queryByTestId('Note')).toBeNull()
-    })
-  })
-
-  describe('for non-small devices', () => {
-    beforeEach(() => {
-      window.innerWidth = 600
-    })
-
-    it('displays note', async () => {
-      const { queryByTestId } = await renderWithRouter(
-        <Routes {...defaultProps} />
-      )
-
-      expect(queryByTestId('Note')).not.toBeNull()
-    })
-  })
 })

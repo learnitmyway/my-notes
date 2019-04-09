@@ -31,38 +31,22 @@ describe('Container', () => {
       expect(container.querySelector('nav')).not.toBe(null)
     })
 
-    it('does not display sidebar', () => {
-      const { container } = renderWithRouter(<Container {...initialProps} />)
+    it('displays sidebar', () => {
+      const { getByTestId } = renderWithRouter(<Container {...initialProps} />)
 
-      expect(
-        container.querySelector(`.${sidebarStyles.root}.${sidebarStyles.open}`)
-      ).toBeNull()
+      expect(getByTestId('Sidebar')).toHaveClass(
+        `${sidebarStyles.root} ${sidebarStyles.small} ${sidebarStyles.open}`
+      )
     })
 
-    it('displays sidebar when hamburger menu is clicked', () => {
-      const { container, getByAltText } = renderWithRouter(
+    it('hides sidebar when hamburger menu is clicked', () => {
+      const { getByTestId, getByAltText } = renderWithRouter(
         <Container {...initialProps} />
       )
 
       fireEvent.click(getByAltText('hamburger menu'))
 
-      expect(
-        container.querySelector(`.${sidebarStyles.root}.${sidebarStyles.open}`)
-      ).not.toBeNull()
-    })
-
-    it('displays sidebar with correct class names', () => {
-      const { getByAltText, container } = renderWithRouter(
-        <Container {...initialProps} />
-      )
-
-      fireEvent.click(getByAltText('hamburger menu'))
-
-      expect(
-        container.querySelector(
-          `.${sidebarStyles.root}.${sidebarStyles.small}.${sidebarStyles.open}`
-        )
-      ).not.toBeNull()
+      expect(getByTestId('Sidebar')).not.toHaveClass(`${sidebarStyles.open}`)
     })
   })
 
@@ -70,6 +54,7 @@ describe('Container', () => {
     beforeEach(() => {
       window.innerWidth = 600
     })
+
     it('does not display nav bar', () => {
       const { container } = renderWithRouter(<Container {...initialProps} />)
 
@@ -77,21 +62,11 @@ describe('Container', () => {
     })
 
     it('displays sidebar', () => {
-      const { queryByTestId } = renderWithRouter(
-        <Container {...initialProps} />
+      const { getByTestId } = renderWithRouter(<Container {...initialProps} />)
+
+      expect(getByTestId('Sidebar')).toHaveClass(
+        `${sidebarStyles.root} ${sidebarStyles.notSmall} ${sidebarStyles.open}`
       )
-
-      expect(queryByTestId('Sidebar')).not.toBeNull()
-    })
-
-    it('displays sidebar with correct class names', () => {
-      const { container } = renderWithRouter(<Container {...initialProps} />)
-
-      expect(
-        container.querySelector(
-          `.${sidebarStyles.root}.${sidebarStyles.notSmall}`
-        )
-      ).not.toBeNull()
     })
 
     it('displays new note title in sidebar when note title changes', () => {

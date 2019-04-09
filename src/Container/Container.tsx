@@ -24,10 +24,9 @@ interface State {
 export default class Container extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    const small = window.innerWidth < deviceWidths.small
     this.state = {
       currentNote: { id: '', title: '' },
-      sidebarIsOpen: !small
+      sidebarIsOpen: true
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
