@@ -40,7 +40,7 @@ export default class Note extends Component<Props, State> {
     this.handleBodyChange = this.handleBodyChange.bind(this)
   }
 
-  public renderErrorMessage() {
+  renderErrorMessage() {
     this.setState({
       body: null,
       isError: true,
@@ -48,7 +48,7 @@ export default class Note extends Component<Props, State> {
     })
   }
 
-  public readNote() {
+  readNote() {
     const successCallback = (snapshot: any) => {
       const note = snapshot.val()
 
@@ -77,7 +77,7 @@ export default class Note extends Component<Props, State> {
     )
   }
 
-  public handleTitleChange(e: any) {
+  handleTitleChange(e: any) {
     this.setState({ title: e.target.value })
     const currentNote = {
       id: this.props.match.params.noteId,
@@ -92,7 +92,7 @@ export default class Note extends Component<Props, State> {
     )
   }
 
-  public handleBodyChange(e: any) {
+  handleBodyChange(e: any) {
     this.setState({ body: e.target.value })
     updateNote(
       this.props.uid,
@@ -102,26 +102,26 @@ export default class Note extends Component<Props, State> {
     )
   }
 
-  public handleClick = () => {
+  handleClick = () => {
     const { history, match, uid } = this.props
     deleteNote(uid, match.params.noteId)
       .then(() => history.push('/'))
       .catch(err => log('Delete note failed', err))
   }
 
-  public componentDidUpdate(prevProps: Props, prevState: any, snapshot: any) {
+  componentDidUpdate(prevProps: Props, prevState: any, snapshot: any) {
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.readNote()
     }
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     if (this.props.match.params && this.props.match.params.noteId) {
       this.readNote()
     }
   }
 
-  public render() {
+  render() {
     let classNames = styles.Note
     if (this.props.classNames) {
       classNames += ' ' + this.props.classNames

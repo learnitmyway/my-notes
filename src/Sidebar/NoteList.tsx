@@ -27,7 +27,7 @@ export default class NoteList extends React.Component<Props, State> {
     this.state = { notes: [], isError: false }
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (!this.props.match || !prevProps.match) {
       return
     }
@@ -37,11 +37,11 @@ export default class NoteList extends React.Component<Props, State> {
     }
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     this.readAllNotes()
   }
 
-  public render() {
+  render() {
     const { match, currentNote } = this.props
     const { notes, firstNoteId } = this.state
 

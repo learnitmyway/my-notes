@@ -9,6 +9,7 @@
   "rules": {
     "prettier": true,
     "interface-name": false,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "member-access": [true, "no-public"]
   }
 }

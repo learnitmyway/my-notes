@@ -32,13 +32,13 @@ export default class Container extends React.Component<Props, State> {
     this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.setState({ sidebarIsOpen: false })
     }
   }
 
-  public render() {
+  render() {
     const small = window.innerWidth < deviceWidths.small
     const noteClasses = small ? undefined : noteStyles.notSmall
 
