@@ -6,6 +6,7 @@ import { renderWithRouter } from '../testUtils/renderWithRouter'
 import Routes from './Routes'
 
 import { createNote, readAllNotes, readNote } from '../noteService/noteService'
+import sidebarStyles from '../Sidebar/Sidebar.module.css'
 
 jest.mock('uuid/v1')
 jest.mock('../noteService/noteService')
@@ -15,6 +16,39 @@ const defaultProps = {
 }
 
 describe('Routes', () => {
+  beforeEach(() => {
+    uuidv1.mockReturnValue('someNoteId')
+
+    const note = {
+      body: 'body',
+      title: 'title'
+    }
+
+    const snapshot = {
+      val() {
+        return note
+      }
+    }
+    readNote.mockImplementation((uid, noteId, cb) => {
+      cb(snapshot)
+    })
+
+    const notes = {
+      note1: note,
+      note2: note,
+      note3: note
+    }
+
+    const snapshotAll = {
+      val() {
+        return notes
+      }
+    }
+    readAllNotes.mockImplementation((a, cb) => {
+      cb(snapshotAll)
+    })
+  })
+
   it('redirects to first note if there is no note id in the url', async () => {
     const expectedNoteId = 'afk234'
     const expectedTitle = 'Awesome note'
@@ -81,9 +115,19 @@ describe('Routes', () => {
     expect(getByTestId('Note__body').value).toBe(expectedBody)
   })
 
+  it('hides sidebar when navigating to another note', async () => {
+    const { getByTestId, getByText } = renderWithRouter(
+      <Routes {...defaultProps} />
+    )
+
+    fireEvent.click(getByText('Create Note'))
+
+    expect(getByTestId('Sidebar')).not.toHaveClass(sidebarStyles.open)
+  })
+
   // implicitly tests componentDidUpdate in NotesList
   it('displays new newly created note in list', async () => {
-    uuidv1.mockReturnValue('someNoteId')
+    readAllNotes.mockReset()
 
     const note = {
       body: 'body',
