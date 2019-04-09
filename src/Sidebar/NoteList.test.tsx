@@ -1,6 +1,5 @@
-import { shallow } from 'enzyme'
 import React from 'react'
-import { fireEvent, waitForElement } from 'react-testing-library'
+import { waitForElement } from 'react-testing-library'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import { readAllNotes } from '../noteService/noteService'
