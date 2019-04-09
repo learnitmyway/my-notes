@@ -1,15 +1,18 @@
-import React from 'react'
 import { shallow } from 'enzyme'
+import React from 'react'
 
+import { readAllNotes } from '../noteService/noteService'
 import NoteList from './NoteList'
 import NoteListItem from './NoteListItem'
-import { readAllNotes } from '../noteService/noteService'
+
+import { log } from '../errorService'
 
 jest.mock('../noteService/noteService')
+jest.mock('../errorService')
 
 const note = {
-  title: 'title',
-  body: 'body'
+  body: 'body',
+  title: 'title'
 }
 
 const notes = {
@@ -26,7 +29,7 @@ const defaultProps = {
 describe('NoteList', () => {
   beforeEach(() => {
     const snapshot = {
-      val: function() {
+      val() {
         return notes
       }
     }
@@ -49,11 +52,11 @@ describe('NoteList', () => {
 
   it('renders list items when a note has been added', () => {
     const snapshot = {
-      val: function() {
+      val() {
         return notes
       }
     }
-    readAllNotes.mockImplementationOnce((uid, cb) => {
+    readAllNotes.mockImplementationOnce((a, cb) => {
       cb(snapshot)
     })
 
@@ -61,18 +64,18 @@ describe('NoteList', () => {
     const newNotes = { ...notes, newNote }
 
     const newSnapshot = {
-      val: function() {
+      val() {
         return newNotes
       }
     }
-    readAllNotes.mockImplementationOnce((uid, cb) => {
+    readAllNotes.mockImplementationOnce((a, cb) => {
       cb(newSnapshot)
     })
 
     const uid = 'uid'
     const prevProps = {
-      uid,
-      match: { params: {} }
+      match: { params: {} },
+      uid
     }
     const wrapper = shallow(<NoteList {...prevProps} />)
 
@@ -88,18 +91,13 @@ describe('NoteList', () => {
 
   it('passes current note title as prop', () => {
     const currentNoteId = 'note2'
-    const note = {
-      title: 'title',
-      body: 'body'
-    }
-    const notes = {
-      note1: note,
-      [currentNoteId]: note,
-      note3: note
-    }
     const snapshot = {
-      val: function() {
-        return notes
+      val() {
+        return {
+          note1: note,
+          [currentNoteId]: note,
+          note3: note
+        }
       }
     }
     readAllNotes.mockImplementation((uid, cb) => {
@@ -124,7 +122,6 @@ describe('NoteList', () => {
   })
 
   it('displays and logs error when reading all notes fails', () => {
-    console.error = jest.fn()
     const err = new Error('Something bad happened')
 
     readAllNotes.mockImplementation((uid, successCallback, failureCallBack) => {
@@ -133,20 +130,19 @@ describe('NoteList', () => {
 
     const wrapper = shallow(<NoteList {...defaultProps} uid="" />)
 
-    expect(console.error).toHaveBeenCalledWith(`Cannot read all notes`, err)
+    expect(log).toHaveBeenCalledWith(`Cannot read all notes`, err)
     expect(wrapper.find('.NoteList-error').text()).toBe('Notes cannot be found')
   })
 
   it('marks selected item', () => {
     const selectedNoteId = 'noteId2'
-    const notes = {
-      note1: {},
-      [selectedNoteId]: {},
-      note3: {}
-    }
     const snapshot = {
-      val: function() {
-        return notes
+      val() {
+        return {
+          note1: {},
+          [selectedNoteId]: {},
+          note3: {}
+        }
       }
     }
     readAllNotes.mockImplementation((uid, cb) => {
