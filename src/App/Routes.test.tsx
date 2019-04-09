@@ -10,6 +10,7 @@ import sidebarStyles from '../Sidebar/Sidebar.module.css'
 
 jest.mock('uuid/v1')
 jest.mock('../noteService/noteService')
+jest.mock('../errorService')
 
 const defaultProps = {
   uid: 'uid'
@@ -206,5 +207,30 @@ describe('Routes', () => {
 
     expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
     expect(getByTestId('Note__title').value).toBe(expectedTitle)
+  })
+
+  it('hides error in note list after successful read', () => {
+    readAllNotes.mockReset()
+
+    readAllNotes.mockImplementationOnce(
+      (aUid, aSuccessCallback, failureCallBack) => {
+        failureCallBack(new Error())
+      }
+    )
+
+    const snapshot = {
+      val() {
+        return { note1: {}, note2: {} }
+      }
+    }
+    readAllNotes.mockImplementationOnce((aUid, cb) => {
+      cb(snapshot)
+    })
+
+    const { getByText, queryByText } = renderWithRouter(<Routes />)
+
+    fireEvent.click(getByText('Create Note'))
+
+    expect(queryByText('Notes cannot be found')).toBeNull()
   })
 })

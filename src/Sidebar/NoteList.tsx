@@ -81,14 +81,11 @@ export default class NoteList extends React.Component<Props, State> {
     const successCallback = (snapshot: any) => {
       const notes = snapshot.val()
       const firstNoteId = Object.keys(notes)[0]
-      this.setState({
-        firstNoteId,
-        notes
-      })
+      this.setState({ firstNoteId, isError: false, notes })
     }
     const failureCallback = (err: any) => {
       log('Cannot read all notes', err)
-      this.setState({ isError: true })
+      this.setState({ firstNoteId: undefined, isError: true, notes: [] })
     }
     readAllNotes(this.props.uid, successCallback, failureCallback)
   }
