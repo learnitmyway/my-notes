@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React from 'react'
 
 import Note from '../Note/Note'
@@ -39,17 +40,15 @@ export default class Container extends React.Component<Props, State> {
   }
 
   render() {
-    const small = window.innerWidth < deviceWidths.small
-    const noteClasses = small ? undefined : noteStyles.notSmall
-
     const { currentNote, sidebarIsOpen } = this.state
     const { history, match, uid } = this.props
+
+    const small = window.innerWidth < deviceWidths.small
+
     return (
       <>
-        {window.innerWidth < deviceWidths.small && (
-          <NavigationBar handleClick={this.handleHamburgerClick} />
-        )}
-        <div className={styles.root + ' ' + (small ? '' : styles.notSmall)}>
+        {small && <NavigationBar handleClick={this.handleHamburgerClick} />}
+        <div className={classNames(styles.root, !small && styles.notSmall)}>
           <Sidebar
             small={small}
             open={sidebarIsOpen}
@@ -58,7 +57,7 @@ export default class Container extends React.Component<Props, State> {
             match={match}
           />
           <Note
-            classNames={noteClasses}
+            classNames={classNames(!small && noteStyles.notSmall)}
             history={history}
             onTitleChange={this.handleTitleChange}
             uid={uid}
