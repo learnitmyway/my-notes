@@ -17,7 +17,7 @@ export default function NoteListItem(props: Props) {
   }
 
   return (
-    <Link className={classNames} to={'/' + noteId}>
+    <Link data-testid="NoteListItem" className={classNames} to={'/' + noteId}>
       <div data-testid="NoteListItem__title" className="NoteListItem-title">
         {title}
       </div>

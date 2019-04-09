@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent } from 'react-testing-library'
+import { fireEvent, waitForElement } from 'react-testing-library'
 import uuidv1 from 'uuid/v1'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
@@ -79,6 +79,49 @@ describe('Routes', () => {
     expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
     expect(getByTestId('Note__title').value).toBe(expectedTitle)
     expect(getByTestId('Note__body').value).toBe(expectedBody)
+  })
+
+  // implicitly tests componentDidUpdate in NotesList
+  it('displays new newly created note in list', async () => {
+    uuidv1.mockReturnValue('someNoteId')
+
+    const note = {
+      body: 'body',
+      title: 'title'
+    }
+
+    const notes = {
+      note1: note,
+      note2: note,
+      note3: note
+    }
+
+    const snapshot = {
+      val() {
+        return notes
+      }
+    }
+    readAllNotes.mockImplementationOnce((a, cb) => {
+      cb(snapshot)
+    })
+
+    const expectedTitle = 'new title'
+    const newNote = { title: expectedTitle, body: 'new body' }
+    const newNotes = { ...notes, newNote }
+    const newSnapshot = {
+      val() {
+        return newNotes
+      }
+    }
+    readAllNotes.mockImplementationOnce((a, cb) => {
+      cb(newSnapshot)
+    })
+
+    const { getByText } = await renderWithRouter(<Routes {...defaultProps} />)
+
+    fireEvent.click(getByText('Create Note'))
+
+    await waitForElement(() => getByText(expectedTitle))
   })
 
   it('navigates to existing note on click', async () => {
