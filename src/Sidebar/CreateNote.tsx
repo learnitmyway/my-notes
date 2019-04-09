@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import uuidv1 from 'uuid/v1'
@@ -29,8 +28,4 @@ export default function CreateNote(props: Props) {
       </Link>
     </div>
   )
-}
-
-CreateNote.propTypes = {
-  uid: PropTypes.string.isRequired
 }
