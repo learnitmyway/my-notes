@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import ContentEditable from 'react-contenteditable'
 
-import CurrentNote from '../CurrentNote'
 import { log } from '../errorService'
 import { deleteNote, readNote, updateNote } from '../noteService/noteService'
+import NoteTO from '../NoteTO'
 
 import styles from './Note.module.css'
 
@@ -17,7 +17,7 @@ export interface Props {
       noteId: string
     }
   }
-  onTitleChange: (currentNote: CurrentNote) => void
+  onTitleChange: (currentNote: NoteTO) => void
   uid: string
 }
 

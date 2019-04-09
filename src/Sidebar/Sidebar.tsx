@@ -4,12 +4,12 @@ import React from 'react'
 import CreateNote from './CreateNote'
 import NoteList from './NoteList'
 
-import CurrentNote from '../CurrentNote'
+import NoteTO from '../NoteTO'
 
 import styles from './Sidebar.module.css'
 
 export interface Props {
-  currentNote?: CurrentNote
+  currentNote?: NoteTO
   match?: any
   open?: boolean
   small: boolean

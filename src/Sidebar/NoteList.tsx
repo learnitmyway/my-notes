@@ -2,15 +2,15 @@ import React from 'react'
 
 import NoteListItem from './NoteListItem'
 
-import CurrentNote from '../CurrentNote'
 import { log } from '../errorService'
 import { readAllNotes } from '../noteService/noteService'
+import NoteTO from '../NoteTO'
 
 import './NoteList.css'
 
 export interface Props {
   uid: string
-  currentNote?: CurrentNote
+  currentNote?: NoteTO
   match: any
 }
 
