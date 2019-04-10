@@ -28,7 +28,6 @@ describe('Note', () => {
   })
 
   it('displays note', () => {
-    console.log(moment())
     const body = 'body'
     const title = 'title'
     const note = { title, body }
