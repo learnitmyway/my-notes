@@ -1,5 +1,5 @@
 .Note {
-  background: var(--off-white);
+  background-color: var(--off-white);
   padding: 1rem;
   height: 100%;
   overflow: hidden auto;

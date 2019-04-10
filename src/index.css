@@ -1,8 +1,8 @@
 :root {
   --primary: hsl(0, 0%, 90%);
-  --primary-light: hsl(0, 0%, 99%);
-  --accent: hsl(31, 100%, 50%);
-  --accent-light: hsl(31, 100%, 80%);
+  --primary-light: hsla(0, 0%, 90%, 0.8);
+  --accent: hsl(0, 0%, 13%);
+  --accent-light: hsla(0, 0%, 13%, 0.8);
   --off-white: hsl(0, 0%, 99%);
 }
 
