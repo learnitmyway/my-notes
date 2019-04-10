@@ -7,8 +7,8 @@ export function createNote(uid: string, noteId: string) {
   const newNoteRef = getNoteRef(uid, noteId)
   newNoteRef
     .set({
-      body: 'click to edit',
-      title: 'click to edit'
+      body: '',
+      title: ''
     })
     .catch(err => log(`Cannot create note: /notes/${uid}/${noteId}`, err))
 }

@@ -31,10 +31,8 @@ describe('noteService', () => {
     const noteId = 'noteId'
     createNote(uid, noteId)
 
-    const newNote = { title: 'click to edit', body: 'click to edit' }
-
     expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
-    expect(set).toHaveBeenCalledWith(newNote)
+    expect(set).toHaveBeenCalledWith({ title: '', body: '' })
   })
 
   it('handles error when creating a note', async () => {
