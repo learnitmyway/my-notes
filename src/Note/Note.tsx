@@ -21,19 +21,22 @@ export interface Props {
   uid: string
 }
 
+interface NoteTO {
+  title: string
+  body: string
+}
+
 interface State {
-  body: string | null
+  note: NoteTO | null
   isError: boolean
-  title: string | null
 }
 
 export default class Note extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      body: null,
-      isError: false,
-      title: null
+      note: null,
+      isError: false
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
@@ -42,9 +45,8 @@ export default class Note extends Component<Props, State> {
 
   renderErrorMessage() {
     this.setState({
-      body: null,
-      isError: true,
-      title: null
+      note: null,
+      isError: true
     })
   }
 
@@ -57,9 +59,8 @@ export default class Note extends Component<Props, State> {
         this.renderErrorMessage()
       } else {
         this.setState({
-          body: note.body,
-          isError: false,
-          title: note.title
+          note,
+          isError: false
         })
       }
     }
@@ -78,28 +79,24 @@ export default class Note extends Component<Props, State> {
   }
 
   handleTitleChange(e: any) {
-    this.setState({ title: e.target.value })
+    const body = this.state.note!.body
+    const { onTitleChange, uid, match } = this.props
+
+    this.setState({ note: { title: e.target.value, body } })
+
     const currentNote = {
-      id: this.props.match.params.noteId,
+      id: match.params.noteId,
       title: e.target.value
     }
-    this.props.onTitleChange(currentNote)
-    updateNote(
-      this.props.uid,
-      this.props.match.params.noteId,
-      e.target.value,
-      this.state.body || ''
-    )
+    onTitleChange(currentNote)
+    updateNote(uid, match.params.noteId, e.target.value, body)
   }
 
   handleBodyChange(e: any) {
-    this.setState({ body: e.target.value })
-    updateNote(
-      this.props.uid,
-      this.props.match.params.noteId,
-      this.state.title || '',
-      e.target.value
-    )
+    const title = this.state.note!.title
+    const { uid, match } = this.props
+    this.setState({ note: { title, body: e.target.value } })
+    updateNote(uid, match.params.noteId, title, e.target.value)
   }
 
   handleClick = () => {
@@ -127,18 +124,17 @@ export default class Note extends Component<Props, State> {
       classNames += ' ' + this.props.classNames
     }
 
-    const shouldRenderTitle = this.state.title || this.state.title === ''
-    const shouldRenderBody = this.state.body || this.state.body === ''
+    const shouldRenderNote = this.state.note
 
     return (
       <div data-testid="Note" className={classNames}>
-        {shouldRenderTitle && shouldRenderBody && (
+        {shouldRenderNote && (
           <>
             <div className={styles.titleWrapper}>
               <ContentEditable
                 className={styles.title}
                 data-testid={'Note__title'}
-                html={this.state.title || ''}
+                html={this.state.note!.title || ''}
                 onChange={this.handleTitleChange}
               />
               <button className={styles.deleteBtn} onClick={this.handleClick}>
@@ -148,7 +144,7 @@ export default class Note extends Component<Props, State> {
             <ContentEditable
               className={styles.body}
               data-testid={'Note__body'}
-              html={this.state.body || ''}
+              html={this.state.note!.body || ''}
               onChange={this.handleBodyChange}
             />
           </>

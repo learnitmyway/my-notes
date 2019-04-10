@@ -202,6 +202,7 @@ describe('Note', () => {
       title: newTitle
     })
     expect(getByTestId('Note__title').value).toBe(newTitle)
+    expect(getByTestId('Note__body').value).toBe(newBody)
   })
 
   it('deletes note and navigates back to root route', async () => {
