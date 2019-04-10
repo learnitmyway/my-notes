@@ -95,4 +95,27 @@ describe('NoteList', () => {
       'NoteListItem NoteListItem--selected'
     )
   })
+
+  it('displays list item title as "Untitled" if there is no note title', () => {
+    const noteIdWithNoTitle = 'noteId2'
+    const snapshot = {
+      val() {
+        return {
+          note1: {},
+          [noteIdWithNoTitle]: { title: '', body: 'not displayed' },
+          note3: {}
+        }
+      }
+    }
+    readAllNotes.mockImplementation((aUid, cb) => {
+      cb(snapshot)
+    })
+
+    const match = { params: { noteId: noteIdWithNoTitle } }
+    const { getAllByTestId } = renderWithRouter(
+      <NoteList {...defaultProps} match={match} />
+    )
+
+    expect(getAllByTestId('NoteListItem')[1]).toHaveTextContent('Untitled')
+  })
 })
