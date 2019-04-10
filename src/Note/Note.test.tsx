@@ -1,5 +1,6 @@
 import React from 'react'
 import { fireEvent, render } from 'react-testing-library'
+import moment from 'moment'
 
 import Note from './Note'
 
@@ -18,7 +19,7 @@ describe('Note', () => {
   beforeEach(() => {
     const snapshot = {
       val() {
-        return { title: 'title', body: 'body' }
+        return { title: 'title', body: 'body', lastModified: 1554907683672 } // 2019-04-10T16:48:03.672
       }
     }
     readNote.mockImplementation((a, b, cb) => {
@@ -26,7 +27,7 @@ describe('Note', () => {
     })
   })
 
-  it('displays title and body', () => {
+  it('displays note', () => {
     const body = 'body'
     const title = 'title'
     const note = { title, body }
@@ -39,10 +40,11 @@ describe('Note', () => {
       cb(snapshot)
     })
 
-    const { getByTestId } = render(<Note {...defaultProps} />)
+    const { container, getByTestId } = render(<Note {...defaultProps} />)
 
     expect(getByTestId('Note__title').value).toBe(title)
     expect(getByTestId('Note__body').value).toBe(body)
+    expect(container.querySelector('time')).toHaveTextContent('April 10, 2019')
   })
 
   it('does not display error', () => {
@@ -96,7 +98,7 @@ describe('Note', () => {
     )
   })
 
-  it('does not display note title or body when reading note fails', () => {
+  it('does not display note when reading note fails', () => {
     const err = new Error('Something bad happened')
 
     readNote.mockImplementation((a, b, successCallback, failureCallBack) => {
@@ -168,7 +170,7 @@ describe('Note', () => {
     expect(container.querySelector('.forty-two')).not.toBeNull()
   })
 
-  it('updates title and body on change and handles it', () => {
+  it('updates note on change and handles title change', () => {
     const body = 'body'
     const title = 'title'
     const note = { title, body }
@@ -185,7 +187,7 @@ describe('Note', () => {
     const uid = 'uid'
     const noteId = 'noteId'
     const match = { params: { noteId } }
-    const { getByTestId } = render(
+    const { container, getByTestId } = render(
       <Note onTitleChange={handleTitleChange} uid={uid} match={match} />
     )
 
@@ -203,6 +205,7 @@ describe('Note', () => {
     })
     expect(getByTestId('Note__title').value).toBe(newTitle)
     expect(getByTestId('Note__body').value).toBe(newBody)
+    expect(container.querySelector('time')).toHaveTextContent('April 10, 2019')
   })
 
   it('deletes note and navigates back to root route', async () => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ContentEditable from 'react-contenteditable'
+import moment from 'moment'
 
 import { log } from '../errorService'
 import { deleteNote, readNote, updateNote } from '../noteService/noteService'
@@ -24,6 +25,7 @@ export interface Props {
 interface NoteTO {
   title: string
   body: string
+  lastModified: number
 }
 
 interface State {
@@ -79,10 +81,12 @@ export default class Note extends Component<Props, State> {
   }
 
   handleTitleChange(e: any) {
-    const body = this.state.note!.body
+    const note = this.state.note
+    const body = note!.body
+    const lastModified = note!.lastModified
     const { onTitleChange, uid, match } = this.props
 
-    this.setState({ note: { title: e.target.value, body } })
+    this.setState({ note: { title: e.target.value, body, lastModified } })
 
     const currentNote = {
       id: match.params.noteId,
@@ -93,9 +97,11 @@ export default class Note extends Component<Props, State> {
   }
 
   handleBodyChange(e: any) {
-    const title = this.state.note!.title
+    const note = this.state.note
+    const title = note!.title
+    const lastModified = note!.lastModified
     const { uid, match } = this.props
-    this.setState({ note: { title, body: e.target.value } })
+    this.setState({ note: { title, body: e.target.value, lastModified } })
     updateNote(uid, match.params.noteId, title, e.target.value)
   }
 
@@ -124,17 +130,20 @@ export default class Note extends Component<Props, State> {
       classNames += ' ' + this.props.classNames
     }
 
-    const shouldRenderNote = this.state.note
+    const note = this.state.note
 
     return (
       <div data-testid="Note" className={classNames}>
-        {shouldRenderNote && (
+        {note && (
           <>
+            <time className={styles.date}>
+              {moment(note!.lastModified).format('LL')}
+            </time>
             <div className={styles.titleWrapper}>
               <ContentEditable
                 className={styles.title}
                 data-testid={'Note__title'}
-                html={this.state.note!.title || ''}
+                html={note!.title || ''}
                 onChange={this.handleTitleChange}
               />
               <button className={styles.deleteBtn} onClick={this.handleClick}>
@@ -144,7 +153,7 @@ export default class Note extends Component<Props, State> {
             <ContentEditable
               className={styles.body}
               data-testid={'Note__body'}
-              html={this.state.note!.body || ''}
+              html={note!.body || ''}
               onChange={this.handleBodyChange}
             />
           </>

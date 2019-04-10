@@ -9,6 +9,12 @@
   flex: 2;
 }
 
+.date {
+  display: block;
+  margin-bottom: 1rem;
+  color: lightgrey;
+}
+
 .titleWrapper {
   display: flex;
   justify-content: space-between;
