@@ -17,7 +17,6 @@ const defaultProps = {
 
 describe('Note', () => {
   beforeEach(() => {
-    Date.now = jest.fn(() => 1554907683672)
     const snapshot = {
       val() {
         return { title: 'title', body: 'body', lastModified: 1554907683672 } // 2019-04-10T16:48:03.672
@@ -29,7 +28,6 @@ describe('Note', () => {
   })
 
   it('displays note', () => {
-    console.log(moment())
     const body = 'body'
     const title = 'title'
     const note = { title, body }
