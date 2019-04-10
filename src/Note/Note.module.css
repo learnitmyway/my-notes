@@ -20,6 +20,11 @@
   font-weight: 600;
 }
 
+.title:empty:before {
+  content: 'Untitled';
+  color: lightgrey;
+}
+
 .body {
   color: hsl(0, 0%, 29%);
   outline: none;
@@ -27,8 +32,9 @@
   line-height: 1.5;
 }
 
-.error {
-  color: red;
+.body:empty:before {
+  content: 'Unbodied';
+  color: lightgrey;
 }
 
 .deleteBtn {
