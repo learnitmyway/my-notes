@@ -11,6 +11,8 @@ import {
 
 jest.mock('../errorService')
 
+const TIMESTAMP = 1554907683672
+
 describe('noteService', () => {
   it('creates a note in the firebase database', () => {
     const set = jest.fn(() => Promise.resolve())
@@ -26,13 +28,18 @@ describe('noteService', () => {
         ref
       }
     })
+    firebase.database.ServerValue = { TIMESTAMP }
 
     const uid = 'uid'
     const noteId = 'noteId'
     createNote(uid, noteId)
 
     expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
-    expect(set).toHaveBeenCalledWith({ title: '', body: '' })
+    expect(set).toHaveBeenCalledWith({
+      title: '',
+      body: '',
+      lastModified: TIMESTAMP
+    })
   })
 
   it('handles error when creating a note', async () => {
@@ -50,6 +57,7 @@ describe('noteService', () => {
         ref
       }
     })
+    firebase.database.ServerValue = { TIMESTAMP }
 
     const uid = 'uid'
     const noteId = 'noteId'
@@ -75,6 +83,7 @@ describe('noteService', () => {
         ref
       }
     })
+    firebase.database.ServerValue = { TIMESTAMP }
 
     const uid = 'uid'
     const noteId = 'noteId'
@@ -100,6 +109,7 @@ describe('noteService', () => {
         ref
       }
     })
+    firebase.database.ServerValue = { TIMESTAMP }
 
     const uid = 'uid'
     const successCallback = jest.fn()
@@ -125,6 +135,7 @@ describe('noteService', () => {
         ref
       }
     })
+    firebase.database.ServerValue = { TIMESTAMP }
 
     const uid = 'uid'
     const noteId = 'noteId'
@@ -132,7 +143,7 @@ describe('noteService', () => {
     const body = 'An awesome body'
     updateNote(uid, noteId, title, body)
 
-    const updatedNote = { title, body }
+    const updatedNote = { title, body, lastModified: TIMESTAMP }
 
     expect(ref).toHaveBeenCalledWith(`/notes/${uid}/${noteId}`)
     expect(update).toHaveBeenCalledWith(updatedNote)

@@ -8,6 +8,7 @@ export function createNote(uid: string, noteId: string) {
   newNoteRef
     .set({
       body: '',
+      lastModified: firebase.database.ServerValue.TIMESTAMP,
       title: ''
     })
     .catch(err => log(`Cannot create note: /notes/${uid}/${noteId}`, err))
@@ -39,7 +40,11 @@ export function updateNote(
   body: string
 ) {
   const noteRef = getNoteRef(uid, noteId)
-  noteRef.update({ title, body })
+  noteRef.update({
+    title,
+    body,
+    lastModified: firebase.database.ServerValue.TIMESTAMP
+  })
 }
 
 export function deleteNote(uid: string, noteId: string) {

@@ -5,12 +5,15 @@
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid",
         "$note_id": {
-          ".validate": "newData.hasChildren(['title', 'body'])",
+          ".validate": "newData.hasChildren(['title', 'body', 'lastModified'])",
           "title": {
             ".validate": "newData.isString()"
           },
           "body": {
             ".validate": "newData.isString()"
+          },
+          "lastModified": {
+            ".validate": "newData.val() == now"
           },
           "$other": { ".validate": false }
         }
