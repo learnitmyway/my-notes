@@ -5,13 +5,13 @@ import NoteListItem from './NoteListItem'
 
 import { log } from '../errorService'
 import { readAllNotes } from '../noteService/noteService'
-import NoteTO from '../NoteTO'
+import NoteListItemTO from '../NoteListItemTO'
 
 import './NoteList.css'
 
 export interface Props {
   uid: string
-  currentNote?: NoteTO
+  currentNote?: NoteListItemTO
   match: any
 }
 

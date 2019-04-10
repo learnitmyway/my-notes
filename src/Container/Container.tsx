@@ -5,7 +5,7 @@ import Note from '../Note/Note'
 import Sidebar from '../Sidebar/Sidebar'
 
 import deviceWidths from '../deviceWidths'
-import NoteTO from '../NoteTO'
+import NoteListItemTO from '../NoteListItemTO'
 
 import noteStyles from '../Note/Note.module.css'
 import styles from './Container.module.css'
@@ -18,7 +18,7 @@ export interface Props {
 }
 
 interface State {
-  currentNote: NoteTO
+  currentNote: NoteListItemTO
   sidebarIsOpen: boolean
 }
 
@@ -68,7 +68,7 @@ export default class Container extends React.Component<Props, State> {
     )
   }
 
-  private handleTitleChange(currentNote: NoteTO) {
+  private handleTitleChange(currentNote: NoteListItemTO) {
     this.setState({ currentNote })
   }
 
