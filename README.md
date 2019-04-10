@@ -4,8 +4,14 @@
 
 ### Set up
 
-- Replace .env.temp with .env
+- Replace `.env.temp` with `.env`
 - Run `npm install`
+
+#### Firebase Deployment
+
+- Obtain firebase token with `firebase login:ci`
+- Save env variables `$REACT_APP_PROJECT_ID` and `$FIREBASE_TOKEN`
+- `npm run deploy:firebase`
 
 ### Run
 
