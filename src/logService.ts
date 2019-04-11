@@ -1,6 +1,11 @@
+interface ErrorObject {
+  error?: Error
+  description?: string
+  detials?: string
+}
 // tslint:disable no-console
-export function logError(message: string, backendError: Error) {
-  console.error(message, backendError)
+export function logError(errorObject: ErrorObject) {
+  console.error(errorObject)
 }
 
 export function logWarning(message: string) {

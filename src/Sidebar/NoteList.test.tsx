@@ -95,7 +95,10 @@ describe('NoteList', () => {
       <NoteList {...defaultProps} uid="" />
     )
 
-    expect(logError).toHaveBeenCalledWith(`Cannot read all notes`, err)
+    expect(logError).toHaveBeenCalledWith({
+      description: `Cannot read all notes`,
+      error: err
+    })
     await waitForElement(() => getByText('Notes cannot be found'))
   })
 

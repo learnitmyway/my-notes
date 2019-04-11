@@ -26,7 +26,10 @@ describe('App', () => {
 
     await await renderWithRouter(<App />)
 
-    expect(logError).toHaveBeenCalledWith('Sign in failed', err)
+    expect(logError).toHaveBeenCalledWith({
+      description: 'Sign in failed',
+      error: err
+    })
     expect(window.alert).toHaveBeenCalledWith(
       'Something went wrong. Please refresh the page and try again.'
     )

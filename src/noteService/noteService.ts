@@ -11,7 +11,12 @@ export function createNote(uid: string, noteId: string) {
       lastModified: firebase.database.ServerValue.TIMESTAMP,
       title: ''
     })
-    .catch(err => logError(`Cannot create note: /notes/${uid}/${noteId}`, err))
+    .catch(err =>
+      logError({
+        description: `Cannot create note: /notes/${uid}/${noteId}`,
+        error: err
+      })
+    )
 }
 
 export function readNote(

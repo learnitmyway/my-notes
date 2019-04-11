@@ -63,10 +63,10 @@ describe('noteService', () => {
     const noteId = 'noteId'
     await createNote(uid, noteId)
 
-    expect(logError).toHaveBeenCalledWith(
-      `Cannot create note: /notes/${uid}/${noteId}`,
-      err
-    )
+    expect(logError).toHaveBeenCalledWith({
+      description: `Cannot create note: /notes/${uid}/${noteId}`,
+      error: err
+    })
   })
 
   it('reads a note from the firebase database', () => {

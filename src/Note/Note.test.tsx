@@ -102,7 +102,10 @@ describe('Note', () => {
     const match = { params: { noteId: 'non-existant' } }
     const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
 
-    expect(logError).toHaveBeenCalledWith('Read note failed', err)
+    expect(logError).toHaveBeenCalledWith({
+      description: 'Read note failed',
+      error: err
+    })
     expect(queryByTestId('Note__error')).toHaveTextContent(
       'Note cannot be found'
     )
@@ -262,7 +265,10 @@ describe('Note', () => {
 
     expect(deleteNote).toHaveBeenCalledWith(expectedUid, noteIdToDelete)
     expect(push).not.toHaveBeenCalled()
-    expect(logError).toHaveBeenCalledWith('Delete note failed', err)
+    expect(logError).toHaveBeenCalledWith({
+      description: 'Delete note failed',
+      error: err
+    })
   })
 
   it('does not display delete button when there is no title and body', async () => {

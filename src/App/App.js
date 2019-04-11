@@ -18,7 +18,7 @@ export default class App extends Component {
         })
       })
       .catch(err => {
-        logError('Sign in failed', err)
+        logError({ error: err, description: 'Sign in failed' })
         window.alert(
           'Something went wrong. Please refresh the page and try again.'
         )

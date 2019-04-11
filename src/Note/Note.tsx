@@ -68,7 +68,7 @@ export default class Note extends Component<Props, State> {
     }
 
     const failureCallback = (err: any) => {
-      logError('Read note failed', err)
+      logError({ description: 'Read note failed', error: err })
       this.renderErrorMessage()
     }
 
@@ -109,7 +109,7 @@ export default class Note extends Component<Props, State> {
     const { history, match, uid } = this.props
     deleteNote(uid, match.params.noteId)
       .then(() => history.push('/'))
-      .catch(err => logError('Delete note failed', err))
+      .catch(err => logError({ description: 'Delete note failed', error: err }))
   }
 
   componentDidUpdate(prevProps: Props, prevState: any, snapshot: any) {
