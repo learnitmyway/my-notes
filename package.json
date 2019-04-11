@@ -45,8 +45,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}' && npx stylelint src/**/*.css",
-    "lint:fix": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --fix  && npx stylelint src/**/*.css --fix",
+    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --format codeFrame && npx stylelint src/**/*.css",
+    "lint:fix": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --fix --format codeFrame && npx stylelint src/**/*.css --fix",
     "pretest": "npm run lint",
     "test": "CI=true react-scripts test",
     "watch": "react-scripts test --verbose=false",
