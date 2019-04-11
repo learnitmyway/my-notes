@@ -5,9 +5,12 @@ import App from './App'
 
 import { logError } from '../logService'
 import { signInAnonymously } from './authService'
+import { waitForElement } from 'react-testing-library'
 
 jest.mock('./authService')
 jest.mock('../logService')
+
+const ERROR_MESSAGE = 'Sign in failed. Please refresh the page and try again.'
 
 describe('App', () => {
   beforeEach(() => {
@@ -19,20 +22,18 @@ describe('App', () => {
     signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
   })
 
-  it('logs error and displays an alert when anonymous sign in fails', async () => {
-    window.alert = jest.fn()
+  it('logs and displays error when anonymous sign in fails', async () => {
     const err = new Error('Something bad happened')
     signInAnonymously.mockReturnValue(Promise.reject(err))
 
-    await await renderWithRouter(<App />)
+    const { getByText } = await await renderWithRouter(<App />)
 
     expect(logError).toHaveBeenCalledWith({
       description: 'Sign in failed',
       error: err
     })
-    expect(window.alert).toHaveBeenCalledWith(
-      'Something went wrong. Please refresh the page and try again.'
-    )
+
+    await waitForElement(() => getByText(ERROR_MESSAGE))
   })
 
   it('renders children when there is a uid', async () => {
@@ -47,5 +48,11 @@ describe('App', () => {
     const { container } = await renderWithRouter(<App />)
 
     expect(container.firstChild).toBeNull()
+  })
+
+  it('does not display error by default', async () => {
+    const { queryByText } = await renderWithRouter(<App />)
+
+    expect(queryByText(ERROR_MESSAGE)).toBeNull()
   })
 })
