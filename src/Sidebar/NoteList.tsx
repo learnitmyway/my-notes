@@ -12,7 +12,11 @@ import './NoteList.css'
 export interface Props {
   uid: string
   currentNote?: NoteListItemTO
-  match: any
+  match: {
+    params: {
+      noteId: string
+    }
+  }
 }
 
 interface State {

@@ -14,7 +14,11 @@ import NavigationBar from './NavigationBar'
 export interface Props {
   history: any
   uid: string
-  match: any
+  match: {
+    params: {
+      noteId: string
+    }
+  }
 }
 
 interface State {

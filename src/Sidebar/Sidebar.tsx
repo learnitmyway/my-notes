@@ -10,7 +10,11 @@ import styles from './Sidebar.module.css'
 
 export interface Props {
   currentNote?: NoteListItemTO
-  match?: any
+  match: {
+    params: {
+      noteId: string
+    }
+  }
   open?: boolean
   small: boolean
   uid: string
