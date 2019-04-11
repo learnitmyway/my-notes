@@ -4,18 +4,26 @@ import Routes from './Routes'
 import { signInAnonymously } from './authService'
 import { logError } from '../logService'
 
-export default class App extends Component {
-  constructor() {
-    super()
+export interface State {
+  uid: string
+}
+
+export default class App extends Component<any, State> {
+  constructor(props: any) {
+    super(props)
     this.state = { uid: '' }
   }
 
   componentDidMount() {
     signInAnonymously()
       .then(userCredentials => {
-        this.setState({
-          uid: userCredentials.user.uid
-        })
+        if (userCredentials.user) {
+          this.setState({
+            uid: userCredentials.user.uid
+          })
+        } else {
+          logError({ description: 'Could parse uid from user credentials' })
+        }
       })
       .catch(err => {
         logError({ error: err, description: 'Sign in failed' })
