@@ -11,17 +11,6 @@ import { log } from '../errorService'
 jest.mock('../noteService/noteService')
 jest.mock('../errorService')
 
-const note = {
-  body: 'body',
-  title: 'title'
-}
-
-const notes = {
-  note1: note,
-  note2: note,
-  note3: note
-}
-
 const defaultProps = {
   match: { params: { noteId: 'someNoteId' } },
   uid: 'someUid'
@@ -29,6 +18,17 @@ const defaultProps = {
 
 describe('NoteList', () => {
   beforeEach(() => {
+    const note = {
+      body: 'body',
+      title: 'title'
+    }
+
+    const notes = {
+      note1: note,
+      note2: note,
+      note3: note
+    }
+
     const snapshot = {
       val() {
         return notes
@@ -52,6 +52,34 @@ describe('NoteList', () => {
     )
 
     expect(getAllByText('title').length).toBe(3)
+  })
+
+  it('displays sorted list starting with most recently modified', () => {
+    const body = 'body'
+    const notes = {
+      note1: { title: 'title1', body, lastModified: 1 },
+      note2: { title: 'title2', body, lastModified: 2 },
+      note3: { title: 'title3', body, lastModified: 0 }
+    }
+
+    const snapshot = {
+      val() {
+        return notes
+      }
+    }
+    readAllNotes.mockImplementation((aUid, cb) => {
+      cb(snapshot)
+    })
+
+    const uid = 'uid'
+    const { getAllByTestId } = renderWithRouter(
+      <NoteList {...defaultProps} uid={uid} />
+    )
+
+    const noteTitles = getAllByTestId('NoteListItem__title')
+    expect(noteTitles[0]).toHaveTextContent('title2')
+    expect(noteTitles[1]).toHaveTextContent('title1')
+    expect(noteTitles[2]).toHaveTextContent('title3')
   })
 
   it('displays and logs error when reading all notes fails', async () => {

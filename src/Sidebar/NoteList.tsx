@@ -56,20 +56,24 @@ export default class NoteList extends React.Component<Props, State> {
     return (
       <div data-testid="NoteList" className="NoteList">
         {this.state.notes &&
-          Object.entries(notes).map(noteEntry => {
-            const noteId = noteEntry[0]
-            const noteTitle =
-              noteId === currentNoteId ? currentNoteTitle : noteEntry[1].title
-            const isSelected = !!(noteIdInUrl && noteId === noteIdInUrl)
-            return (
-              <NoteListItem
-                key={noteId}
-                title={noteTitle}
-                noteId={noteId}
-                isSelected={isSelected}
-              />
-            )
-          })}
+          Object.entries(notes)
+            .sort((a, b) => {
+              return b[1].lastModified - a[1].lastModified
+            })
+            .map(noteEntry => {
+              const noteId = noteEntry[0]
+              const noteTitle =
+                noteId === currentNoteId ? currentNoteTitle : noteEntry[1].title
+              const isSelected = !!(noteIdInUrl && noteId === noteIdInUrl)
+              return (
+                <NoteListItem
+                  key={noteId}
+                  title={noteTitle}
+                  noteId={noteId}
+                  isSelected={isSelected}
+                />
+              )
+            })}
         {this.state.isError && (
           <div className="NoteList-error">Notes cannot be found</div>
         )}
