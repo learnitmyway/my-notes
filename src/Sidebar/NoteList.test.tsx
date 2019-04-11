@@ -71,51 +71,53 @@ describe('NoteList', () => {
     await waitForElement(() => getByText('Notes cannot be found'))
   })
 
-  it('styles selected item', () => {
-    const selectedNoteId = 'noteId2'
-    const snapshot = {
-      val() {
-        return {
-          note1: {},
-          [selectedNoteId]: { title: 'displayed', body: 'not displayed' },
-          note3: {}
+  describe('Note', () => {
+    it('styles selected item', () => {
+      const selectedNoteId = 'noteId2'
+      const snapshot = {
+        val() {
+          return {
+            note1: {},
+            [selectedNoteId]: { title: 'displayed', body: 'not displayed' },
+            note3: {}
+          }
         }
       }
-    }
-    readAllNotes.mockImplementation((aUid, cb) => {
-      cb(snapshot)
+      readAllNotes.mockImplementation((aUid, cb) => {
+        cb(snapshot)
+      })
+
+      const match = { params: { noteId: selectedNoteId } }
+      const { getAllByTestId } = renderWithRouter(
+        <NoteList {...defaultProps} match={match} />
+      )
+
+      expect(getAllByTestId('NoteListItem')[1]).toHaveClass(
+        'NoteListItem NoteListItem--selected'
+      )
     })
 
-    const match = { params: { noteId: selectedNoteId } }
-    const { getAllByTestId } = renderWithRouter(
-      <NoteList {...defaultProps} match={match} />
-    )
-
-    expect(getAllByTestId('NoteListItem')[1]).toHaveClass(
-      'NoteListItem NoteListItem--selected'
-    )
-  })
-
-  it('displays list item title as "Untitled" if there is no note title', () => {
-    const noteIdWithNoTitle = 'noteId2'
-    const snapshot = {
-      val() {
-        return {
-          note1: {},
-          [noteIdWithNoTitle]: { title: '', body: 'not displayed' },
-          note3: {}
+    it('displays list item title as "Untitled" if there is no note title', () => {
+      const noteIdWithNoTitle = 'noteId2'
+      const snapshot = {
+        val() {
+          return {
+            note1: {},
+            [noteIdWithNoTitle]: { title: '', body: 'not displayed' },
+            note3: {}
+          }
         }
       }
-    }
-    readAllNotes.mockImplementation((aUid, cb) => {
-      cb(snapshot)
+      readAllNotes.mockImplementation((aUid, cb) => {
+        cb(snapshot)
+      })
+
+      const match = { params: { noteId: noteIdWithNoTitle } }
+      const { getAllByTestId } = renderWithRouter(
+        <NoteList {...defaultProps} match={match} />
+      )
+
+      expect(getAllByTestId('NoteListItem')[1]).toHaveTextContent('Untitled')
     })
-
-    const match = { params: { noteId: noteIdWithNoTitle } }
-    const { getAllByTestId } = renderWithRouter(
-      <NoteList {...defaultProps} match={match} />
-    )
-
-    expect(getAllByTestId('NoteListItem')[1]).toHaveTextContent('Untitled')
   })
 })
