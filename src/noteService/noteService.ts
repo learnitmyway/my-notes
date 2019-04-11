@@ -1,7 +1,7 @@
 import 'firebase/database'
 import firebase from '../firebase'
 
-import { log } from '../errorService'
+import { logError } from '../logService'
 
 export function createNote(uid: string, noteId: string) {
   const newNoteRef = getNoteRef(uid, noteId)
@@ -11,7 +11,7 @@ export function createNote(uid: string, noteId: string) {
       lastModified: firebase.database.ServerValue.TIMESTAMP,
       title: ''
     })
-    .catch(err => log(`Cannot create note: /notes/${uid}/${noteId}`, err))
+    .catch(err => logError(`Cannot create note: /notes/${uid}/${noteId}`, err))
 }
 
 export function readNote(

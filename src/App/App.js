@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Routes from './Routes'
 import { signInAnonymously } from './authService'
-import { log } from '../errorService'
+import { logError } from '../logService'
 
 export default class App extends Component {
   constructor() {
@@ -18,7 +18,7 @@ export default class App extends Component {
         })
       })
       .catch(err => {
-        log('Sign in failed', err)
+        logError('Sign in failed', err)
         window.alert(
           'Something went wrong. Please refresh the page and try again.'
         )

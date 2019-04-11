@@ -4,12 +4,12 @@ import moment from 'moment'
 
 import Note from './Note'
 
-import { log } from '../errorService'
+import { logError } from '../logService'
 import { deleteNote, readNote, updateNote } from '../noteService/noteService'
 
 jest.mock('moment')
 jest.mock('../noteService/noteService')
-jest.mock('../errorService')
+jest.mock('../logService')
 
 const defaultProps = {
   match: { params: { noteId: 'someNoteId' } },
@@ -86,7 +86,7 @@ describe('Note', () => {
     const match = { params: { noteId } }
     const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
 
-    expect(log).toHaveBeenCalledWith('Not able to read note: ' + noteId)
+    expect(logError).toHaveBeenCalledWith('Not able to read note: ' + noteId)
     expect(queryByTestId('Note__error')).toHaveTextContent(
       'Note cannot be found'
     )
@@ -102,7 +102,7 @@ describe('Note', () => {
     const match = { params: { noteId: 'non-existant' } }
     const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
 
-    expect(log).toHaveBeenCalledWith('Read note failed', err)
+    expect(logError).toHaveBeenCalledWith('Read note failed', err)
     expect(queryByTestId('Note__error')).toHaveTextContent(
       'Note cannot be found'
     )
@@ -262,7 +262,7 @@ describe('Note', () => {
 
     expect(deleteNote).toHaveBeenCalledWith(expectedUid, noteIdToDelete)
     expect(push).not.toHaveBeenCalled()
-    expect(log).toHaveBeenCalledWith('Delete note failed', err)
+    expect(logError).toHaveBeenCalledWith('Delete note failed', err)
   })
 
   it('does not display delete button when there is no title and body', async () => {

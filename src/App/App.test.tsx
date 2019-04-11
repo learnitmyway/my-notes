@@ -3,11 +3,11 @@ import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import App from './App'
 
-import { log } from '../errorService'
+import { logError } from '../logService'
 import { signInAnonymously } from './authService'
 
 jest.mock('./authService')
-jest.mock('../errorService')
+jest.mock('../logService')
 
 describe('App', () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('App', () => {
 
     await await renderWithRouter(<App />)
 
-    expect(log).toHaveBeenCalledWith('Sign in failed', err)
+    expect(logError).toHaveBeenCalledWith('Sign in failed', err)
     expect(window.alert).toHaveBeenCalledWith(
       'Something went wrong. Please refresh the page and try again.'
     )

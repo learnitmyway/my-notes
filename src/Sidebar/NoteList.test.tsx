@@ -6,10 +6,10 @@ import { readAllNotes } from '../noteService/noteService'
 import NoteList from './NoteList'
 import NoteListItem from './NoteListItem'
 
-import { log } from '../errorService'
+import { logError } from '../logService'
 
 jest.mock('../noteService/noteService')
-jest.mock('../errorService')
+jest.mock('../logService')
 
 const defaultProps = {
   match: { params: { noteId: 'someNoteId' } },
@@ -95,7 +95,7 @@ describe('NoteList', () => {
       <NoteList {...defaultProps} uid="" />
     )
 
-    expect(log).toHaveBeenCalledWith(`Cannot read all notes`, err)
+    expect(logError).toHaveBeenCalledWith(`Cannot read all notes`, err)
     await waitForElement(() => getByText('Notes cannot be found'))
   })
 

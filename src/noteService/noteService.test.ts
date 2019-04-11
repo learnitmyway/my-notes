@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
 
-import { log } from '../errorService'
+import { logError } from '../logService'
 import {
   createNote,
   deleteNote,
@@ -9,7 +9,7 @@ import {
   updateNote
 } from './noteService'
 
-jest.mock('../errorService')
+jest.mock('../logService')
 
 const TIMESTAMP = 1554907683672
 
@@ -63,7 +63,7 @@ describe('noteService', () => {
     const noteId = 'noteId'
     await createNote(uid, noteId)
 
-    expect(log).toHaveBeenCalledWith(
+    expect(logError).toHaveBeenCalledWith(
       `Cannot create note: /notes/${uid}/${noteId}`,
       err
     )

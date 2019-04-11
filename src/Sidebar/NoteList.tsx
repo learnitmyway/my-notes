@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 
 import NoteListItem from './NoteListItem'
 
-import { log } from '../errorService'
+import { logError } from '../logService'
 import { readAllNotes } from '../noteService/noteService'
 import NoteListItemTO from '../NoteListItemTO'
 
@@ -88,7 +88,7 @@ export default class NoteList extends React.Component<Props, State> {
       this.setState({ firstNoteId, isError: false, notes })
     }
     const failureCallback = (err: any) => {
-      log('Cannot read all notes', err)
+      logError('Cannot read all notes', err)
       this.setState({ firstNoteId: undefined, isError: true, notes: [] })
     }
     readAllNotes(this.props.uid, successCallback, failureCallback)

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ContentEditable from 'react-contenteditable'
 import moment from 'moment'
 
-import { log } from '../errorService'
+import { logError } from '../logService'
 import { deleteNote, readNote, updateNote } from '../noteService/noteService'
 import NoteListItemTO from '../NoteListItemTO'
 
@@ -57,7 +57,7 @@ export default class Note extends Component<Props, State> {
       const note = snapshot.val()
 
       if (note === null) {
-        log('Not able to read note: ' + this.props.match.params.noteId)
+        logError('Not able to read note: ' + this.props.match.params.noteId)
         this.renderErrorMessage()
       } else {
         this.setState({
@@ -68,7 +68,7 @@ export default class Note extends Component<Props, State> {
     }
 
     const failureCallback = (err: any) => {
-      log('Read note failed', err)
+      logError('Read note failed', err)
       this.renderErrorMessage()
     }
 
@@ -109,7 +109,7 @@ export default class Note extends Component<Props, State> {
     const { history, match, uid } = this.props
     deleteNote(uid, match.params.noteId)
       .then(() => history.push('/'))
-      .catch(err => log('Delete note failed', err))
+      .catch(err => logError('Delete note failed', err))
   }
 
   componentDidUpdate(prevProps: Props, prevState: any, snapshot: any) {

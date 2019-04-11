@@ -10,7 +10,7 @@ import sidebarStyles from '../Sidebar/Sidebar.module.css'
 
 jest.mock('uuid/v1')
 jest.mock('../noteService/noteService')
-jest.mock('../errorService')
+jest.mock('../logService')
 
 const defaultProps = {
   uid: 'uid'
