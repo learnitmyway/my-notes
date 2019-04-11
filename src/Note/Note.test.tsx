@@ -7,6 +7,7 @@ import Note from './Note'
 import { log } from '../errorService'
 import { deleteNote, readNote, updateNote } from '../noteService/noteService'
 
+jest.mock('moment')
 jest.mock('../noteService/noteService')
 jest.mock('../errorService')
 
@@ -25,12 +26,15 @@ describe('Note', () => {
     readNote.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
+
+    moment.mockReturnValue({ format: jest.fn() })
   })
 
   it('displays note', () => {
     const body = 'body'
     const title = 'title'
-    const note = { title, body }
+    const lastModified = 1054907683672
+    const note = { title, body, lastModified }
     const snapshot = {
       val() {
         return note
@@ -40,11 +44,17 @@ describe('Note', () => {
       cb(snapshot)
     })
 
+    moment.mockReset()
+    const format = jest.fn(() => 'April 10, 2019')
+    moment.mockReturnValue({ format })
+
     const { container, getByTestId } = render(<Note {...defaultProps} />)
 
     expect(getByTestId('Note__title').value).toBe(title)
     expect(getByTestId('Note__body').value).toBe(body)
     expect(container.querySelector('time')).toHaveTextContent('April 10, 2019')
+    expect(moment).toHaveBeenCalledWith(lastModified)
+    expect(format).toHaveBeenCalledWith('LL')
   })
 
   it('does not display error', () => {
@@ -173,7 +183,8 @@ describe('Note', () => {
   it('updates note on change and handles title change', () => {
     const body = 'body'
     const title = 'title'
-    const note = { title, body }
+    const lastModified = 1054907683672
+    const note = { title, body, lastModified }
     const snapshot = {
       val() {
         return note
@@ -182,6 +193,10 @@ describe('Note', () => {
     readNote.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
+
+    moment.mockReset()
+    const format = jest.fn(() => 'April 10, 2019')
+    moment.mockReturnValue({ format })
 
     const handleTitleChange = jest.fn()
     const uid = 'uid'
@@ -206,6 +221,8 @@ describe('Note', () => {
     expect(getByTestId('Note__title').value).toBe(newTitle)
     expect(getByTestId('Note__body').value).toBe(newBody)
     expect(container.querySelector('time')).toHaveTextContent('April 10, 2019')
+    expect(moment).toHaveBeenCalledWith(lastModified)
+    expect(format).toHaveBeenCalledWith('LL')
   })
 
   it('deletes note and navigates back to root route', async () => {
