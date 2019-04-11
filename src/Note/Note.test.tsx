@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import Note from './Note'
 
-import { logError } from '../logService'
+import { logError, logWarning } from '../logService'
 import { deleteNote, readNote, updateNote } from '../noteService/noteService'
 
 jest.mock('moment')
@@ -72,7 +72,7 @@ describe('Note', () => {
     expect(queryByTestId('Note__error')).not.toBeInTheDocument()
   })
 
-  it('displays and logs error when there is no note', () => {
+  it('displays error and logs warning when there is no note', () => {
     const snapshot = {
       val() {
         return null
@@ -86,7 +86,7 @@ describe('Note', () => {
     const match = { params: { noteId } }
     const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
 
-    expect(logError).toHaveBeenCalledWith('Not able to read note: ' + noteId)
+    expect(logWarning).toHaveBeenCalledWith('Not able to read note: ' + noteId)
     expect(queryByTestId('Note__error')).toHaveTextContent(
       'Note cannot be found'
     )

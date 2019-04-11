@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ContentEditable from 'react-contenteditable'
 import moment from 'moment'
 
-import { logError } from '../logService'
+import { logError, logWarning } from '../logService'
 import { deleteNote, readNote, updateNote } from '../noteService/noteService'
 import NoteListItemTO from '../NoteListItemTO'
 
@@ -57,7 +57,7 @@ export default class Note extends Component<Props, State> {
       const note = snapshot.val()
 
       if (note === null) {
-        logError('Not able to read note: ' + this.props.match.params.noteId)
+        logWarning('Not able to read note: ' + this.props.match.params.noteId)
         this.renderErrorMessage()
       } else {
         this.setState({
