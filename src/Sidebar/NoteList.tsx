@@ -32,10 +32,6 @@ export default class NoteList extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (!this.props.match || !prevProps.match) {
-      return
-    }
-
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.readAllNotes()
     }
@@ -49,7 +45,7 @@ export default class NoteList extends React.Component<Props, State> {
     const { match, currentNote } = this.props
     const { notes, firstNoteId } = this.state
 
-    const noteIdInUrl = match && match.params.noteId
+    const noteIdInUrl = match.params.noteId
 
     if (!noteIdInUrl && firstNoteId) {
       return <Redirect to={`/${firstNoteId}`} />
