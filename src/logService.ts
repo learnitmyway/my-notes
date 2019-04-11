@@ -1,7 +1,7 @@
 interface ErrorObject {
   error?: Error
   description?: string
-  detials?: string
+  errorInfo?: string
 }
 // tslint:disable no-console
 export function logError(errorObject: ErrorObject) {

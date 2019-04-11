@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { logError } from './logService'
+
 export interface State {
   hasError: boolean
 }
@@ -12,6 +14,7 @@ export default class ErrorBoundary extends React.Component<any, State> {
 
   componentDidCatch(error: any, errorInfo: any) {
     this.setState({ hasError: true })
+    logError({ error, errorInfo })
   }
 
   render() {
