@@ -11,13 +11,15 @@
 
 .date {
   display: block;
-  margin-bottom: 1rem;
   color: lightgrey;
 }
 
-.titleWrapper {
+.titleBar {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 0.25rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid lightgrey;
 }
 
 .title {

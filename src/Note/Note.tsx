@@ -136,20 +136,20 @@ export default class Note extends Component<Props, State> {
       <div data-testid="Note" className={classNames}>
         {note && (
           <>
-            <time className={styles.date}>
-              {moment(note!.lastModified).format('LL')}
-            </time>
-            <div className={styles.titleWrapper}>
-              <ContentEditable
-                className={styles.title}
-                data-testid={'Note__title'}
-                html={note!.title || ''}
-                onChange={this.handleTitleChange}
-              />
+            <div className={styles.titleBar}>
+              <time className={styles.date}>
+                {moment(note!.lastModified).format('LL')}
+              </time>
               <button className={styles.deleteBtn} onClick={this.handleClick}>
                 Delete
               </button>
             </div>
+            <ContentEditable
+              className={styles.title}
+              data-testid={'Note__title'}
+              html={note!.title || ''}
+              onChange={this.handleTitleChange}
+            />
             <ContentEditable
               className={styles.body}
               data-testid={'Note__body'}
