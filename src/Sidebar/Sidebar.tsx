@@ -7,7 +7,8 @@ import NoteList from './NoteList'
 import deviceWidths from '../deviceWidths'
 import NoteListItemTO from '../NoteListItemTO'
 
-import hamburger from './menu.svg'
+import leftArrow from './back.svg'
+import rightArrow from './right-arrow.svg'
 import styles from './Sidebar.module.css'
 
 export interface Props {
@@ -58,13 +59,13 @@ export default class Sidebar extends React.Component<Props, State> {
             <img
               onClick={this.handleClick}
               className={styles.leftArrow}
-              src={hamburger}
+              src={leftArrow}
               alt="left arrow"
             />
             <img
               onClick={this.handleClick}
               className={styles.rightArrow}
-              src={hamburger}
+              src={rightArrow}
               alt="right arrow"
             />
           </>
