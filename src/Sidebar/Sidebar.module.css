@@ -11,11 +11,29 @@
 }
 
 .small {
-  position: absolute;
+  position: fixed;
   left: -100%;
   width: 100%;
 }
 
 .open {
   left: 0;
+}
+
+.leftArrow {
+  cursor: pointer;
+  height: 40px;
+  padding: 0.5rem;
+  width: 40px;
+}
+
+.rightArrow {
+  background-color: var(--primary);
+  cursor: pointer;
+  height: 40px;
+  padding: 0.5rem;
+  width: 40px;
+  position: absolute;
+  top: 0;
+  left: 100%;
 }

@@ -1,12 +1,14 @@
 .Note {
   background-color: var(--off-white);
   padding: 1rem;
+  padding-left: 50px;
   height: 100%;
   overflow: hidden auto;
 }
 
 .notSmall {
   flex: 2;
+  padding-left: 1rem;
 }
 
 .date {

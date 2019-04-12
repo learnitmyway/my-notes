@@ -121,6 +121,8 @@ describe('Routes', () => {
       <Routes {...defaultProps} />
     )
 
+    expect(getByTestId('Sidebar')).toHaveClass(sidebarStyles.open)
+
     fireEvent.click(getByText('Create Note'))
 
     expect(getByTestId('Sidebar')).not.toHaveClass(sidebarStyles.open)

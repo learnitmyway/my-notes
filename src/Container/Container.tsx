@@ -9,7 +9,6 @@ import NoteListItemTO from '../NoteListItemTO'
 
 import noteStyles from '../Note/Note.module.css'
 import styles from './Container.module.css'
-import NavigationBar from './NavigationBar'
 
 export interface Props {
   history: any
@@ -23,43 +22,28 @@ export interface Props {
 
 interface State {
   currentNote: NoteListItemTO
-  sidebarIsOpen: boolean
 }
 
 export default class Container extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      currentNote: { id: '', title: '' },
-      sidebarIsOpen: true
+      currentNote: { id: '', title: '' }
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
-      this.setState({ sidebarIsOpen: false })
-    }
-  }
-
   render() {
-    const { currentNote, sidebarIsOpen } = this.state
+    const { currentNote } = this.state
     const { history, match, uid } = this.props
 
     const small = window.innerWidth < deviceWidths.small
 
     return (
       <>
-        {small && <NavigationBar handleClick={this.handleHamburgerClick} />}
         <div className={classNames(styles.root, !small && styles.notSmall)}>
-          <Sidebar
-            small={small}
-            open={sidebarIsOpen}
-            currentNote={currentNote}
-            uid={uid}
-            match={match}
-          />
+          <Sidebar currentNote={currentNote} uid={uid} match={match} />
           <Note
             classNames={classNames(!small && noteStyles.notSmall)}
             history={history}
@@ -74,9 +58,5 @@ export default class Container extends React.Component<Props, State> {
 
   private handleTitleChange(currentNote: NoteListItemTO) {
     this.setState({ currentNote })
-  }
-
-  private handleHamburgerClick = () => {
-    this.setState({ sidebarIsOpen: !this.state.sidebarIsOpen })
   }
 }
