@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
     "@types/classnames": "^2.2.7",
     "@types/jest": "^24.0.11",
     "@types/node": "^11.13.0",
@@ -10,9 +14,16 @@
     "@types/react-dom": "^16.8.3",
     "@types/react-router-dom": "^4.3.1",
     "@types/uuid": "^3.4.4",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-jest": "^24.7.1",
+    "babel-loader": "^8.0.5",
     "classnames": "^2.2.6",
+    "css-loader": "^2.1.1",
     "firebase": "^5.4.2",
     "firebase-tools": "^4.2.1",
+    "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.7.1",
     "jest-dom": "^3.1.3",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.0",
@@ -21,8 +32,9 @@
     "react-contenteditable": "^3.2.6",
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.8",
     "react-testing-library": "^6.0.4",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
     "stylelint": "^9.10.1",
     "stylelint-config-recommended": "^2.1.0",
     "tslint": "^5.15.0",
@@ -31,7 +43,10 @@
     "tslint-react": "^4.0.0",
     "tslint-react-a11y": "^1.0.0",
     "typescript": "^3.4.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
   },
   "browserslist": [
     ">0.2%",
@@ -42,15 +57,42 @@
   "stylelint": {
     "extends": "stylelint-config-recommended"
   },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleNameMapper": {
+      "\\.css$": "identity-obj-proxy"
+    }
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --format codeFrame && npx stylelint src/**/*.css",
     "lint:fix": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --fix --format codeFrame && npx stylelint src/**/*.css --fix",
     "pretest": "npm run lint",
-    "test": "CI=true react-scripts test",
-    "watch": "react-scripts test --verbose=false",
-    "eject": "react-scripts eject",
+    "test": "jest",
+    "watch": "jest --watch",
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production",
     "deploy:firebase": "npx firebase deploy --project $REACT_APP_PROJECT_ID --non-interactive --token $FIREBASE_TOKEN",
     "deploy:netlify": "npm test && CI=true npm run build && npm run deploy:firebase"
   }
