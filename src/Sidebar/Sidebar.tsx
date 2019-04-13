@@ -58,13 +58,13 @@ export default class Sidebar extends React.Component<Props, State> {
           <>
             <img
               onClick={this.handleClick}
-              className={styles.leftArrow}
+              className={styles.arrow}
               src={leftArrow}
               alt="left arrow"
             />
             <img
               onClick={this.handleClick}
-              className={styles.rightArrow}
+              className={classNames(styles.arrow, styles.arrowRight)}
               src={rightArrow}
               alt="right arrow"
             />

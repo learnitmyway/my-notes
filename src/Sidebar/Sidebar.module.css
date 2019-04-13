@@ -20,19 +20,15 @@
   left: 0;
 }
 
-.leftArrow {
+.arrow {
   cursor: pointer;
-  height: 40px;
-  padding: 0.5rem;
-  width: 40px;
+  height: 50px;
+  padding: 14px;
+  width: 50px;
 }
 
-.rightArrow {
+.arrowRight {
   background-color: var(--primary);
-  cursor: pointer;
-  height: 40px;
-  padding: 0.5rem;
-  width: 40px;
   position: absolute;
   top: 0;
   left: 100%;
