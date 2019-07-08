@@ -9,8 +9,8 @@ export interface State {
   hasError: boolean
 }
 
-export default class App extends Component<any, State> {
-  constructor(props: any) {
+export default class App extends Component<{}, State> {
+  constructor(props: {}) {
     super(props)
     this.state = { uid: '', hasError: false }
   }

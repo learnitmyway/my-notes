@@ -56,13 +56,15 @@ export default class Sidebar extends React.Component<Props, State> {
       <div data-testid="Sidebar" className={className}>
         {small && (
           <>
-            <img
+            <input
+              type="image"
               onClick={this.handleClick}
               className={styles.arrow}
               src={leftArrow}
               alt="left arrow"
             />
-            <img
+            <input
+              type="image"
               onClick={this.handleClick}
               className={classNames(styles.arrow, styles.arrowRight)}
               src={rightArrow}

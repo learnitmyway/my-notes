@@ -3,6 +3,10 @@ import firebase from '../firebase'
 
 import { logError } from '../logService'
 
+function getNoteRef(uid: string, noteId: string) {
+  return firebase.database().ref(`/notes/${uid}/${noteId}`)
+}
+
 export function createNote(uid: string, noteId: string) {
   const newNoteRef = getNoteRef(uid, noteId)
   newNoteRef
@@ -55,8 +59,4 @@ export function updateNote(
 export function deleteNote(uid: string, noteId: string) {
   const noteRef = getNoteRef(uid, noteId)
   return noteRef.remove()
-}
-
-function getNoteRef(uid: string, noteId: string) {
-  return firebase.database().ref(`/notes/${uid}/${noteId}`)
 }

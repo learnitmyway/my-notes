@@ -3,7 +3,6 @@ interface ErrorObject {
   description?: string
   errorInfo?: string
 }
-// tslint:disable no-console
 export function logError(errorObject: ErrorObject) {
   console.error(errorObject)
 }

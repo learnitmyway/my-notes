@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
+import { History } from 'history'
 
 import Note from '../Note/Note'
 import Sidebar from '../Sidebar/Sidebar'
@@ -11,7 +12,7 @@ import noteStyles from '../Note/Note.module.css'
 import styles from './Container.module.css'
 
 export interface Props {
-  history: any
+  history: History
   uid: string
   match: {
     params: {

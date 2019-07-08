@@ -82,27 +82,31 @@ export default class Note extends Component<Props, State> {
 
   handleTitleChange(e: any) {
     const note = this.state.note
-    const body = note!.body
-    const lastModified = note!.lastModified
-    const { onTitleChange, uid, match } = this.props
+    if (note) {
+      const body = note.body
+      const lastModified = note.lastModified
+      const { onTitleChange, uid, match } = this.props
 
-    this.setState({ note: { title: e.target.value, body, lastModified } })
+      this.setState({ note: { title: e.target.value, body, lastModified } })
 
-    const currentNote = {
-      id: match.params.noteId,
-      title: e.target.value
+      const currentNote = {
+        id: match.params.noteId,
+        title: e.target.value
+      }
+      onTitleChange(currentNote)
+      updateNote(uid, match.params.noteId, e.target.value, body)
     }
-    onTitleChange(currentNote)
-    updateNote(uid, match.params.noteId, e.target.value, body)
   }
 
   handleBodyChange(e: any) {
     const note = this.state.note
-    const title = note!.title
-    const lastModified = note!.lastModified
-    const { uid, match } = this.props
-    this.setState({ note: { title, body: e.target.value, lastModified } })
-    updateNote(uid, match.params.noteId, title, e.target.value)
+    if (note) {
+      const title = note.title
+      const lastModified = note.lastModified
+      const { uid, match } = this.props
+      this.setState({ note: { title, body: e.target.value, lastModified } })
+      updateNote(uid, match.params.noteId, title, e.target.value)
+    }
   }
 
   handleClick = () => {
@@ -112,7 +116,7 @@ export default class Note extends Component<Props, State> {
       .catch(err => logError({ description: 'Delete note failed', error: err }))
   }
 
-  componentDidUpdate(prevProps: Props, prevState: any, snapshot: any) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.match.params.noteId !== prevProps.match.params.noteId) {
       this.readNote()
     }
@@ -138,7 +142,7 @@ export default class Note extends Component<Props, State> {
           <>
             <div className={styles.titleBar}>
               <time className={styles.date}>
-                {moment(note!.lastModified).format('LL')}
+                {moment(note.lastModified).format('LL')}
               </time>
               <button className={styles.deleteBtn} onClick={this.handleClick}>
                 Delete
@@ -147,13 +151,13 @@ export default class Note extends Component<Props, State> {
             <ContentEditable
               className={styles.title}
               data-testid={'Note__title'}
-              html={note!.title || ''}
+              html={note.title || ''}
               onChange={this.handleTitleChange}
             />
             <ContentEditable
               className={styles.body}
               data-testid={'Note__body'}
-              html={note!.body || ''}
+              html={note.body || ''}
               onChange={this.handleBodyChange}
             />
           </>

@@ -4,7 +4,6 @@ import { render, waitForElement } from 'react-testing-library'
 import ErrorBoundary from './ErrorBoundary'
 
 import { logError } from './logService'
-import { any } from 'prop-types'
 
 jest.mock('./logService')
 
@@ -20,7 +19,6 @@ const component = (
 
 describe('ErrorBoundary', () => {
   it('displays and logs error when there is an error', async () => {
-    // tslint:disable no-console
     console.error = jest.fn()
     const { getByText } = render(component)
 

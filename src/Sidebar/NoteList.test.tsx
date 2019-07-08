@@ -4,7 +4,6 @@ import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import { readAllNotes } from '../noteService/noteService'
 import NoteList from './NoteList'
-import NoteListItem from './NoteListItem'
 
 import { logError } from '../logService'
 

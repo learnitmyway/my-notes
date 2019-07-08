@@ -3,7 +3,6 @@ import { fireEvent } from 'react-testing-library'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import { readAllNotes, readNote } from '../noteService/noteService'
-import sidebarStyles from '../Sidebar/Sidebar.module.css'
 import Container from './Container'
 
 jest.mock('../noteService/noteService')
