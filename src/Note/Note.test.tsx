@@ -11,6 +11,9 @@ jest.mock('moment')
 jest.mock('../noteService/noteService')
 jest.mock('../logService')
 
+const momentMock = moment as jest.Mock
+const readNoteMock = readNote as jest.Mock
+
 const defaultProps = {
   match: { params: { noteId: 'someNoteId' } },
   uid: 'someUid'
@@ -23,11 +26,12 @@ describe('Note', () => {
         return { title: 'title', body: 'body', lastModified: 1554907683672 } // 2019-04-10T16:48:03.672
       }
     }
-    readNote.mockImplementation((a, b, cb) => {
+
+    readNoteMock.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
 
-    moment.mockReturnValue({ format: jest.fn() })
+    momentMock.mockReturnValue({ format: jest.fn() })
   })
 
   it('displays note', () => {
@@ -40,20 +44,20 @@ describe('Note', () => {
         return note
       }
     }
-    readNote.mockImplementation((a, b, cb) => {
+    readNoteMock.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
 
-    moment.mockReset()
+    momentMock.mockReset()
     const format = jest.fn(() => 'April 10, 2019')
-    moment.mockReturnValue({ format })
+    momentMock.mockReturnValue({ format })
 
     const { container, getByTestId } = render(<Note {...defaultProps} />)
 
     expect(getByTestId('Note__title').value).toBe(title)
     expect(getByTestId('Note__body').value).toBe(body)
     expect(container.querySelector('time')).toHaveTextContent('April 10, 2019')
-    expect(moment).toHaveBeenCalledWith(lastModified)
+    expect(momentMock).toHaveBeenCalledWith(lastModified)
     expect(format).toHaveBeenCalledWith('LL')
   })
 
@@ -78,7 +82,7 @@ describe('Note', () => {
         return null
       }
     }
-    readNote.mockImplementation((a, b, cb) => {
+    readNoteMock.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
 
@@ -95,9 +99,11 @@ describe('Note', () => {
   it('displays and logs error when reading note fails', () => {
     const err = new Error('Something bad happened')
 
-    readNote.mockImplementation((a, b, successCallback, failureCallBack) => {
-      failureCallBack(err)
-    })
+    readNoteMock.mockImplementation(
+      (a, b, successCallback, failureCallBack) => {
+        failureCallBack(err)
+      }
+    )
 
     const match = { params: { noteId: 'non-existant' } }
     const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
@@ -114,9 +120,11 @@ describe('Note', () => {
   it('does not display note when reading note fails', () => {
     const err = new Error('Something bad happened')
 
-    readNote.mockImplementation((a, b, successCallback, failureCallBack) => {
-      failureCallBack(err)
-    })
+    readNoteMock.mockImplementation(
+      (a, b, successCallback, failureCallBack) => {
+        failureCallBack(err)
+      }
+    )
 
     const match = { params: { noteId: 'non-existant' } }
     const { queryByTestId } = render(<Note {...defaultProps} match={match} />)
@@ -126,7 +134,7 @@ describe('Note', () => {
   })
 
   it('hides error after successful read', () => {
-    readNote.mockImplementationOnce(
+    readNoteMock.mockImplementationOnce(
       (a, b, successCallback, failureCallBack) => {
         failureCallBack(new Error())
       }
@@ -137,7 +145,7 @@ describe('Note', () => {
         return { title: 'title', body: 'body' }
       }
     }
-    readNote.mockImplementationOnce((a, b, cb) => {
+    readNoteMock.mockImplementationOnce((a, b, cb) => {
       cb(snapshot)
     })
 
@@ -167,7 +175,7 @@ describe('Note', () => {
     const props = { ...prevProps, match: match2 }
     rerender(<Note {...props} />)
 
-    expect(readNote).toHaveBeenCalledWith(
+    expect(readNoteMock).toHaveBeenCalledWith(
       uid,
       noteId2,
       expect.any(Function),
@@ -193,13 +201,13 @@ describe('Note', () => {
         return note
       }
     }
-    readNote.mockImplementation((a, b, cb) => {
+    readNoteMock.mockImplementation((a, b, cb) => {
       cb(snapshot)
     })
 
-    moment.mockReset()
+    momentMock.mockReset()
     const format = jest.fn(() => 'April 10, 2019')
-    moment.mockReturnValue({ format })
+    momentMock.mockReturnValue({ format })
 
     const handleTitleChange = jest.fn()
     const uid = 'uid'
@@ -224,7 +232,7 @@ describe('Note', () => {
     expect(getByTestId('Note__title').value).toBe(newTitle)
     expect(getByTestId('Note__body').value).toBe(newBody)
     expect(container.querySelector('time')).toHaveTextContent('April 10, 2019')
-    expect(moment).toHaveBeenCalledWith(lastModified)
+    expect(momentMock).toHaveBeenCalledWith(lastModified)
     expect(format).toHaveBeenCalledWith('LL')
   })
 
