@@ -18,12 +18,7 @@ export default function CreateNote(props: Props) {
 
   return (
     <div className={styles.CreateNote}>
-      <Link
-        className={styles.btn}
-        data-testid="CreateNote__btn"
-        onClick={handleClick}
-        to={'/' + noteId}
-      >
+      <Link className={styles.btn} onClick={handleClick} to={'/' + noteId}>
         Create Note
       </Link>
     </div>
