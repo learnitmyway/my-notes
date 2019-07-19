@@ -171,46 +171,6 @@ describe('Routes', () => {
     await waitForElement(() => getByText(expectedTitle))
   })
 
-  it('navigates to existing note on click', async () => {
-    const expectedTitle = 'title'
-    const expectedBody = 'body'
-    const expectedNoteId = 'note2'
-    const expectedNote = { title: expectedTitle, body: expectedBody }
-
-    const notes = {
-      note1: {},
-      [expectedNoteId]: expectedNote,
-      note3: {}
-    }
-    const readAllSnapshot = {
-      val() {
-        return notes
-      }
-    }
-    readAllNotes.mockImplementation((uid, cb) => {
-      cb(readAllSnapshot)
-    })
-
-    const snapshot = {
-      val() {
-        return expectedNote
-      }
-    }
-    readNote.mockImplementation((uid, noteId, cb) => {
-      cb(snapshot)
-    })
-
-    const { getByText, getByTestId, history } = await renderWithRouter(
-      <Routes {...defaultProps} />,
-      { route: '/anotherNoteId' }
-    )
-
-    fireEvent.click(getByText(expectedTitle))
-
-    expect(history.entries[1].pathname).toBe('/' + expectedNoteId)
-    expect(getByTestId('Note__title').value).toBe(expectedTitle)
-  })
-
   it('hides error in note list after successful read', () => {
     readAllNotes.mockReset()
 

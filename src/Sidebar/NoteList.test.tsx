@@ -75,7 +75,7 @@ describe('NoteList', () => {
       <NoteList {...defaultProps} uid={uid} />
     )
 
-    const noteTitles = getAllByTestId('NoteListItem__title')
+    const noteTitles = getAllByTestId('NoteListItem')
     expect(noteTitles[0]).toHaveTextContent('title2')
     expect(noteTitles[1]).toHaveTextContent('title1')
     expect(noteTitles[2]).toHaveTextContent('title3')

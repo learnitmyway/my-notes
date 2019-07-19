@@ -64,9 +64,7 @@ describe('Container', () => {
         target: { value: newTitle }
       })
 
-      expect(getAllByTestId('NoteListItem__title')[2]).toHaveTextContent(
-        newTitle
-      )
+      expect(getAllByTestId('NoteListItem')[2]).toHaveTextContent(newTitle)
     })
   })
 })
