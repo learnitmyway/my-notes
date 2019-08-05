@@ -1,11 +1,12 @@
 import React from 'react'
-import { waitForElement } from 'react-testing-library'
+import { waitForElement, wait } from 'react-testing-library'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import { readAllNotes } from '../noteService/noteService'
 import NoteList from './NoteList'
 
 import { logError } from '../logService'
+import { Route } from 'react-router'
 
 jest.mock('../noteService/noteService')
 jest.mock('../logService')
@@ -148,6 +149,36 @@ describe('NoteList', () => {
       )
 
       expect(getAllByTestId('NoteListItem')[1]).toHaveTextContent('Untitled')
+    })
+
+    it('redirects to first note if there is no note id in the url', async () => {
+      const expectedNoteId = 'afk234'
+      const notes = {
+        [expectedNoteId]: {},
+        note2: {},
+        note3: {}
+      }
+      const readAllSnapshot = {
+        val() {
+          return notes
+        }
+      }
+      readAllNotes.mockImplementation((a, cb) => {
+        cb(readAllSnapshot)
+      })
+
+      const { history, debug } = renderWithRouter(
+        <Route
+          exact
+          path="/"
+          render={routeProps => <NoteList {...defaultProps} {...routeProps} />}
+        />,
+        {
+          route: '/'
+        }
+      )
+
+      expect(history.location.pathname).toBe('/' + expectedNoteId)
     })
   })
 })

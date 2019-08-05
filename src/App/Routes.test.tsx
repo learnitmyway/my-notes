@@ -50,44 +50,6 @@ describe('Routes', () => {
     })
   })
 
-  it('redirects to first note if there is no note id in the url', async () => {
-    const expectedNoteId = 'afk234'
-    const expectedTitle = 'Awesome note'
-    const expectedNote = { title: expectedTitle, body: 'some body' }
-    const notes = {
-      [expectedNoteId]: expectedNote,
-      note2: {},
-      note3: {}
-    }
-    const readAllSnapshot = {
-      val() {
-        return notes
-      }
-    }
-    readAllNotes.mockImplementation((a, cb) => {
-      cb(readAllSnapshot)
-    })
-
-    const snapshot = {
-      val() {
-        return expectedNote
-      }
-    }
-    readNote.mockImplementation((a, b, cb) => {
-      cb(snapshot)
-    })
-
-    const { getByTestId, history } = await renderWithRouter(
-      <Routes {...defaultProps} />,
-      {
-        route: '/'
-      }
-    )
-
-    expect(history.location.pathname).toBe('/' + expectedNoteId)
-    expect(getByTestId('Note__title').value).toBe(expectedTitle)
-  })
-
   it('creates a new note and navigates to it', async () => {
     const expectedNoteId = 'noteId'
     uuidv1.mockReturnValue(expectedNoteId)
