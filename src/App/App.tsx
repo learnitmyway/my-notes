@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import Routes from './Routes'
 import { signInAnonymously } from './authService'
 import { logError } from '../logService'
+import { ThemeContext } from './Context'
 
 export interface State {
   uid: string
@@ -32,7 +33,10 @@ export default class App extends Component<{}, State> {
       })
   }
 
+  static contextType = ThemeContext
+
   render() {
+    document.documentElement.style.setProperty('--primary', this.context)
     const { uid, hasError } = this.state
     if (hasError) {
       return <p> Sign in failed. Please refresh the page and try again.</p>
