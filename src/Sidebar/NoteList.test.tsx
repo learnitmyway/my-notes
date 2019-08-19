@@ -1,5 +1,5 @@
 import React from 'react'
-import { waitForElement, wait } from 'react-testing-library'
+import { waitForElement } from 'react-testing-library'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import { readAllNotes } from '../noteService/noteService'
@@ -167,7 +167,7 @@ describe('NoteList', () => {
         cb(readAllSnapshot)
       })
 
-      const { history, debug } = renderWithRouter(
+      const { history } = renderWithRouter(
         <Route
           exact
           path="/"
