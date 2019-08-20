@@ -4,9 +4,10 @@ import Routes from './Routes'
 import { signInAnonymously } from './authService'
 import { logError } from '../logService'
 import withThemeContext from '../Context/withThemeContext'
+import { Theme } from '../Context/Context'
 
 interface Props {
-  themeContext: string
+  themeContext: Theme
 }
 
 export interface State {
@@ -40,7 +41,7 @@ class App extends Component<Props, State> {
   render() {
     document.documentElement.style.setProperty(
       '--primary',
-      this.props.themeContext
+      this.props.themeContext.primaryColor
     )
     const { uid, hasError } = this.state
     if (hasError) {

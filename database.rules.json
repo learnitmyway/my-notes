@@ -18,6 +18,10 @@
           "$other": { ".validate": false }
         }
       }
+    },
+    "uiSettings": {
+      ".read": true,
+      ".write": true
     }
   }
 }

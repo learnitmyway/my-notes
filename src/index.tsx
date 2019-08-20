@@ -9,11 +9,14 @@ import { unregister } from './registerServiceWorker'
 
 import 'normalize.css'
 import './index.css'
+import ThemeContextProvider from './Context/ThemeContextProvider'
 
 ReactDOM.render(
   <ErrorBoundary>
     <BrowserRouter>
-      <App />
+      <ThemeContextProvider>
+        <App />
+      </ThemeContextProvider>
     </BrowserRouter>
   </ErrorBoundary>,
   document.getElementById('root') as HTMLElement
