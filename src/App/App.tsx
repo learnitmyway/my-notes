@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Routes from './Routes'
 import { signInAnonymously } from './authService'
 import { logError } from '../logService'
-import withThemeContext from './withThemeContext.js'
+import withThemeContext from '../Context/withThemeContext'
 
 interface Props {
   themeContext: string
