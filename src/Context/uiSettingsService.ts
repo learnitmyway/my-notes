@@ -5,7 +5,8 @@ import { defaultTheme } from './Context'
 export async function getTheme() {
   let theme = defaultTheme
   function successCallback(snapshot: any) {
-    theme = snapshot.val()
+    const val = snapshot.val()
+    if (val) theme = val
   }
 
   await firebase
