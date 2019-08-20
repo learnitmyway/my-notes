@@ -10,6 +10,7 @@
 
 - Replace `.env.temp` with `.env`
 - Run `npm install`
+- Add ui settings to firebase
 
 ### Run
 
