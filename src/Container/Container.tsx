@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { History } from 'history'
 
 import Note from '../Note/Note'
 import Sidebar from '../Sidebar/Sidebar'
-import NoteListItemTO from '../NoteListItemTO'
+import NoteListItemTO, { defaultNote } from '../NoteListItemTO'
 
 import deviceWidths from '../deviceWidths'
 
@@ -25,39 +25,29 @@ interface State {
   currentNote: NoteListItemTO
 }
 
-export default class Container extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      currentNote: { id: '', title: '' }
-    }
+export default function Container(props: Props) {
+  const [currentNote, setCurrentNote] = useState(defaultNote)
 
-    this.handleTitleChange = this.handleTitleChange.bind(this)
+  function handleTitleChange(currentNote: NoteListItemTO) {
+    setCurrentNote(currentNote)
   }
 
-  handleTitleChange(currentNote: NoteListItemTO) {
-    this.setState({ currentNote })
-  }
+  const { history, match, uid } = props
 
-  render() {
-    const { currentNote } = this.state
-    const { history, match, uid } = this.props
+  const small = window.innerWidth < deviceWidths.small
 
-    const small = window.innerWidth < deviceWidths.small
-
-    return (
-      <>
-        <div className={classNames(styles.root, !small && styles.notSmall)}>
-          <Sidebar currentNote={currentNote} uid={uid} match={match} />
-          <Note
-            classNames={classNames(!small && noteStyles.notSmall)}
-            history={history}
-            onTitleChange={this.handleTitleChange}
-            uid={uid}
-            match={match}
-          />
-        </div>
-      </>
-    )
-  }
+  return (
+    <>
+      <div className={classNames(styles.root, !small && styles.notSmall)}>
+        <Sidebar currentNote={currentNote} uid={uid} match={match} />
+        <Note
+          classNames={classNames(!small && noteStyles.notSmall)}
+          history={history}
+          onTitleChange={handleTitleChange}
+          uid={uid}
+          match={match}
+        />
+      </div>
+    </>
+  )
 }
