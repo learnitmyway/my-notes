@@ -1,12 +1,12 @@
-import classNames from 'classnames'
 import React from 'react'
+import classNames from 'classnames'
 import { History } from 'history'
 
 import Note from '../Note/Note'
 import Sidebar from '../Sidebar/Sidebar'
+import NoteListItemTO from '../NoteListItemTO'
 
 import deviceWidths from '../deviceWidths'
-import NoteListItemTO from '../NoteListItemTO'
 
 import noteStyles from '../Note/Note.module.css'
 import styles from './Container.module.css'
@@ -35,6 +35,10 @@ export default class Container extends React.Component<Props, State> {
     this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
+  handleTitleChange(currentNote: NoteListItemTO) {
+    this.setState({ currentNote })
+  }
+
   render() {
     const { currentNote } = this.state
     const { history, match, uid } = this.props
@@ -55,9 +59,5 @@ export default class Container extends React.Component<Props, State> {
         </div>
       </>
     )
-  }
-
-  private handleTitleChange(currentNote: NoteListItemTO) {
-    this.setState({ currentNote })
   }
 }
