@@ -21,10 +21,6 @@ export interface Props {
   }
 }
 
-interface State {
-  currentNote: NoteListItemTO
-}
-
 export default function Container(props: Props) {
   const [currentNote, setCurrentNote] = useState(defaultNote)
 
