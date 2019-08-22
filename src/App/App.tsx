@@ -39,10 +39,14 @@ function App(props: Props) {
     fetchUid()
   })
 
-  document.documentElement.style.setProperty(
-    '--primary',
-    props.themeContext.primaryColor
-  )
+  function setPrimaryColor() {
+    document.documentElement.style.setProperty(
+      '--primary',
+      props.themeContext.primaryColor
+    )
+  }
+
+  setPrimaryColor()
 
   if (hasError) {
     return <p> Sign in failed. Please refresh the page and try again.</p>
