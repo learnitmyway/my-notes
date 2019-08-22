@@ -8,11 +8,20 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'plugin:jest/recommended'
   ],
-  plugins: ['@typescript-eslint', 'react', 'prettier', 'jsx-a11y', 'jest'],
+  plugins: [
+    '@typescript-eslint',
+    'react',
+    'react-hooks',
+    'prettier',
+    'jsx-a11y'
+  ],
   rules: {
-    '@typescript-eslint/explicit-member-accessibility': 0,
-    '@typescript-eslint/explicit-function-return-type': 0,
-    '@typescript-eslint/no-explicit-any': 0
+    '@typescript-eslint/explicit-member-accessibility': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn'
   },
   settings: { react: { version: 'detect' } }
 }
