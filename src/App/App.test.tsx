@@ -5,10 +5,12 @@ import App from './App'
 
 import { logError } from '../logService'
 import { signInAnonymously } from './authService'
-import { waitForElement } from 'react-testing-library'
+import { waitForElement, wait, waitForDomChange } from 'react-testing-library'
 
 jest.mock('./authService')
 jest.mock('../logService')
+
+const signInAnonymouslyMock = signInAnonymously as jest.Mock
 
 const ERROR_MESSAGE = 'Sign in failed. Please refresh the page and try again.'
 
@@ -19,39 +21,45 @@ describe('App', () => {
         uid: 'uid'
       }
     }
-    signInAnonymously.mockReturnValue(Promise.resolve(userCredential))
+    signInAnonymouslyMock.mockReturnValue(Promise.resolve(userCredential))
   })
 
   it('logs and displays error when anonymous sign in fails', async () => {
     const err = new Error('Something bad happened')
-    signInAnonymously.mockReturnValue(Promise.reject(err))
+    signInAnonymouslyMock.mockRejectedValue(err)
 
-    const { getByText } = await await renderWithRouter(<App />)
+    const { getByText } = renderWithRouter(<App />)
+
+    await waitForElement(() => getByText(ERROR_MESSAGE))
 
     expect(logError).toHaveBeenCalledWith({
       description: 'Sign in failed',
       error: err
     })
-
-    await waitForElement(() => getByText(ERROR_MESSAGE))
   })
 
   it('renders children when there is a uid', async () => {
-    const { container } = await renderWithRouter(<App />)
+    const { container } = renderWithRouter(<App />)
+
+    await waitForDomChange()
 
     expect(container.firstChild).not.toBeNull()
   })
 
   it('does not render children when there is no uid', async () => {
-    signInAnonymously.mockReturnValue(Promise.resolve({}))
+    signInAnonymouslyMock.mockReturnValue(Promise.resolve({}))
 
-    const { container } = await renderWithRouter(<App />)
+    const { container } = renderWithRouter(<App />)
+
+    await wait()
 
     expect(container.firstChild).toBeNull()
   })
 
   it('does not display error by default', async () => {
-    const { queryByText } = await renderWithRouter(<App />)
+    const { queryByText } = renderWithRouter(<App />)
+
+    await waitForDomChange()
 
     expect(queryByText(ERROR_MESSAGE)).toBeNull()
   })

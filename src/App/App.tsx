@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Routes from './Routes'
 import { signInAnonymously } from './authService'
@@ -15,40 +15,39 @@ export interface State {
   hasError: boolean
 }
 
-class App extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = { uid: '', hasError: false }
-  }
+function App(props: Props) {
+  const [uid, setUid] = useState('')
+  const [hasError, setError] = useState(false)
 
-  componentDidMount() {
-    signInAnonymously()
-      .then(userCredentials => {
+  useEffect(() => {
+    async function fetchUid() {
+      try {
+        const userCredentials = await signInAnonymously()
         if (userCredentials.user) {
-          this.setState({
-            uid: userCredentials.user.uid
-          })
+          setUid(userCredentials.user.uid)
         } else {
-          logError({ description: 'Could not parse uid from user credentials' })
+          logError({
+            description: 'Could not parse uid from user credentials'
+          })
         }
-      })
-      .catch(err => {
-        this.setState({ hasError: true })
+      } catch (err) {
+        setError(true)
         logError({ error: err, description: 'Sign in failed' })
-      })
-  }
-
-  render() {
-    document.documentElement.style.setProperty(
-      '--primary',
-      this.props.themeContext.primaryColor
-    )
-    const { uid, hasError } = this.state
-    if (hasError) {
-      return <p> Sign in failed. Please refresh the page and try again.</p>
-    } else {
-      return uid ? <Routes {...this.props} uid={uid} /> : null
+      }
     }
+
+    fetchUid()
+  })
+
+  document.documentElement.style.setProperty(
+    '--primary',
+    props.themeContext.primaryColor
+  )
+
+  if (hasError) {
+    return <p> Sign in failed. Please refresh the page and try again.</p>
+  } else {
+    return uid ? <Routes {...props} uid={uid} /> : null
   }
 }
 
