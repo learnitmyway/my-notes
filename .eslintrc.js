@@ -25,8 +25,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    'import/no-internal-modules': 'warn'
+    'react-hooks/exhaustive-deps': 'warn'
   },
   settings: {
     react: { version: 'detect' },
