@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 
 import App from './App/App'
-import ErrorBoundary from './ErrorBoundary'
+import ErrorBoundary from './common/ErrorBoundary/ErrorBoundary'
 
 import { unregister } from './registerServiceWorker'
 

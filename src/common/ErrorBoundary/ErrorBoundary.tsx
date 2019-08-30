@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { logError } from './logService'
+import { logError } from '../../logService'
 
 export interface State {
   hasError: boolean

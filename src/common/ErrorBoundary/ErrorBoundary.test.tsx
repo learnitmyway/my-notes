@@ -3,9 +3,9 @@ import { render, waitForElement } from 'react-testing-library'
 
 import ErrorBoundary from './ErrorBoundary'
 
-import { logError } from './logService'
+import { logError } from '../../logService'
 
-jest.mock('./logService')
+jest.mock('../../logService')
 
 const error = new Error('something bad happened')
 function ErrorComponent() {
