@@ -6,18 +6,14 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:jest/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
-    'plugin:import/typescript'
+    'plugin:jest/recommended'
   ],
   plugins: [
     '@typescript-eslint',
     'react',
     'react-hooks',
     'prettier',
-    'jsx-a11y',
-    'import'
+    'jsx-a11y'
   ],
   rules: {
     '@typescript-eslint/explicit-member-accessibility': 'off',
@@ -27,14 +23,5 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn'
   },
-  settings: {
-    react: { version: 'detect' },
-    'import/resolver': {
-      typescript: {},
-
-      typescript: {
-        directory: './src'
-      }
-    }
-  }
+  settings: { react: { version: 'detect' } }
 }
