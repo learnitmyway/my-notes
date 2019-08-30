@@ -5,7 +5,7 @@ import App from './App'
 
 import { logError } from '../logService'
 import { signInAnonymously } from './authService'
-import { waitForElement, wait, waitForDomChange } from 'react-testing-library'
+import { waitForElement, wait, waitForDomChange } from '@testing-library/react'
 
 jest.mock('./authService')
 jest.mock('../logService')

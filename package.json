@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@testing-library/react": "^9.1.3",
     "@types/classnames": "^2.2.9",
     "@types/jest": "^24.0.18",
     "@types/node": "^11.13.20",
@@ -31,7 +32,6 @@
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^2.1.8",
-    "react-testing-library": "^6.1.2",
     "stylelint": "^9.10.1",
     "stylelint-config-recommended": "^2.2.0",
     "typescript": "^3.6.2",

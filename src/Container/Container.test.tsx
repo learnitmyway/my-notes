@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent } from 'react-testing-library'
+import { fireEvent } from '@testing-library/react'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
 import { readAllNotes, readNote } from '../noteService/noteService'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, waitForElement } from 'react-testing-library'
+import { fireEvent, waitForElement } from '@testing-library/react'
 import uuidv1 from 'uuid/v1'
 import { renderWithRouter } from '../testUtils/renderWithRouter'
 
