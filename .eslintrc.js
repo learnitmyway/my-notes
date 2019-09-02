@@ -29,7 +29,7 @@ module.exports = {
     'import/no-internal-modules': [
       'warn',
       {
-        allow: ['common/**']
+        allow: ['common/*']
       }
     ]
   },
