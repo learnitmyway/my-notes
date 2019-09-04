@@ -25,6 +25,7 @@
     "eslint-plugin-react-hooks": "^2.0.1",
     "firebase": "^5.11.1",
     "firebase-tools": "^4.2.1",
+    "formik": "^1.5.8",
     "jest-dom": "^3.5.0",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
