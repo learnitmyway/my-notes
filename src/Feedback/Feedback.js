@@ -18,22 +18,25 @@ export default function Feedback() {
           console.log(values)
           setSubmitting(false)
         }}
-      >
-        {({
+        render={({
           values,
           errors,
           touched,
           handleChange,
           handleBlur,
           handleSubmit,
-          isSubmitting
+          isSubmitting,
+          submitForm
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
             <input
               type="text"
               name="text"
-              onChange={handleChange}
+              onChange={async e => {
+                await handleChange(e)
+                submitForm()
+              }}
               onBlur={handleBlur}
               value={values.text}
             />
@@ -43,7 +46,7 @@ export default function Feedback() {
             </button>
           </form>
         )}
-      </Formik>
+      />
     </section>
   )
 }
