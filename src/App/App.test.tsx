@@ -9,6 +9,12 @@ import { waitForElement, wait, waitForDomChange } from '@testing-library/react'
 
 jest.mock('./authService')
 jest.mock('../logService')
+jest.mock('../Container/Container', () => ({
+  __esModule: true,
+  default: function Container() {
+    return <div />
+  }
+}))
 
 const signInAnonymouslyMock = signInAnonymously as jest.Mock
 
