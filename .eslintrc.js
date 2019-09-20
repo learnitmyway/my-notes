@@ -25,13 +25,13 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
-    'import/no-internal-modules': [
-      'warn',
-      {
-        allow: ['common/*']
-      }
-    ]
+    'react-hooks/exhaustive-deps': 'warn' // Checks effect dependencies
+    // 'import/no-internal-modules': [
+    //   'warn',
+    //   {
+    //     allow: ['common/*']
+    //   }
+    // ]
   },
   settings: {
     react: { version: 'detect' },
